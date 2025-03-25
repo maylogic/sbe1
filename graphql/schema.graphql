@@ -12,6 +12,8 @@ type Query {
         email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
     ): User @find
 
+    products: [Product!] @paginate
+
     "List multiple users."
     users(
         "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
@@ -49,7 +51,7 @@ type User {
 }
 
 type CartItem {
-    textLines: [CartItemTextLine!]
+    text_lines: [CartItemTextLine!]
 }
 
 type CartItemTextLine {
@@ -62,7 +64,7 @@ type Product {
     id: ID!
     name: String!
     description: String!
-    price: Price!
+    price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
     line_definitions: [ProductLineDefinition!]
     designs: [Design!]
     options: [ProductOption!]
@@ -86,10 +88,11 @@ type ProductLineDefinition {
 type ProductSize {
     id: ID!
     product_id: ID!
+    label: String!
     width: Int!
     height: Int!
     thickness: Int!
-    price: Price!
+    price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
 }
 
 type ProductOption {
@@ -101,7 +104,7 @@ type ProductOption {
 type ProductOptionItem {
     id: ID!
     label: String!
-    price: Price!
+    price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
 }
 
 type Price {

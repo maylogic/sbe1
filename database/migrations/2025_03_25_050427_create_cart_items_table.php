@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(\App\Models\Product::class)->constrained()->cascadeOnDelete();
             $table->integer('quantity');
-            $table->foreignIdFor(\App\Models\ProductDesign::class)
+            $table->foreignIdFor(\App\Models\Design::class)
                 ->nullable()->constrained()->restrictOnDelete();
             $table->foreignIdFor(\App\Models\Color::class)
                 ->nullable()->constrained()->restrictOnDelete();

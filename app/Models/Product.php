@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Contracts\IHasPrice;
+use App\Traits\HasPrice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,11 +18,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductDesign> $designs
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Design> $designs
  * @property-read int|null $designs_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductGalleryItem> $gallery
  * @property-read int|null $gallery_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductLineDefinition> $lineDefinitions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductLineDefinition> $line_definitions
  * @property-read int|null $line_definitions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductOption> $options
  * @property-read int|null $options_count
@@ -38,10 +40,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Product extends Model
+class Product extends Model implements IHasPrice
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
+    use HasPrice;
 
     protected $fillable = ['name', 'description', 'price'];
 

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Contracts\IHasPrice;
+use App\Traits\HasPrice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,10 +30,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductOptionItem whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class ProductOptionItem extends Model
+class ProductOptionItem extends Model implements IHasPrice
 {
     /** @use HasFactory<\Database\Factories\ProductOptionItemFactory> */
     use HasFactory;
+    use HasPrice;
 
     protected $fillable = ['label', 'price'];
 

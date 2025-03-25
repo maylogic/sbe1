@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $label
  * @property string $name
  * @property string $filename
+ * @property string $preview
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\FontFactory factory($count = null, $state = [])
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Font wherePreview($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereUpdatedAt($value)
  * @mixin \Eloquent
  */

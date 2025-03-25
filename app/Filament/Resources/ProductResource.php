@@ -53,6 +53,32 @@ class ProductResource extends Resource
                     ->preload()
                     ->relationship(titleAttribute: "label"),
 
+                Repeater::make('sizes')
+                    ->relationship()
+                    ->label('Размеры')
+                    ->addActionLabel('Добавить размер')
+                    ->schema([
+                        TextInput::make('label')
+                            ->label('Наименование')
+                            ->required(),
+                        TextInput::make('width')
+                            ->numeric()
+                            ->label('Ширина (мм)')
+                            ->required(),
+                        TextInput::make('height')
+                            ->numeric()
+                            ->label('Высота (мм)')
+                            ->required(),
+                        TextInput::make('thickness')
+                            ->numeric()
+                            ->label('Толщина (мм)')
+                            ->required(),
+                        TextInput::make('price')
+                            ->label('Добавочная стоимость')
+                            ->required()
+                            ->numeric()
+                            ->prefix('₽'),
+                    ])->defaultItems(0),
                 Repeater::make('options')
                     ->label('Опции')
                     ->relationship()
@@ -108,7 +134,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
-                    ->money()
+                    ->money('RUB')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

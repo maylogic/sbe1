@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $product_id
  * @property string $label
  * @property int $max_length
  * @property int $required
+ * @property int $hidden
+ * @property string $default_value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Product $product
@@ -22,6 +24,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereDefaultValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereHidden($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereMaxLength($value)

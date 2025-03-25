@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $product_id
  * @property string $label
+ * @property int $required
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductOptionItem> $items
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductOption whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductOption whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductOption whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductOption whereRequired($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductOption whereUpdatedAt($value)
  * @mixin \Eloquent
  */

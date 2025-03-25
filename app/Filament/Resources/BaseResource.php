@@ -10,8 +10,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BaseResource extends Resource
 {
@@ -25,10 +23,10 @@ class BaseResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('label')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('svg')
-                    ->required()
-                    ->columnSpanFull(),
+                    ->maxLength(255)->columnSpanFull(),
+                Forms\Components\FileUpload::make('filename')
+                    ->preserveFilenames()
+                    ->required(),
             ]);
     }
 
@@ -37,6 +35,8 @@ class BaseResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('label')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('filename')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
