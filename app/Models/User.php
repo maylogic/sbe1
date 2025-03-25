@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -75,17 +75,22 @@ class User extends Authenticatable
         ];
     }
 
+    public function adminPanelAllowed(): bool
+    {
+        return $this->isAdmin() || $this->isManager();
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === 'ADMIN';
     }
 
-    public function isManager()
+    public function isManager(): bool
     {
         return $this->role === 'MANAGER';
     }
 
-    public function isCustomer()
+    public function isCustomer(): bool
     {
         return $this->role === 'CUSTOMER';
     }
