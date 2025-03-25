@@ -10,12 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('product_designs', function (Blueprint $table) {
+        Schema::create('product_design', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Product::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Design::class)->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('left');
-            $table->unsignedInteger('top');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_designs');
+        Schema::dropIfExists('product_design');
     }
 };

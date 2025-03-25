@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Product::class)->constrained()->cascadeOnDelete();
             $table->string('label');
+            $table->boolean('required')->default(false);
             $table->timestamps();
         });
     }

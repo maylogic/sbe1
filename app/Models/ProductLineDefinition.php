@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $product_id
@@ -34,6 +34,8 @@ class ProductLineDefinition extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductLineDefinitionFactory> */
     use HasFactory;
+
+    protected $fillable = ['label', 'max_length', 'required', 'hidden', 'default_value'];
 
     public function product(): BelongsTo
     {

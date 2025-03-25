@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $product_option_id
@@ -32,6 +32,8 @@ class ProductOptionItem extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductOptionItemFactory> */
     use HasFactory;
+
+    protected $fillable = ['label', 'price'];
 
     public function option(): BelongsTo
     {

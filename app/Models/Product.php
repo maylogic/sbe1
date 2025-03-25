@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -42,9 +43,11 @@ class Product extends Model
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
 
-    public function designs(): HasMany
+    protected $fillable = ['name', 'description', 'price'];
+
+    public function designs(): BelongsToMany
     {
-        return $this->hasMany(ProductDesign::class);
+        return $this->belongsToMany(Design::class, 'product_design')->withTimestamps();
     }
 
     public function options(): HasMany
@@ -62,7 +65,7 @@ class Product extends Model
         return $this->hasMany(ProductSize::class);
     }
 
-    public function lineDefinitions(): HasMany
+    public function line_definitions(): HasMany
     {
         return $this->hasMany(ProductLineDefinition::class);
     }

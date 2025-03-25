@@ -63,8 +63,8 @@ type Product {
     name: String!
     description: String!
     price: Price!
-    lineDefinitions: [ProductLineDefinition!]
-    designs: [ProductDesign!]
+    line_definitions: [ProductLineDefinition!]
+    designs: [Design!]
     options: [ProductOption!]
     sizes: [ProductSize!]
     gallery: [ProductGalleryItem!]
@@ -81,13 +81,6 @@ type ProductLineDefinition {
     label: String!
     max_length: Int!
     required: Boolean!
-}
-
-type ProductDesign {
-    id: ID!
-    design_id: ID!
-    product_id: ID!
-    design: Design!
 }
 
 type ProductSize {

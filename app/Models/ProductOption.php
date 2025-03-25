@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $product_id
@@ -33,6 +33,8 @@ class ProductOption extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductOptionFactory> */
     use HasFactory;
+
+    protected $fillable = ['label', 'required'];
 
     public function product(): BelongsTo
     {

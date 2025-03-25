@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->string('label');
             $table->unsignedTinyInteger('max_length')->default(255);
             $table->boolean('required')->default(false);
+            $table->boolean('hidden')->default(false);
+            $table->string('default_value')->default('');
             $table->timestamps();
         });
     }
