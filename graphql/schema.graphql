@@ -1,0 +1,137 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+    "Find a single user by an identifying attribute."
+    user(
+        "Search by primary key."
+        id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+
+        "Search by email address."
+        email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
+    ): User @find
+
+    "List multiple users."
+    users(
+        "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
+        name: String @where(operator: "like")
+    ): [User!]! @paginate(defaultCount: 10)
+}
+
+enum UserRole {
+    ADMIN
+    MANAGER
+    CUSTOMER
+}
+
+"Account of a person who utilizes this application."
+type User {
+    "Unique primary key."
+    id: ID!
+
+    role: UserRole!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String!
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+}
+
+type CartItem {
+    textLines: [CartItemTextLine!]
+}
+
+type CartItemTextLine {
+    id: ID!
+    value: String!
+    definition: ProductLineDefinition!
+}
+
+type Product {
+    id: ID!
+    name: String!
+    description: String!
+    price: Price!
+    lineDefinitions: [ProductLineDefinition!]
+    designs: [ProductDesign!]
+    options: [ProductOption!]
+    sizes: [ProductSize!]
+    gallery: [ProductGalleryItem!]
+}
+
+type ProductGalleryItem {
+    id: ID!
+    label: String!
+    is_video: Boolean!
+    filename: String!
+}
+
+type ProductLineDefinition {
+    label: String!
+    max_length: Int!
+    required: Boolean!
+}
+
+type ProductDesign {
+    id: ID!
+    design_id: ID!
+    product_id: ID!
+    design: Design!
+}
+
+type ProductSize {
+    id: ID!
+    product_id: ID!
+    width: Int!
+    height: Int!
+    thickness: Int!
+    price: Price!
+}
+
+type ProductOption {
+    id: ID!
+    label: String!
+    items: [ProductOptionItem!]!
+}
+
+type ProductOptionItem {
+    id: ID!
+    label: String!
+    price: Price!
+}
+
+type Price {
+    regular: Int!
+    is_discounted: Boolean!
+    discounted: Int!
+}
+
+type Design {
+    id: ID!
+    label: String!
+    colors: [Color!]
+    fonts: [Font!]
+}
+
+type Font {
+    id: ID!
+    label: String!
+    name: String!
+    filename: String!
+}
+
+type Color {
+    id: ID!
+    label: String!
+}
