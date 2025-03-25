@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $label
@@ -28,4 +28,6 @@ class Base extends Model
 {
     /** @use HasFactory<\Database\Factories\BaseFactory> */
     use HasFactory;
+
+    protected $fillable = ['label', 'svg'];
 }

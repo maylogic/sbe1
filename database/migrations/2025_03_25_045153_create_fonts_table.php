@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('label');
             $table->string('name');
             $table->string('filename');
+            $table->string('preview');
             $table->timestamps();
         });
     }

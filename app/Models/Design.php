@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $label
@@ -26,4 +26,16 @@ class Design extends Model
 {
     /** @use HasFactory<\Database\Factories\DesignFactory> */
     use HasFactory;
+
+    protected $fillable = ['label'];
+
+    public function fonts()
+    {
+        return $this->belongsToMany(Font::class, 'design_font')->withTimestamps();
+    }
+
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'design_color')->withTimestamps();
+    }
 }

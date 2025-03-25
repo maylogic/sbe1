@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $label
@@ -30,4 +30,6 @@ class Font extends Model
 {
     /** @use HasFactory<\Database\Factories\FontFactory> */
     use HasFactory;
+
+    protected $fillable = ['label', 'name', 'filename'];
 }
