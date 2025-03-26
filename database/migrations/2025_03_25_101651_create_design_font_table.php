@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(\App\Models\Design::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Font::class)->constrained()->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

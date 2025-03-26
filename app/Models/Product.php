@@ -4,16 +4,21 @@ namespace App\Models;
 
 use App\Contracts\IHasPrice;
 use App\Traits\HasPrice;
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 /**
  *
  *
  * @property int $id
  * @property string $name
+ * @property string $slug
  * @property string $description
  * @property int $price
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -28,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $options_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductSize> $sizes
  * @property-read int|null $sizes_count
- * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
+ * @method static ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product query()
@@ -37,16 +42,33 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Product extends Model implements IHasPrice
 {
-    /** @use HasFactory<\Database\Factories\ProductFactory> */
+    /** @use HasFactory<ProductFactory> */
     use HasFactory;
     use HasPrice;
+    use HasSlug;
 
-    protected $fillable = ['name', 'description', 'price'];
+    protected $fillable = ['name', 'slug', 'description', 'price'];
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
+
+    public function reverse_side_base(): BelongsTo
+    {
+        return $this->belongsTo(Base::class);
+    }
 
     public function designs(): BelongsToMany
     {

@@ -13,6 +13,9 @@ type Query {
     ): User @find
 
     products: [Product!] @paginate
+    getProductBySlug(
+        slug: String!
+    ): Product!
 
     "List multiple users."
     users(
@@ -70,6 +73,7 @@ type Product {
     options: [ProductOption!]
     sizes: [ProductSize!]
     gallery: [ProductGalleryItem!]
+    reverse_side_base: Base
 }
 
 type ProductGalleryItem {
@@ -118,6 +122,24 @@ type Design {
     label: String!
     colors: [Color!]
     fonts: [Font!]
+    bases: [Base!]!
+}
+
+type Base {
+    id: ID!
+    label: String!
+    filename: String!
+    text_areas: [BaseTextArea!]
+}
+
+type BaseTextArea {
+    id: ID!
+    width: Float!
+    height: Float!
+    left: Float!
+    top: Float!
+    first_line: Int!
+    lines: Int!
 }
 
 type Font {
@@ -130,4 +152,5 @@ type Font {
 type Color {
     id: ID!
     label: String!
+    hex: String!
 }

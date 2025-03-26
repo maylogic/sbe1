@@ -16,13 +16,9 @@ class EnsureAdminPanelAllowed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user()) {
-            return $next($request);
+        if (Auth::check() && !Auth::user()->adminPanelAllowed()) {
+            return \response(null, 403);
         }
-        if (Auth::check() && Auth::user()->adminPanelAllowed()) {
-            return $next($request);
-        }
-
-        return \response(null, 403);
+        return $next($request);
     }
 }

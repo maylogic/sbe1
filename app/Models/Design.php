@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $label
@@ -33,13 +34,18 @@ class Design extends Model
 
     protected $fillable = ['label'];
 
-    public function fonts()
+    public function fonts(): BelongsToMany
     {
-        return $this->belongsToMany(Font::class, 'design_font')->withTimestamps();
+        return $this->belongsToMany(Font::class, 'design_font');
     }
 
-    public function colors()
+    public function colors(): BelongsToMany
     {
-        return $this->belongsToMany(Color::class, 'design_color')->withTimestamps();
+        return $this->belongsToMany(Color::class, 'design_color');
+    }
+
+    public function bases(): BelongsToMany
+    {
+        return $this->belongsToMany(Base::class, 'design_base');
     }
 }
