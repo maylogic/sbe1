@@ -23,6 +23,7 @@ class DesignResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('label')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\Select::make('fonts')
                     ->multiple()
@@ -31,7 +32,12 @@ class DesignResource extends Resource
                 Forms\Components\Select::make('colors')
                     ->multiple()
                     ->preload()
+                    ->relationship(titleAttribute: "label"),
+                Forms\Components\Select::make('bases')
+                    ->multiple()
+                    ->preload()
                     ->relationship(titleAttribute: "label")
+                    ->required()
             ]);
     }
 

@@ -38,6 +38,8 @@ class ProductResource extends Resource
                 Repeater::make('gallery')
                     ->label('Галерея')
                     ->relationship()
+                    ->collapsible()
+                    ->orderColumn('sort')
                     ->addActionLabel('Добавить изображение или видео')
                     ->schema([
                         TextInput::make('label')
@@ -124,6 +126,11 @@ class ProductResource extends Resource
                             ->required()
                             ->numeric(),
                     ])->defaultItems(0),
+
+                Forms\Components\Select::make('reverse_side_base')
+                    ->preload()
+                    ->label('Базис оборотной стороны')
+                    ->relationship(titleAttribute: "label"),
             ]);
     }
 

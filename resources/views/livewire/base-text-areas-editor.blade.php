@@ -1,22 +1,28 @@
 <div>
-    <h1>SVG Editor</h1>
+    <h1>Позиции текстовых зон</h1>
 
     @if ($this->svgContent)
-        <div id="svg-editor-content">
-            {!! $this->svgContent !!}
-            <div class="editor">
-                @foreach($this->textAreas as $textArea)
-                    <div class="text-area draggable"
-                         data-id="{{$textArea->id}}"
-                         style="
+        @if($this->textAreas->count())
+            <div id="svg-editor-content">
+                {!! $this->svgContent !!}
+                <div class="editor">
+                    @foreach($this->textAreas as $textArea)
+                        <div class="text-area draggable"
+                             data-id="{{$textArea->id}}"
+                             style="
                            width: {{$textArea->width}}px;
                            height: {{$textArea->height}}px;
                            left: {{$textArea->left}}px;
                            top: {{$textArea->top}}px;
-                         ">{{$textArea->id}}</div>
-                @endforeach
+                         ">###{{$textArea->id}}</div>
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @else
+            Нет текстовых зон
+        @endif
+    @else
+        Нет svg контента
     @endif
 </div>
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $label
@@ -34,6 +34,8 @@ class ProductGalleryItem extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductGalleryItemFactory> */
     use HasFactory;
+
+    protected $fillable = ['label', 'filename', 'is_video', 'sort'];
 
     public function product(): BelongsTo
     {

@@ -3,13 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BaseResource\Pages;
-use App\Filament\Resources\BaseResource\RelationManagers;
+use App\Livewire\BaseTextAreasEditor;
 use App\Models\Base;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+
 
 class BaseResource extends Resource
 {
@@ -19,45 +20,45 @@ class BaseResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('label')
-                    ->required()
-                    ->maxLength(255)->columnSpanFull(),
-                Forms\Components\FileUpload::make('filename')
-                    ->preserveFilenames()
-                    ->required(),
+        $schema = [
+            Forms\Components\TextInput::make('label')
+                ->required()
+                ->maxLength(255)->columnSpanFull(),
+            Forms\Components\FileUpload::make('filename')
+                ->preserveFilenames()
+                ->required(),
 
-                Forms\Components\Repeater::make('text_areas')
-                    ->relationship('text_areas')
-                    ->schema([
-                        Forms\Components\TextInput::make('id')->disabled(),
-                        Forms\Components\TextInput::make('width')
-                            ->default('10')
-                            ->numeric()->required(),
-                        Forms\Components\TextInput::make('height')
-                            ->default('10')
-                            ->numeric()->required(),
-                        Forms\Components\TextInput::make('left')
-                            ->default('10')
-                            ->numeric()->required(),
-                        Forms\Components\TextInput::make('top')
-                            ->default('10')
-                            ->numeric()->required(),
-                        Forms\Components\TextInput::make('lines')
-                            ->default('1')
-                            ->numeric()->required(),
-                        Forms\Components\TextInput::make('first_line')
-                            ->default('1')
-                            ->numeric()->required(),
-                    ])
-                    ->defaultItems(0)
-                    ->addActionLabel('Добавить text area'),
-
-                Forms\Components\ViewField::make('svg-editor')
-                    ->columnSpanFull()
-                    ->view('filament.resources.base.svg-editor'),
-            ]);
+            Forms\Components\Repeater::make('text_areas')->live()
+                ->relationship('text_areas')
+                ->schema([
+                    Forms\Components\TextInput::make('id')->disabled(),
+                    Forms\Components\TextInput::make('width')
+                        ->default('10')
+                        ->numeric()->required(),
+                    Forms\Components\TextInput::make('height')
+                        ->default('10')
+                        ->numeric()->required(),
+                    Forms\Components\TextInput::make('left')
+                        ->default('10')
+                        ->numeric()->required(),
+                    Forms\Components\TextInput::make('top')
+                        ->default('10')
+                        ->numeric()->required(),
+                    Forms\Components\TextInput::make('lines')
+                        ->default('1')
+                        ->numeric()->required(),
+                    Forms\Components\TextInput::make('first_line')
+                        ->default('1')
+                        ->numeric()->required(),
+                ])
+                ->defaultItems(0)
+                ->addActionLabel('Добавить text area'),
+        ];
+        if ($form->getRecord()) {
+            $schema[] =
+                Forms\Components\Livewire::make(BaseTextAreasEditor::class, ['baseId' => $form->getRecord()->id]);
+        }
+        return $form->schema($schema);
     }
 
     public static function table(Table $table): Table
