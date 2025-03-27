@@ -17,7 +17,8 @@ class BaseTextAreaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'width' => '10',
+            'height' => '10'
         ];
     }
 }
