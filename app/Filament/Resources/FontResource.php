@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rule;
 
 class FontResource extends Resource
 {
@@ -27,8 +28,18 @@ class FontResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('filename')
+                Forms\Components\FileUpload::make('filename_woff2')
+                    ->label('Woff2')
+                    ->acceptedFileTypes(['font/woff2'])
+                    ->preserveFilenames()
                     ->required(),
+                Forms\Components\FileUpload::make('filename_ttf')
+                    ->preserveFilenames()
+                    ->label('TTF'),
+                Forms\Components\FileUpload::make('filename_otf')
+                    ->preserveFilenames()
+                    ->acceptedFileTypes(['font/otf', 'application/otf','font/opentype', 'application/vnd.ms-opentype'])
+                    ->label('OTF'),
                 Forms\Components\FileUpload::make('preview')
                     ->required()
             ]);
@@ -42,7 +53,11 @@ class FontResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('filename')
+                Tables\Columns\TextColumn::make('filename_woff2')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('filename_ttf')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('filename_otf')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

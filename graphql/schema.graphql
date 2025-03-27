@@ -140,13 +140,17 @@ type BaseTextArea {
     top: Float!
     first_line: Int!
     lines: Int!
+    text_color: String
+    inherit_color: Boolean!
 }
 
 type Font {
     id: ID!
     label: String!
     name: String!
-    filename: String!
+    filename_woff2: String!
+    filename_ttf: String
+    filename_otf: String
 }
 
 type Color {

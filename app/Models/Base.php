@@ -8,14 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $label
  * @property string $filename
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static BaseFactory factory($count = null, $state = [])
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BaseTextArea> $text_areas
+ * @property-read int|null $text_areas_count
+ * @method static \Database\Factories\BaseFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Base newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Base newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Base query()

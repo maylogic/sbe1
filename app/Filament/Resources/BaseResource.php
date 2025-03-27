@@ -27,6 +27,36 @@ class BaseResource extends Resource
                 Forms\Components\FileUpload::make('filename')
                     ->preserveFilenames()
                     ->required(),
+
+                Forms\Components\Repeater::make('text_areas')
+                    ->relationship('text_areas')
+                    ->schema([
+                        Forms\Components\TextInput::make('id')->disabled(),
+                        Forms\Components\TextInput::make('width')
+                            ->default('10')
+                            ->numeric()->required(),
+                        Forms\Components\TextInput::make('height')
+                            ->default('10')
+                            ->numeric()->required(),
+                        Forms\Components\TextInput::make('left')
+                            ->default('10')
+                            ->numeric()->required(),
+                        Forms\Components\TextInput::make('top')
+                            ->default('10')
+                            ->numeric()->required(),
+                        Forms\Components\TextInput::make('lines')
+                            ->default('1')
+                            ->numeric()->required(),
+                        Forms\Components\TextInput::make('first_line')
+                            ->default('1')
+                            ->numeric()->required(),
+                    ])
+                    ->defaultItems(0)
+                    ->addActionLabel('Добавить text area'),
+
+                Forms\Components\ViewField::make('svg-editor')
+                    ->columnSpanFull()
+                    ->view('filament.resources.base.svg-editor'),
             ]);
     }
 

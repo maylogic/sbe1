@@ -14,7 +14,9 @@
         "laravel/tinker": "^2.9",
         "mll-lab/laravel-graphiql": "^3.3",
         "nuwave/lighthouse": "^6.52",
-        "spatie/laravel-sluggable": "^3.7"
+        "spatie/laravel-sluggable": "^3.7",
+        "ext-dom": "*",
+        "ext-libxml": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

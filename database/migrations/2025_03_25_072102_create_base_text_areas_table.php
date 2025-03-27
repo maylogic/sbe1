@@ -13,6 +13,8 @@ return new class extends Migration {
         Schema::create('base_text_areas', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Base::class)->constrained()->cascadeOnDelete();
+            $table->char('text_color', 7)->nullable();
+            $table->boolean('inherit_color')->default(false);
             $table->double('width')->unsigned();
             $table->double('height')->unsigned();
             $table->double('left')->unsigned();

@@ -1,3 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+#svg-editor-content {
+    /**
+    должно быть кратно 32, так как у нас в svg viewport 32
+     */
+    width: 640px;
+    height: 640px;
+    position: relative;
+}
+
+#svg-editor-content > svg {
+    width: 100%;
+}
+
+#svg-editor-content > .editor {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+#svg-editor-content > .editor .text-area {
+    background: rgba(0, 0, 255, 0.7);
+    border: 1px solid rgba(255, 255, 0, 0.7);
+    padding-left: 10px;
+    padding-top: 10px;
+    position: absolute;
+}

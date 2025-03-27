@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $label
  * @property string $name
- * @property string $filename
+ * @property string $filename_woff2
+ * @property string|null $filename_ttf
+ * @property string|null $filename_otf
  * @property string $preview
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -20,7 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereFilename($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereFilenameOtf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereFilenameTtf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereFilenameWoff2($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereName($value)
@@ -33,5 +37,5 @@ class Font extends Model
     /** @use HasFactory<\Database\Factories\FontFactory> */
     use HasFactory;
 
-    protected $fillable = ['label', 'name', 'filename'];
+    protected $fillable = ['label', 'name', 'filename_woff2', 'filename_ttf', 'filename_otf', 'preview'];
 }
