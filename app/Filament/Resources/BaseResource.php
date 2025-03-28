@@ -30,6 +30,8 @@ class BaseResource extends Resource
 
             Forms\Components\Repeater::make('text_areas')->live()
                 ->relationship('text_areas')
+                ->collapsible()
+                ->collapsed()
                 ->schema([
                     Forms\Components\TextInput::make('id')->disabled(),
                     Forms\Components\TextInput::make('width')
@@ -50,6 +52,8 @@ class BaseResource extends Resource
                     Forms\Components\TextInput::make('first_line')
                         ->default('1')
                         ->numeric()->required(),
+                    Forms\Components\ColorPicker::make('text_color')->hex(),
+                    Forms\Components\Checkbox::make('inherit_color')
                 ])
                 ->defaultItems(0)
                 ->addActionLabel('Добавить text area'),

@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int $id
  * @property int $base_id
+ * @property string|null $text_color
+ * @property int $inherit_color
  * @property float $width
  * @property float $height
  * @property float $left
@@ -30,8 +32,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereFirstLine($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereHeight($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereInheritColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereLeft($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereLines($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereTop($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereWidth($value)

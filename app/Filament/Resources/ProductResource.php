@@ -27,6 +27,9 @@ class ProductResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                TextInput::make('sku')
+                    ->required()
+                    ->maxLength(255),
                 TextInput::make('price')
                     ->required()
                     ->numeric()
@@ -45,6 +48,7 @@ class ProductResource extends Resource
                         TextInput::make('label')
                             ->label('Название')
                             ->required(),
+                        Forms\Components\Checkbox::make('primary'),
                         Forms\Components\Checkbox::make('is_video')
                             ->label('Видео'),
                         FileUpload::make('filename')->required(),

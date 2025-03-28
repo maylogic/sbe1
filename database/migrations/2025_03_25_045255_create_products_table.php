@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('slug')->index();
+            $table->string('sku');
             $table->text('description');
             $table->integer('price');
             $table->foreignIdFor(\App\Models\Base::class, 'reverse_side_base_id')

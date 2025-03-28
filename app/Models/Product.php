@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -19,6 +20,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property int $id
  * @property string $name
  * @property string $slug
+ * @property string $sku
  * @property string $description
  * @property int $price
  * @property int|null $reverse_side_base_id
@@ -32,6 +34,7 @@ use Spatie\Sluggable\SlugOptions;
  * @property-read int|null $line_definitions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductOption> $options
  * @property-read int|null $options_count
+ * @property-read \App\Models\ProductGalleryItem|null $primary_image
  * @property-read \App\Models\Base|null $reverse_side_base
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductSize> $sizes
  * @property-read int|null $sizes_count
@@ -45,6 +48,7 @@ use Spatie\Sluggable\SlugOptions;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereReverseSideBaseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereSku($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -86,6 +90,13 @@ class Product extends Model implements IHasPrice
     public function gallery(): HasMany
     {
         return $this->hasMany(ProductGalleryItem::class);
+    }
+
+    public function primary_image(): HasOne
+    {
+        return $this->hasOne(ProductGalleryItem::class)
+            ->where('is_video', '=', '0')
+            ->where('primary', '=', '1');
     }
 
     public function sizes(): HasMany

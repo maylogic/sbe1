@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignIdFor(\App\Models\Product::class)->constrained()->cascadeOnDelete();
             $table->string('filename');
             $table->boolean('is_video')->default(false);
+            $table->boolean('primary')->default(false);
             $table->unsignedTinyInteger('sort')->default(0);
             $table->timestamps();
         });

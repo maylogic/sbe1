@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\Cart::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Product::class)->constrained()->cascadeOnDelete();
             $table->integer('quantity');
             $table->foreignIdFor(\App\Models\Design::class)
@@ -20,7 +21,8 @@ return new class extends Migration {
                 ->nullable()->constrained()->restrictOnDelete();
             $table->foreignIdFor(\App\Models\Font::class)
                 ->nullable()->constrained()->restrictOnDelete();
-            $table->json('text_lines')->nullable();
+            $table->foreignIdFor(\App\Models\ProductSize::class)
+                ->nullable()->constrained()->restrictOnDelete();
             $table->timestamps();
         });
     }
