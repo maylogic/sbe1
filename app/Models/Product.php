@@ -24,6 +24,8 @@ use Spatie\Sluggable\SlugOptions;
  * @property string $description
  * @property int $price
  * @property int|null $reverse_side_base_id
+ * @property string $meta_title
+ * @property string $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Design> $designs
@@ -45,6 +47,8 @@ use Spatie\Sluggable\SlugOptions;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereMetaDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereMetaTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereReverseSideBaseId($value)
@@ -60,7 +64,15 @@ class Product extends Model implements IHasPrice
     use HasPrice;
     use HasSlug;
 
-    protected $fillable = ['name', 'slug', 'description', 'price'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'price',
+        'sku',
+        'meta_title',
+        'meta_description'
+    ];
 
     /**
      * Get the options for generating the slug.
@@ -96,7 +108,8 @@ class Product extends Model implements IHasPrice
     {
         return $this->hasOne(ProductGalleryItem::class)
             ->where('is_video', '=', '0')
-            ->where('primary', '=', '1');
+            ->where('primary', '=', '1')
+            ->orderBy('sort');
     }
 
     public function sizes(): HasMany

@@ -2,23 +2,32 @@
 
 namespace App\Services\Storefront;
 
+use App\Models\Coupon;
 use App\Models\User;
 use App\Payload\Storefront\StorefrontCustomerLoginPayload;
 use App\Payload\Storefront\StorefrontCustomerRegisterPayload;
+use App\Services\CouponService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class StorefrontCustomerAuthService
 {
     public function register(StorefrontCustomerRegisterPayload $payload)
     {
-        return User::create(
-            [
-                'email' => $payload->email,
-                'password' => Hash::make($payload->password),
-                'name' => $payload->name,
-            ]
-        );
+        return DB::transaction(function () use ($payload) {
+            $coupon = Coupon::factory()->create([
+                'discount_percentage' => CouponService::USER_COUPON_PERCENTAGE
+            ]);
+            return User::create(
+                [
+                    'email' => $payload->email,
+                    'password' => Hash::make($payload->password),
+                    'name' => $payload->name,
+                    'coupon_id' => $coupon->id
+                ]
+            );
+        });
     }
 
     public function login(StorefrontCustomerLoginPayload $payload): User

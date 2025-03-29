@@ -34,4 +34,6 @@ class ShippingMethod extends Model implements IHasPrice
     /** @use HasFactory<ShippingMethodFactory> */
     use HasFactory;
     use HasPrice;
+
+    public string $estimated_delivery = '3 дня';
 }

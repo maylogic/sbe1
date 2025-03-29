@@ -2,16 +2,24 @@
 
 namespace App\Services;
 
-use App\Data\Price;
 use App\Data\Totals;
 use App\Models\Cart;
 
-class TotalsService
+readonly class TotalsService
 {
+    public function __construct(private PriceService $priceService)
+    {
+    }
+
     public function getCartTotals(Cart $cart): Totals
     {
-        $subtotal = $cart->items()->sum('product.price');
-        $grandTotal = new Price($subtotal, 0, $subtotal);
+        $subtotal = $cart->subtotal();
+        $deliveryPrice = $this->priceService->getCartShippingPrice($cart);
+        $grandTotalVal = $subtotal + $deliveryPrice?->regular;
+        if ($cart->apply_balance) {
+            
+        }
+        $grandTotal = $this->priceService->getPrice($grandTotalVal);
         return new Totals($subtotal, $grandTotal);
     }
 }

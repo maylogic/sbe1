@@ -4,14 +4,19 @@ namespace App\GraphQL\Resolvers;
 
 use App\Contracts\IHasPrice;
 use App\Data\Price;
-use GraphQL\Type\Definition\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\Services\PriceService;
 
-class PriceResolver
+readonly class PriceResolver
 {
-    public function __invoke(IHasPrice $rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): Price
+    public function __construct(private PriceService $priceService)
     {
-        // применить тут различные скидки, в том числе купон
-        return new Price($rootValue->getPrice(), false, $rootValue->getPrice());
+
+    }
+
+    public function __invoke(
+        IHasPrice $rootValue
+    ): Price
+    {
+        return $this->priceService->getPrice($rootValue->getPrice());
     }
 }

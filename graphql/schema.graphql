@@ -13,9 +13,10 @@ type Query {
     ): User @find
 
     products: [Product!] @paginate
+    productSlugs: [String!]
     getProductBySlug(
         slug: String!
-    ): Product!
+    ): Product
     getCart: Cart!
 
     "List multiple users."
@@ -26,6 +27,10 @@ type Query {
 }
 
 type Mutation {
+    addCartItem(
+        productId: Int! @rules(apply: ["exists:products,id"]),
+        quantity: Int! @rules(apply: ["min:0"])
+    ): Cart
     registerCustomer(
         email: String! @rules(apply: ["email", "unique:users,email"])
         password: String! @rules(apply: ["min:8", "confirmed"])
@@ -67,17 +72,20 @@ type User {
 type Cart {
     id: ID!
     items: [CartItem!]
-    shipping_method: ShippingMethod
+    shipping_method: ShippingMethod @field(resolver: "App\\GraphQL\\Resolvers\\EstimateDeliveryTimeAndPrice")
     shipping_address: CustomerAddress
     billing_address: CustomerAddress
     coupons: [Coupon!]
     totals: Totals!
+    can_apply_balance: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyBalance")
 }
+
 enum CustomerAddressType {
     BILLING
     SHIPPING
     UNIVERSAL
 }
+
 type CustomerAddress {
     address1: String
     address2: String
@@ -136,6 +144,8 @@ type Product {
     slug: String!
     sku: String!
     name: String!
+    meta_title: String!
+    meta_description: String!
     description: String!
     price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
     line_definitions: [ProductLineDefinition!]

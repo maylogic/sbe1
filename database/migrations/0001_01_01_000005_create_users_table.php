@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['ADMIN', 'MANAGER', 'CUSTOMER'])->default('CUSTOMER');
+            $table->enum('role', \App\Enum\UserRole::values())->default(\App\Enum\UserRole::CUSTOMER->value);
+            $table->foreignIdFor(\App\Models\Coupon::class)->nullable()->constrained()->restrictOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

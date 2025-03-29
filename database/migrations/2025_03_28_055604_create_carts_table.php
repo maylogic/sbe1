@@ -13,7 +13,11 @@ return new class extends Migration {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->string('anon_id')->nullable()->index();
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->boolean('apply_balance')->default(false);
+            $table->foreignIdFor(\App\Models\User::class)
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\ShippingMethod::class)
                 ->nullable()
                 ->constrained()->restrictOnDelete();

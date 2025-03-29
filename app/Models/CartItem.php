@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $cart_id
@@ -47,6 +48,15 @@ class CartItem extends Model
     /** @use HasFactory<\Database\Factories\CartItemFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'product_id',
+        'quantity',
+        'design_id',
+        'color_id',
+        'font_id',
+        'product_size_id'
+    ];
+
     public function designs(): BelongsTo
     {
         return $this->belongsTo(Design::class);
@@ -70,5 +80,15 @@ class CartItem extends Model
     public function text_lines(): HasMany
     {
         return $this->hasMany(CartItemTextLine::class);
+    }
+
+    public function option_items(): BelongsToMany
+    {
+        return $this->belongsToMany(ProductOptionItem::class, 'cart_item_option_item');
+    }
+
+    public function product_size(): BelongsTo
+    {
+        return $this->belongsTo(ProductSize::class);
     }
 }

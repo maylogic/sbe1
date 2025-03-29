@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Coupon;
+use App\Services\CouponService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Coupon>
+ * @extends Factory<Coupon>
  */
 class CouponFactory extends Factory
 {
@@ -17,7 +19,7 @@ class CouponFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'code' => CouponService::generateUniqueCode(),
         ];
     }
 }
