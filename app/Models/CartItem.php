@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $cart_id
@@ -24,7 +24,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \App\Models\Color|null $color
  * @property-read \App\Models\Design|null $designs
  * @property-read \App\Models\Font|null $font
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductOptionItem> $option_items
+ * @property-read int|null $option_items_count
  * @property-read \App\Models\Product $product
+ * @property-read \App\Models\ProductSize|null $product_size
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CartItemTextLine> $text_lines
  * @property-read int|null $text_lines_count
  * @method static \Database\Factories\CartItemFactory factory($count = null, $state = [])

@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(\App\Models\Cart::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\Coupon::class)->constrained()->restrictOnDelete();
+            $table->unique(['cart_id', 'coupon_id']);
         });
     }
 

@@ -3,7 +3,6 @@
 namespace App\GraphQL\Mutations;
 
 use App\Models\User;
-use App\Payload\Storefront\StorefrontCustomerAuthPayload;
 use App\Payload\Storefront\StorefrontCustomerLoginPayload;
 use App\Services\Storefront\StorefrontCustomerAuthService;
 use Nuwave\Lighthouse\Execution\ResolveInfo;

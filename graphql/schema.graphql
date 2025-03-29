@@ -27,10 +27,14 @@ type Query {
 }
 
 type Mutation {
+    toggleApplyBalance: Cart!
+    applyCoupon(
+        code: String! @rules(apply: ["exists:coupons,code"])
+    ): Cart!
     addCartItem(
         productId: Int! @rules(apply: ["exists:products,id"]),
         quantity: Int! @rules(apply: ["min:0"])
-    ): Cart
+    ): Cart!
     registerCustomer(
         email: String! @rules(apply: ["email", "unique:users,email"])
         password: String! @rules(apply: ["min:8", "confirmed"])
@@ -76,7 +80,8 @@ type Cart {
     shipping_address: CustomerAddress
     billing_address: CustomerAddress
     coupons: [Coupon!]
-    totals: Totals!
+    totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
+    apply_balance: Boolean!
     can_apply_balance: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyBalance")
 }
 

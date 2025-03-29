@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Cart;
+use App\Models\Coupon;
 use Illuminate\Support\Facades\Auth;
 
 class CartService
@@ -30,11 +31,22 @@ class CartService
         $cart->load('items');
     }
 
+    public function isCouponApplied(Coupon $coupon): bool
+    {
+        return $this->getCurrentCart()->isCouponApplied($coupon);
+    }
+
+    public function applyCoupon(Coupon $coupon): void
+    {
+        $this->getCurrentCart()->applyCoupon($coupon);
+    }
+
     public function canApplyBalance(Cart $cart): bool
     {
         $user = Auth::user();
         if ($user) {
-            return $cart->user_id === $user->id && $user->balance()?->value > 0;
+            return $cart->user_id === $user->id
+                && $user->getBalance()->value > 0;
         }
         return false;
     }
@@ -45,19 +57,23 @@ class CartService
         $userId = Auth::user()?->id;
         if ($userId) {
             return Cart::withEverything()
-                ->whereUserId($userId)
-                ->firstOrCreate([
-                    'user_id' => $userId
-                ]);
+                ->where('user_id', '=', $userId)
+                ->firstOr(function () use ($userId) {
+                    return Cart::factory()->create([
+                        'user_id' => $userId
+                    ]);
+                });
         }
         // retrieve or create cart for existing anon key
         $cartAnonId = session(Cart::SESSION_KEY);
         if ($cartAnonId) {
             return Cart::withEverything()
-                ->whereAnonId($cartAnonId)
-                ->firstOrCreate([
-                    'anon_id' => $cartAnonId
-                ]);
+                ->where('anon_id', '=', $cartAnonId)
+                ->firstOr(function () use ($cartAnonId) {
+                    return Cart::factory()->create([
+                        'anon_id' => $cartAnonId
+                    ]);
+                });
         }
         // create new anon key and cart
         $cartAnonId = uuid_create();

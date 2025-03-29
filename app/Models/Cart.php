@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -19,7 +18,7 @@ use Illuminate\Support\Facades\DB;
  * @property int $id
  * @property string|null $anon_id
  * @property int $apply_balance
- * @property int $user_id
+ * @property int|null $user_id
  * @property int|null $shipping_method_id
  * @property int|null $billing_address_id
  * @property int|null $shipping_address_id
@@ -30,9 +29,6 @@ use Illuminate\Support\Facades\DB;
  * @property-read int|null $coupons_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CartItem> $items
  * @property-read int|null $items_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductOptionItem> $option_items
- * @property-read int|null $option_items_count
- * @property-read \App\Models\ProductSize|null $product_size
  * @property-read \App\Models\CustomerAddress|null $shipping_address
  * @property-read \App\Models\ShippingMethod|null $shipping_method
  * @method static \Database\Factories\CartFactory factory($count = null, $state = [])
@@ -52,6 +48,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Cart extends Model implements IHasShipping
 {
+    protected $fillable = ['apply_balance'];
+
     const SESSION_KEY = 'cart_anon_id';
 
     /** @use HasFactory<CartFactory> */
@@ -102,5 +100,27 @@ class Cart extends Model implements IHasShipping
             'shipping_address',
             'shipping_method',
         ]);
+    }
+
+    public function applyCoupon(Coupon $coupon): void
+    {
+        DB::transaction(function () use ($coupon) {
+            $c = Coupon::whereCode($coupon->code)->lockForUpdate()->firstOrFail();
+            if ($c->quantity !== null && $c->quantity <= 0) {
+                throw new \InvalidArgumentException('Купон закончился');
+            }
+            $this->coupons()->attach($coupon->id);
+            $this->load(['coupons']);
+            if ($c->quantity !== null) {
+                $c->update(['quantity', $c->quantity - 1]);
+            }
+        });
+    }
+
+    public function isCouponApplied(Coupon $coupon): bool
+    {
+        return $this->coupons()
+            ->where('code', '=', $coupon->code)
+            ->exists();
     }
 }

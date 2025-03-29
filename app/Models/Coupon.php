@@ -30,4 +30,6 @@ class Coupon extends Model
 {
     /** @use HasFactory<\Database\Factories\CouponFactory> */
     use HasFactory;
+
+    protected $fillable = ['code', 'discount_percentage', 'quantity'];
 }
