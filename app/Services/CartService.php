@@ -41,6 +41,11 @@ class CartService
         $this->getCurrentCart()->applyCoupon($coupon);
     }
 
+    public function removeCoupon(Coupon $coupon): void
+    {
+        $this->getCurrentCart()->removeCoupon($coupon);
+    }
+
     public function canApplyBalance(Cart $cart): bool
     {
         $user = Auth::user();

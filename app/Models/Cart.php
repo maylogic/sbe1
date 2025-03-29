@@ -117,6 +117,18 @@ class Cart extends Model implements IHasShipping
         });
     }
 
+    public function removeCoupon(Coupon $coupon): void
+    {
+        DB::transaction(function () use ($coupon) {
+            $c = Coupon::whereCode($coupon->code)->lockForUpdate()->firstOrFail();
+            $this->coupons()->detach($coupon->id);
+            $this->load(['coupons']);
+            if ($c->quantity !== null) {
+                $c->update(['quantity', $c->quantity + 1]);
+            }
+        });
+    }
+
     public function isCouponApplied(Coupon $coupon): bool
     {
         return $this->coupons()

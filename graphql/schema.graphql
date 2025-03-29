@@ -31,6 +31,9 @@ type Mutation {
     applyCoupon(
         code: String! @rules(apply: ["exists:coupons,code"])
     ): Cart!
+    removeCoupon(
+        code: String! @rules(apply: ["exists:coupons,code"])
+    ): Cart!
     addCartItem(
         productId: Int! @rules(apply: ["exists:products,id"]),
         quantity: Int! @rules(apply: ["min:0"])
@@ -106,6 +109,7 @@ type CustomerAddress {
 type Totals {
     subtotal: Int!
     grand_total: Price!
+    points_used: Int!
 }
 
 type Coupon {

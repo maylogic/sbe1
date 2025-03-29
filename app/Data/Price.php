@@ -9,4 +9,12 @@ class Price
                                 public int  $discounted)
     {
     }
+
+    public function discount(int $val): void
+    {
+        $this->discounted -= $val;
+        if ($val) {
+            $this->is_discounted = true;
+        }
+    }
 }
