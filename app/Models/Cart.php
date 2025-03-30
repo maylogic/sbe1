@@ -48,7 +48,7 @@ use Illuminate\Support\Facades\DB;
  */
 class Cart extends Model implements IHasShipping
 {
-    protected $fillable = ['apply_balance'];
+    protected $fillable = ['apply_balance', 'anon_id'];
 
     const SESSION_KEY = 'cart_anon_id';
 

@@ -1,4 +1,17 @@
 services:
+    proxy:
+        image: nginx:alpine
+        container_name: nginx-proxy
+        ports:
+            - "80:80"
+        volumes:
+            - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - sail
+        depends_on:
+            - laravel.test
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
     laravel.test:
         build:
             context: './vendor/laravel/sail/runtimes/8.4'

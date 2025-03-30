@@ -2,6 +2,7 @@
 
 namespace App\Services\Storefront;
 
+use App\Models\Balance;
 use App\Models\Coupon;
 use App\Models\User;
 use App\Payload\Storefront\StorefrontCustomerLoginPayload;
@@ -19,14 +20,16 @@ class StorefrontCustomerAuthService
             $coupon = Coupon::factory()->create([
                 'discount_percentage' => CouponService::USER_COUPON_PERCENTAGE
             ]);
-            return User::create(
-                [
-                    'email' => $payload->email,
-                    'password' => Hash::make($payload->password),
-                    'name' => $payload->name,
-                    'coupon_id' => $coupon->id
-                ]
-            );
+            return User::factory()
+                ->hasBalance()
+                ->create(
+                    [
+                        'email' => $payload->email,
+                        'password' => Hash::make($payload->password),
+                        'name' => $payload->name,
+                        'coupon_id' => $coupon->id
+                    ]
+                );
         });
     }
 

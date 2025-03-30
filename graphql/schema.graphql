@@ -35,7 +35,7 @@ type Mutation {
         code: String! @rules(apply: ["exists:coupons,code"])
     ): Cart!
     addCartItem(
-        productId: Int! @rules(apply: ["exists:products,id"]),
+        productId: String! @rules(apply: ["exists:products,id"]),
         quantity: Int! @rules(apply: ["min:0"])
     ): Cart!
     registerCustomer(
