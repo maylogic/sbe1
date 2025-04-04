@@ -31,6 +31,11 @@ class CartService
         $cart->load('items');
     }
 
+    public function removeCartItemId(int $cartItemId): void
+    {
+        $this->getCurrentCart()->removeCartItem($cartItemId);
+    }
+
     public function isCouponApplied(Coupon $coupon): bool
     {
         return $this->getCurrentCart()->isCouponApplied($coupon);

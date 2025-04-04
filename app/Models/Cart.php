@@ -129,6 +129,12 @@ class Cart extends Model implements IHasShipping
         });
     }
 
+    public function removeCartItem(int $cartItemId): void
+    {
+        $this->items->find($cartItemId)?->delete();
+        $this->load(['items']);
+    }
+
     public function isCouponApplied(Coupon $coupon): bool
     {
         return $this->coupons()

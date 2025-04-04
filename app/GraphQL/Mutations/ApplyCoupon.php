@@ -23,6 +23,9 @@ readonly class ApplyCoupon
     {
         $code = $args['code'];
         $coupon = Coupon::whereCode($code)->first();
+        if (!$coupon) {
+            throw new \InvalidArgumentException('Такого купона нет');
+        }
         if ($this->cartService->isCouponApplied($coupon)) {
             throw new \InvalidArgumentException('Купон уже применен');
         }
