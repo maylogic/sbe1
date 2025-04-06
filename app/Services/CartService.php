@@ -31,6 +31,11 @@ class CartService
         $cart->load('items');
     }
 
+    public function updateCartItemQuantity(int $cartItemId, int $quantity): void
+    {
+        $this->getCurrentCart()->updateCartItemQuantity($cartItemId, $quantity);
+    }
+
     public function removeCartItemId(int $cartItemId): void
     {
         $this->getCurrentCart()->removeCartItem($cartItemId);

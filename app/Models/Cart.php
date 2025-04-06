@@ -135,6 +135,12 @@ class Cart extends Model implements IHasShipping
         $this->load(['items']);
     }
 
+    public function updateCartItemQuantity(int $cartItemId, int $quantity): void
+    {
+        $this->items->find($cartItemId)?->update(['quantity' => $quantity]);
+        $this->load(['items']);
+    }
+
     public function isCouponApplied(Coupon $coupon): bool
     {
         return $this->coupons()

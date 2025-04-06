@@ -25,6 +25,10 @@ type Mutation {
         productId: String! @rules(apply: ["exists:products,id"]),
         quantity: Int! @rules(apply: ["min:0"])
     ): Cart!
+    updateCartItemQuantity(
+        cartItemId: String! @rules(apply: ["exists:cart_items,id"]),
+        quantity: Int! @rules(apply: ["min:0"])
+    ): Cart!
     registerCustomer(
         email: String! @rules(apply: ["email", "unique:users,email"])
         password: String! @rules(apply: ["min:8", "confirmed"])
