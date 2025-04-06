@@ -84,14 +84,14 @@ class ProductResource extends Resource
                                 ->required(),
                             TextInput::make('default_value')
                                 ->label('Начальное значение')
-                                ->required(),
+                                ->default(''),
                             Forms\Components\Checkbox::make('required')
                                 ->label('Обязательно'),
                             Forms\Components\Checkbox::make('hidden')
                                 ->label('Скрыто изначально'),
                             TextInput::make('max_length')
                                 ->label('Максимальная длина')
-                                ->required()
+                                ->default(255)
                                 ->numeric(),
                         ])->defaultItems(0),
 

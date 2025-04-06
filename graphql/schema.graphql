@@ -138,10 +138,10 @@ type Product {
     description: String!
     price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
     line_definitions: [ProductLineDefinition!]
-    designs: [Design!]
-    options: [ProductOption!]
-    sizes: [ProductSize!]
-    gallery: [ProductGalleryItem!]
+    designs: [Design!]!
+    options: [ProductOption!]!
+    sizes: [ProductSize!]!
+    gallery: [ProductGalleryItem!]!
     reverse_side_base: Base
     primary_image: ProductGalleryItem
 }
@@ -193,6 +193,7 @@ type Design {
     colors: [Color!]
     fonts: [Font!]
     bases: [Base!]!
+    preview: String!
 }
 
 type Base {

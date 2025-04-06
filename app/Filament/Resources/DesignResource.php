@@ -29,6 +29,8 @@ class DesignResource extends Resource
                     ->multiple()
                     ->preload()
                     ->relationship(titleAttribute: "label"),
+                Forms\Components\FileUpload::make('preview')
+                    ->required(),
                 Forms\Components\Select::make('colors')
                     ->multiple()
                     ->preload()

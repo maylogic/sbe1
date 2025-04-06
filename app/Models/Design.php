@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $label
@@ -34,7 +34,7 @@ class Design extends Model
     /** @use HasFactory<\Database\Factories\DesignFactory> */
     use HasFactory;
 
-    protected $fillable = ['label'];
+    protected $fillable = ['label', 'preview'];
 
     public function fonts(): BelongsToMany
     {
