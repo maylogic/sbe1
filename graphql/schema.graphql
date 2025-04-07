@@ -154,9 +154,12 @@ type ProductGalleryItem {
 }
 
 type ProductLineDefinition {
+    id: String!
     label: String!
     max_length: Int!
     required: Boolean!
+    hidden: Boolean!
+    default_value: String
 }
 
 type ProductSize {
@@ -222,6 +225,7 @@ type Font {
     filename_woff2: String!
     filename_ttf: String
     filename_otf: String
+    preview: String!
 }
 
 type Color {
