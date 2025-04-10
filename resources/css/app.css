@@ -28,3 +28,9 @@
     color: white;
     font-weight: bold;
 }
+
+rect.draggable {
+    stroke-width: 0.3;
+    stroke: rgba(255, 255, 0, 0.7);
+    fill: rgba(0, 0, 255, 0.7);
+}

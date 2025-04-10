@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $base_id
@@ -48,7 +48,7 @@ class BaseTextArea extends Model
     /** @use HasFactory<BaseTextAreaFactory> */
     use HasFactory;
 
-    protected $fillable = ['width', 'height', 'left', 'top', 'first_line', 'lines'];
+    protected $fillable = ['width', 'height', 'left', 'top', 'first_line', 'lines', 'text_color', 'inherit_color'];
 
     public function base(): BelongsTo
     {

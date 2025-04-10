@@ -34,6 +34,17 @@ class BaseTextAreasEditor extends Component
         $filePath = storage_path('app/public/' . $base->filename);
         $dom = $this->loadSvgFile($filePath);
         $this->resizeSvg($dom);
+        foreach ($this->textAreas as $textArea) {
+            $rect = $dom->createElementNS('http://www.w3.org/2000/svg', 'rect');
+            $rect->setAttribute('data-id', $textArea->id);
+            $rect->setAttribute('width', $textArea->width);
+            $rect->setAttribute('height', $textArea->height);
+            $rect->setAttribute('x', $textArea->left);
+            $rect->setAttribute('y', $textArea->top);
+            $rect->className = 'draggable';
+            $svg = $dom->getElementsByTagName('svg')[0];
+            $svg->appendChild($rect);
+        }
         $this->svgContent = $this->getSvgAsString($dom);
     }
 
@@ -58,8 +69,8 @@ class BaseTextAreasEditor extends Component
         if (!$svg) {
             throw new \Exception("SVG element not found in the document.");
         }
-        $svg->removeAttribute('width');
-        $svg->removeAttribute('height');
+        $svg->setAttribute('width', '320px');
+        $svg->setAttribute('height', '320px');
     }
 
     private function getSvgAsString(DOMDocument $dom): string
@@ -71,12 +82,14 @@ class BaseTextAreasEditor extends Component
     {
         $textArea = BaseTextArea::find($data['id']);
         if ($textArea) {
-            $textArea->update([
-                'left' => $data['left'] ?? $textArea->left,
-                'top' => $data['top'] ?? $textArea->top,
-                'width' => $data['width'] ?? $textArea->width,
-                'height' => $data['height'] ?? $textArea->height,
-            ]);
+
+            $upd = [];
+            foreach (['left', 'top', 'width', 'height'] as $dim) {
+                if (!empty($data[$dim])) {
+                    $upd[$dim] = $data[$dim];
+                }
+            }
+            $textArea->update($upd);
 
             $this->loadSvg(); // Перезагружаем SVG
         }

@@ -5,18 +5,6 @@
         @if($this->textAreas->count())
             <div id="svg-editor-content">
                 {!! $this->svgContent !!}
-                <div class="editor">
-                    @foreach($this->textAreas as $textArea)
-                        <div class="text-area draggable"
-                             data-id="{{$textArea->id}}"
-                             style="
-                           width: {{$textArea->width}}px;
-                           height: {{$textArea->height}}px;
-                           left: {{$textArea->left}}px;
-                           top: {{$textArea->top}}px;
-                         ">###{{$textArea->id}}</div>
-                    @endforeach
-                </div>
             </div>
         @else
             Нет текстовых зон
@@ -37,18 +25,18 @@
         listeners: {
             move(event) {
                 const target = event.target;
-                const left = (parseFloat(target.style.left) || 0) + event.dx;
-                const top = (parseFloat(target.style.top) || 0) + event.dy;
+                const left = (parseFloat(target.getAttribute('x')) || 0) + event.dx/10;
+                const top = (parseFloat(target.getAttribute('y')) || 0) + event.dy/10;
 
-                target.style.left = `${left}px`
-                target.style.top = `${top}px`
+                target.setAttribute('x', left)
+                target.setAttribute('y', top)
             },
             end(event) {
                 const target = event.target;
-                const left = (parseFloat(target.style.left) || 0) + event.dx;
-                const top = (parseFloat(target.style.top) || 0) + event.dy;
-                target.style.left = `${left}px`
-                target.style.top = `${top}px`
+                const left = (parseFloat(target.getAttribute('x')) || 0) + event.dx/10;
+                const top = (parseFloat(target.getAttribute('y')) || 0) + event.dy/10;
+                target.setAttribute('x', left)
+                target.setAttribute('y', top)
                 const id = target.dataset.id
                 clearTimeout(sendingCoordinates)
                 sendingCoordinates = setTimeout(() => {
@@ -63,25 +51,26 @@
         listeners: {
             move(event) {
                 const target = event.target;
-                let width = parseFloat(target.style.width) || 100;
-                let height = parseFloat(target.style.height) || 50;
+                let width = parseFloat(target.getAttribute('width')) || 10;
+                let height = parseFloat(target.getAttribute('height')) || 10;
 
                 width += event.deltaRect.width;
                 height += event.deltaRect.height;
 
-                target.style.width = `${width}px`;
-                target.style.height = `${height}px`;
+                target.setAttribute('width', width)
+                target.setAttribute('height', height)
             },
             end(event) {
                 const target = event.target;
-                let width = parseFloat(target.style.width) || 100;
-                let height = parseFloat(target.style.height) || 50;
+                let width = parseFloat(target.getAttribute('width')) || 10;
+                let height = parseFloat(target.getAttribute('height')) || 10;
 
                 width += event.deltaRect.width;
                 height += event.deltaRect.height;
 
-                target.style.width = `${width}px`;
-                target.style.height = `${height}px`;
+                target.setAttribute('width', width)
+                target.setAttribute('height', height)
+
                 const id = target.dataset.id;
                 clearTimeout(sendingSize)
                 sendingSize = setTimeout(() => {
