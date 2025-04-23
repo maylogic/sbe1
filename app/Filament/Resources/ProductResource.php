@@ -77,6 +77,7 @@ class ProductResource extends Resource
                     Repeater::make('line_definitions')
                         ->relationship()
                         ->label('Текстовые линии')
+                        ->orderColumn('sort')
                         ->addActionLabel('Добавить линию')
                         ->schema([
                             TextInput::make('label')

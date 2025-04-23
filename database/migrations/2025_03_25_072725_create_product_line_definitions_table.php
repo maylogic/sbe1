@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->boolean('required')->default(false);
             $table->boolean('hidden')->default(false);
             $table->string('default_value')->nullable();
+            $table->unsignedTinyInteger('sort')->default(0);
             $table->timestamps();
         });
     }

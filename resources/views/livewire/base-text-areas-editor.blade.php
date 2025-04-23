@@ -25,16 +25,16 @@
         listeners: {
             move(event) {
                 const target = event.target;
-                const left = (parseFloat(target.getAttribute('x')) || 0) + event.dx/10;
-                const top = (parseFloat(target.getAttribute('y')) || 0) + event.dy/10;
+                const left = (parseFloat(target.getAttribute('x')) || 0) + event.dx / 10;
+                const top = (parseFloat(target.getAttribute('y')) || 0) + event.dy / 10;
 
                 target.setAttribute('x', left)
                 target.setAttribute('y', top)
             },
             end(event) {
                 const target = event.target;
-                const left = (parseFloat(target.getAttribute('x')) || 0) + event.dx/10;
-                const top = (parseFloat(target.getAttribute('y')) || 0) + event.dy/10;
+                const left = (parseFloat(target.getAttribute('x')) || 0) + event.dx / 10;
+                const top = (parseFloat(target.getAttribute('y')) || 0) + event.dy / 10;
                 target.setAttribute('x', left)
                 target.setAttribute('y', top)
                 const id = target.dataset.id
@@ -54,8 +54,8 @@
                 let width = parseFloat(target.getAttribute('width')) || 10;
                 let height = parseFloat(target.getAttribute('height')) || 10;
 
-                width += event.deltaRect.width;
-                height += event.deltaRect.height;
+                width += event.deltaRect.width / 10;
+                height += event.deltaRect.height / 10;
 
                 target.setAttribute('width', width)
                 target.setAttribute('height', height)
@@ -65,8 +65,8 @@
                 let width = parseFloat(target.getAttribute('width')) || 10;
                 let height = parseFloat(target.getAttribute('height')) || 10;
 
-                width += event.deltaRect.width;
-                height += event.deltaRect.height;
+                width += event.deltaRect.width / 10;
+                height += event.deltaRect.height / 10;
 
                 target.setAttribute('width', width)
                 target.setAttribute('height', height)

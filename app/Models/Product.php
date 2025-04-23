@@ -15,7 +15,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -119,6 +119,7 @@ class Product extends Model implements IHasPrice
 
     public function line_definitions(): HasMany
     {
-        return $this->hasMany(ProductLineDefinition::class);
+        return $this->hasMany(ProductLineDefinition::class)
+            ->orderBy('sort', 'ASC');
     }
 }

@@ -160,6 +160,7 @@ type ProductLineDefinition {
     required: Boolean!
     hidden: Boolean!
     default_value: String
+    sort: Int!
 }
 
 type ProductSize {
