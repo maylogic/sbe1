@@ -177,6 +177,7 @@ type ProductOption {
     id: ID!
     label: String!
     items: [ProductOptionItem!]!
+    required: Boolean!
 }
 
 type ProductOptionItem {
