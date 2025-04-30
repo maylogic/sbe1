@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Data\Input\PersonalizeInput;
 use App\Models\Cart;
 use App\Services\CartService;
 
@@ -18,7 +19,8 @@ readonly class AddCartItem
     {
         $productId = $args['productId'];
         $quantity = $args['quantity'];
-        $this->cartService->addCartItem($productId, $quantity);
+        $personalize = PersonalizeInput::parse($args['personalize']);
+        $this->cartService->addCartItem($productId, $quantity, $personalize);
         return $this->cartService->getCurrentCart();
     }
 }

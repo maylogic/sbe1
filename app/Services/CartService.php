@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\Data\Input\PersonalizeInput;
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Coupon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class CartService
 {
@@ -21,14 +25,26 @@ class CartService
         return $this->cache[$cacheKey];
     }
 
-    public function addCartItem(int $productId, int $quantity): void
+    /**
+     * @throws Throwable
+     */
+    public function addCartItem(int $productId, int $quantity, PersonalizeInput $personalizeInput): void
     {
-        $cart = $this->getCurrentCart();
-        $cart->items()->create([
-            'product_id' => $productId,
-            'quantity' => $quantity
-        ]);
-        $cart->load('items');
+        DB::transaction(function () use ($productId, $quantity, $personalizeInput) {
+            $cart = $this->getCurrentCart();
+            /** @var CartItem $item */
+            $item = $cart->items()->create([
+                'product_id' => $productId,
+                'quantity' => $quantity,
+                'design_id' => $personalizeInput->designId,
+                'color_id' => $personalizeInput->colorId,
+                'font_id' => $personalizeInput->fontId,
+                'product_size_id' => $personalizeInput->sizeId
+            ]);
+            $item->text_lines()->createMany($personalizeInput->getTextLinesArray());
+            $item->option_items()->sync($personalizeInput->getOptionValueIds());
+            $cart->load('items');
+        });
     }
 
     public function updateCartItemQuantity(int $cartItemId, int $quantity): void

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $cart_item_id
@@ -33,7 +33,9 @@ class CartItemTextLine extends Model
     /** @use HasFactory<\Database\Factories\CartItemTextLineFactory> */
     use HasFactory;
 
-    public function definition(): BelongsTo
+    protected $fillable = ['product_line_definition_id', 'value'];
+
+    public function product_line_definition(): BelongsTo
     {
         return $this->belongsTo(ProductLineDefinition::class);
     }

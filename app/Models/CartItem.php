@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\IHasPrice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $cart_id
@@ -46,7 +47,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CartItem whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class CartItem extends Model
+class CartItem extends Model implements IHasPrice
 {
     /** @use HasFactory<\Database\Factories\CartItemFactory> */
     use HasFactory;
@@ -60,7 +61,20 @@ class CartItem extends Model
         'product_size_id'
     ];
 
-    public function designs(): BelongsTo
+    /**
+     * @return int
+     */
+    public function getPrice(): int
+    {
+        $productPrice = $this->product->price;
+        $sizePrice = $this->product_size->price;
+        $optionsPrices = $this->option_items->reduce(
+            fn(int $carry, ProductOptionItem $item) => $carry + $item->price, 0);
+
+        return $productPrice + $sizePrice + $optionsPrices;
+    }
+
+    public function design(): BelongsTo
     {
         return $this->belongsTo(Design::class);
     }
@@ -82,7 +96,7 @@ class CartItem extends Model
 
     public function text_lines(): HasMany
     {
-        return $this->hasMany(CartItemTextLine::class);
+        return $this->hasMany(CartItemTextLine::class)->with(['product_line_definition']);
     }
 
     public function option_items(): BelongsToMany

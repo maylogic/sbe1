@@ -58,9 +58,7 @@ class Cart extends Model implements IHasShipping
 
     public function subtotal(): int
     {
-        return $this->items()
-            ->join('products', 'products.id', '=', 'cart_items.product_id')
-            ->sum(DB::raw('products.price * cart_items.quantity'));
+        return $this->items->reduce(fn(int $carry, CartItem $cartItem) => $carry + $cartItem->getPrice(), 0);
     }
 
     public function items(): HasMany

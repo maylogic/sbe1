@@ -24,6 +24,7 @@ type Mutation {
     addCartItem(
         productId: String! @rules(apply: ["exists:products,id"]),
         quantity: Int! @rules(apply: ["min:0"])
+        personalize: PersonalizeInput!
     ): Cart!
     updateCartItemQuantity(
         cartItemId: String! @rules(apply: ["exists:cart_items,id"]),
@@ -36,6 +37,25 @@ type Mutation {
         name: String! @rules(apply: ["max:255"])
     ): User
     loginCustomer(email: String!, password: String!): User!
+}
+
+input PersonalizeInput {
+    colorId: ID!
+    designId: ID!
+    fontId: ID!
+    sizeId: ID!
+    options: [OptionInput]!
+    textLines: [TextLineInput]!
+}
+
+input OptionInput {
+    optionId: ID!
+    optionValueId: ID!
+}
+
+input TextLineInput {
+    productLineDefinitionId: ID!
+    value: String!
 }
 
 enum UserRole {
@@ -119,12 +139,13 @@ type CartItem {
     color: Color
     font: Font
     text_lines: [CartItemTextLine!]
+    price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
 }
 
 type CartItemTextLine {
     id: ID!
     value: String!
-    definition: ProductLineDefinition!
+    product_line_definition: ProductLineDefinition!
 }
 
 type Product {
