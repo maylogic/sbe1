@@ -27,6 +27,10 @@ type Mutation {
         quantity: Int! @rules(apply: ["min:0"])
         personalize: PersonalizeInput!
     ): Cart!
+    updateCartItem(
+        cartItemId: String! @rules(apply: ["exists:cart_items,id"]),
+        personalize: PersonalizeInput!
+    ): Cart!
     updateCartItemQuantity(
         cartItemId: String! @rules(apply: ["exists:cart_items,id"]),
         quantity: Int! @rules(apply: ["min:0"])

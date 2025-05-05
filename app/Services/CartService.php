@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Data\Input\PersonalizeInput;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\CartItemTextLine;
 use App\Models\Coupon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +42,28 @@ class CartService
                 'font_id' => $personalizeInput->fontId,
                 'product_size_id' => $personalizeInput->sizeId
             ]);
+            $item->text_lines()->createMany($personalizeInput->getTextLinesArray());
+            $item->option_items()->sync($personalizeInput->getOptionValueIds());
+            $cart->load('items');
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function updateCartItem(int $cartItemId, PersonalizeInput $personalizeInput): void
+    {
+        DB::transaction(function () use ($cartItemId, $personalizeInput) {
+            $cart = $this->getCurrentCart();
+            /** @var CartItem $item */
+            $item = $cart->items()->findOrFail($cartItemId);
+            $item->updateOrFail([
+                'design_id' => $personalizeInput->designId,
+                'color_id' => $personalizeInput->colorId,
+                'font_id' => $personalizeInput->fontId,
+                'product_size_id' => $personalizeInput->sizeId
+            ]);
+            CartItemTextLine::whereCartItemId($cartItemId)->delete();
             $item->text_lines()->createMany($personalizeInput->getTextLinesArray());
             $item->option_items()->sync($personalizeInput->getOptionValueIds());
             $cart->load('items');
