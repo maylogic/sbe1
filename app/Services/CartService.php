@@ -105,6 +105,11 @@ class CartService
         return false;
     }
 
+    public function canApplyCoupon(Cart $cart): bool
+    {
+        return $cart->coupons->count() === 0;
+    }
+
     private function getOrCreateCart(): Cart
     {
         // retrieve or create user cart
