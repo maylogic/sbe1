@@ -13,11 +13,6 @@
         Нет svg контента
     @endif
 </div>
-
-@assets
-@vite(['resources/js/app.js'])
-@vite(['resources/css/app.css'])
-@endassets
 @script
 <script>
     let sendingCoordinates, sendingSize
