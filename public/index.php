@@ -1,5 +1,12 @@
 <?php
 
+if (str_starts_with($_SERVER['REQUEST_URI'], '/api/')) {
+    $uri = substr($_SERVER['REQUEST_URI'], strlen('/api'));
+    $_SERVER['REQUEST_URI'] = $uri;
+    $_SERVER['PATH_INFO'] = $uri;
+    $_SERVER['PHP_SELF'] = '/index.php' . $uri;
+}
+
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
