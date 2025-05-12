@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $product_id
@@ -15,9 +15,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $max_length
  * @property int $required
  * @property int $hidden
- * @property string $default_value
+ * @property string|null $default_value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $sort
  * @property-read \App\Models\Product $product
  * @method static \Database\Factories\ProductLineDefinitionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition newModelQuery()
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereMaxLength($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereRequired($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ProductLineDefinition whereUpdatedAt($value)
  * @mixin \Eloquent
  */

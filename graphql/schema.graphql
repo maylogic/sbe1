@@ -14,6 +14,7 @@ type Query {
 }
 
 type Mutation {
+    #Cart
     toggleApplyBalance: Cart!
     applyCoupon(
         code: String!
@@ -21,7 +22,9 @@ type Mutation {
     removeCoupon(
         code: String! @rules(apply: ["exists:coupons,code"])
     ): Cart!
-    removeCartItem(cartItemId: String!): Cart!
+    setCartEmail(email: String! @rules(apply: ["email"])): Cart!
+
+    # Cart Item
     addCartItem(
         productId: String! @rules(apply: ["exists:products,id"]),
         quantity: Int! @rules(apply: ["min:0"])
@@ -35,6 +38,12 @@ type Mutation {
         cartItemId: String! @rules(apply: ["exists:cart_items,id"]),
         quantity: Int! @rules(apply: ["min:0"])
     ): Cart!
+    removeCartItem(cartItemId: String!): Cart!
+
+    # Order
+    placeOrder: Order!
+
+    # Customer
     registerCustomer(
         email: String! @rules(apply: ["email", "unique:users,email"])
         password: String! @rules(apply: ["min:8", "confirmed"])
@@ -85,7 +94,18 @@ type Cart {
     items: [CartItem!]
     shipping_method: ShippingMethod @field(resolver: "App\\GraphQL\\Resolvers\\EstimateDeliveryTimeAndPrice")
     shipping_address: CustomerAddress
-    billing_address: CustomerAddress
+    coupons: [Coupon!]
+    totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
+    apply_balance: Boolean!
+    can_apply_coupon: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyCoupon")
+    can_apply_balance: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyBalance")
+}
+
+type Order {
+    id: ID!
+    items: [OrderItem!]
+    shipping_method: ShippingMethod @field(resolver: "App\\GraphQL\\Resolvers\\EstimateDeliveryTimeAndPrice")
+    shipping_address: CustomerAddress
     coupons: [Coupon!]
     totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
     apply_balance: Boolean!
@@ -148,7 +168,30 @@ type CartItem {
     price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
 }
 
+type OrderItem {
+    id: ID!
+    product_id: Int!
+    design_id: Int
+    color_id: Int
+    font_id: Int
+    quantity: Int!
+    product: Product!
+    option_items: [ProductOptionItem!]
+    product_size: ProductSize
+    design: Design
+    color: Color
+    font: Font
+    text_lines: [OrderItemTextLine!]
+    price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
+}
+
 type CartItemTextLine {
+    id: ID!
+    value: String!
+    product_line_definition: ProductLineDefinition!
+}
+
+type OrderItemTextLine {
     id: ID!
     value: String!
     product_line_definition: ProductLineDefinition!
@@ -217,7 +260,7 @@ type ProductOptionItem {
 type Price {
     regular: Int!
     is_discounted: Boolean!
-    discounted: Int!
+    discounted: Float!
 }
 
 type Design {

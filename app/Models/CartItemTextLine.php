@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $cart_item_id
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\ProductLineDefinition|null $definition
+ * @property-read \App\Models\ProductLineDefinition $product_line_definition
  * @method static \Database\Factories\CartItemTextLineFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CartItemTextLine newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CartItemTextLine newQuery()

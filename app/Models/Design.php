@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $label
+ * @property string $preview
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Base> $bases
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Design whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Design whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Design whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Design wherePreview($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Design whereUpdatedAt($value)
  * @mixin \Eloquent
  */

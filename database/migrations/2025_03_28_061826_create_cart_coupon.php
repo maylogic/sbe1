@@ -23,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('cart_item_option_item');
+        Schema::dropIfExists('cart_coupon');
     }
 };
