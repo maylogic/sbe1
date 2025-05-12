@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\OrderItem;
 
 readonly class OrderService
 {
@@ -12,9 +13,9 @@ readonly class OrderService
     {
     }
 
-    public function canPlaceOrder(): bool
+    public function canPlaceOrder(?Cart $cart = null): bool
     {
-        $cart = $this->cartService->getCurrentCart();
+        $cart = $cart ?? $this->cartService->getCurrentCart();
         return true;
     }
 
@@ -26,19 +27,21 @@ readonly class OrderService
                 $this->getOrderCreateFieldsFromCart($cart)
             );
             foreach ($cart->items as $item) {
-                $order->items()->create(
+                /** @var OrderItem $orderItem */
+                $orderItem = $order->items()->create(
                     $this->getOrderItemFieldsFromCartItem($item)
                 );
-                $item->text_lines()->createMany(
+                $orderItem->text_lines()->createMany(
                     $this->getOrderItemTextLinesFromCartItem($item)
                 );
-                $item->option_items()->sync(
+                $orderItem->option_items()->sync(
                     $item->option_items->map(
-                        fn($optionItem) => $optionItem->product_option_item_id
+                        fn($optionItem) => $optionItem->id
                     )
                 );
             }
             $order->load('items');
+            return $order;
         });
     }
 

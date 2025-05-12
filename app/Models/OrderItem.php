@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Contracts\IHasPrice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $order_id
@@ -46,7 +47,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class OrderItem extends Model
+class OrderItem extends Model implements IHasPrice
 {
     /** @use HasFactory<\Database\Factories\OrderItemFactory> */
     use HasFactory;

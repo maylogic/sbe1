@@ -97,6 +97,7 @@ type Cart {
     coupons: [Coupon!]
     totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
     apply_balance: Boolean!
+    can_place_order: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanPlaceOrder")
     can_apply_coupon: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyCoupon")
     can_apply_balance: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyBalance")
 }
@@ -109,8 +110,6 @@ type Order {
     coupons: [Coupon!]
     totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
     apply_balance: Boolean!
-    can_apply_coupon: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyCoupon")
-    can_apply_balance: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyBalance")
 }
 
 enum CustomerAddressType {

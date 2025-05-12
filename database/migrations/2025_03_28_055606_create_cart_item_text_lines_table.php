@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignIdFor(\App\Models\ProductLineDefinition::class)->constrained()->restrictOnDelete();
             $table->string('value');
             $table->timestamps();
+            $table->unique(['cart_item_id', 'product_line_definition_id']);
         });
     }
 

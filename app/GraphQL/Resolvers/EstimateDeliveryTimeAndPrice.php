@@ -14,7 +14,12 @@ readonly class EstimateDeliveryTimeAndPrice
     {
     }
 
-    public function __invoke(IHasShipping $rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo): ?ShippingMethod
+    public function __invoke(
+        IHasShipping   $rootValue,
+        array          $args,
+        GraphQLContext $context,
+        ResolveInfo    $resolveInfo
+    ): ?ShippingMethod
     {
         $shippingMethod = $rootValue->getShippingMethod();
         $address = $rootValue->getShippingAddress();
