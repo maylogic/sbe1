@@ -16,7 +16,7 @@ readonly class OrderService
     public function canPlaceOrder(?Cart $cart = null): bool
     {
         $cart = $cart ?? $this->cartService->getCurrentCart();
-        return true;
+        return false;
     }
 
     public function placeOrder(): Order

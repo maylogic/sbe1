@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\CartItemTextLine;
 use App\Models\Coupon;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -103,6 +104,12 @@ class CartService
                 && $user->getBalance()->value > 0;
         }
         return false;
+    }
+
+    public function canLogin(Cart $cart): ?bool
+    {
+        if (empty($cart->email)) return null;
+        return User::whereEmail($cart->email)->exists();
     }
 
     public function canApplyCoupon(Cart $cart): bool
