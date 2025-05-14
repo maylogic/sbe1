@@ -10,7 +10,7 @@ type Query {
         slug: String!
     ): Product
     getCart: Cart!
-    cartItem(id: ID! @whereKey): CartItem! @find
+    cartItem(id: ID! @whereKey): CartItem @find
 }
 
 type Mutation {
