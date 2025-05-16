@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $anon_id
@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\DB;
  */
 class Cart extends Model implements IHasShipping
 {
-    protected $fillable = ['apply_balance', 'anon_id', 'email'];
+    protected $fillable = ['apply_balance', 'anon_id', 'email', 'shipping_address_id', 'shipping_method_id'];
 
     const SESSION_KEY = 'cart_anon_id';
 

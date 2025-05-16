@@ -24,14 +24,26 @@ type Mutation {
     ): Cart!
     setCartEmail(email: String! @rules(apply: ["email"])): Cart!
     createShippingAddress(
-        address1: String
-        address2: String
-        city: String
-        country: String
-        first_name: String
-        last_name: String
-        phone_number: String
-        postal_code: String
+        address1: String,
+        address2: String,
+        city: String,
+        country: String,
+        first_name: String,
+        last_name: String,
+        phone_number: String,
+        postal_code: String,
+        state: String
+    ): Cart!
+    updateShippingAddress(
+        customerAddressId: String! @rules(apply: ["exists:customer_addresses,id"]),
+        address1: String,
+        address2: String,
+        city: String,
+        country: String,
+        first_name: String,
+        last_name: String,
+        phone_number: String,
+        postal_code: String,
         state: String
     ): Cart!
     setShippingAddress(customerAddressId: String! @rules(apply: ["exists:customer_addresses,id"])): Cart!

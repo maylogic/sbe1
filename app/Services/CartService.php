@@ -31,6 +31,7 @@ class CartService
     {
         $cart = $this->getCurrentCart();
         $cart->update(['shipping_address_id' => $customerAddressId]);
+        $cart->load(['shipping_address']);
         return $cart;
     }
 
