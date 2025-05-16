@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  *
  * @property int $id
- * @property int $user_id
+ * @property int|null $user_id
  * @property string|null $address1
  * @property string|null $address2
  * @property string|null $city
@@ -19,7 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $phone_number
  * @property string|null $postal_code
  * @property string|null $state
- * @property string $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\CustomerAddressFactory factory($count = null, $state = [])
@@ -37,7 +36,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerAddress wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerAddress wherePostalCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerAddress whereState($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerAddress whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerAddress whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CustomerAddress whereUserId($value)
  * @mixin \Eloquent

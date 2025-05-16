@@ -27,6 +27,13 @@ class CartService
         return $this->cache[$cacheKey];
     }
 
+    public function updateShippingAddress(int $customerAddressId): Cart
+    {
+        $cart = $this->getCurrentCart();
+        $cart->update(['shipping_address_id' => $customerAddressId]);
+        return $cart;
+    }
+
     /**
      * @throws Throwable
      */

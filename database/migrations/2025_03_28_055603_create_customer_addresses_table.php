@@ -12,7 +12,9 @@ return new class extends Migration {
     {
         Schema::create('customer_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\User::class)
+                ->nullable()
+                ->constrained()->cascadeOnDelete();
             $table->string('address1')->nullable();
             $table->string('address2')->nullable();
             $table->string('city')->nullable();
@@ -22,7 +24,6 @@ return new class extends Migration {
             $table->string('phone_number')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('state')->nullable();
-            $table->enum('type', ['BILLING', 'SHIPPING', 'UNIVERSAL']);
             $table->timestamps();
         });
     }

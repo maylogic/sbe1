@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Enum\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,6 +26,8 @@ use Illuminate\Notifications\Notifiable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Balance|null $balance
  * @property-read \App\Models\Coupon|null $coupon
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CustomerAddress> $customer_addresses
+ * @property-read int|null $customer_addresses_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -82,6 +85,11 @@ class User extends Authenticatable
             'password' => 'hashed',
             'role' => UserRole::class
         ];
+    }
+
+    public function customer_addresses(): HasMany
+    {
+        return $this->hasMany(CustomerAddress::class);
     }
 
     public function coupon(): BelongsTo

@@ -2,7 +2,6 @@
 
 namespace App\Services\Storefront;
 
-use App\Models\Balance;
 use App\Models\Coupon;
 use App\Models\User;
 use App\Payload\Storefront\StorefrontCustomerLoginPayload;

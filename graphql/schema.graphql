@@ -23,6 +23,18 @@ type Mutation {
         code: String! @rules(apply: ["exists:coupons,code"])
     ): Cart!
     setCartEmail(email: String! @rules(apply: ["email"])): Cart!
+    createShippingAddress(
+        address1: String
+        address2: String
+        city: String
+        country: String
+        first_name: String
+        last_name: String
+        phone_number: String
+        postal_code: String
+        state: String
+    ): Cart!
+    setShippingAddress(customerAddressId: String! @rules(apply: ["exists:customer_addresses,id"])): Cart!
 
     # Cart Item
     addCartItem(
@@ -102,6 +114,7 @@ type Cart {
     can_apply_balance: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyBalance")
     email: String
     can_login: Boolean @field(resolver: "App\\GraphQL\\Resolvers\\CartCanLogin")
+    customer_addresses: [CustomerAddress!] @field(resolver: "App\\GraphQL\\Resolvers\\InjectCustomerAddressesInCart")
 }
 
 type Order {
@@ -114,13 +127,8 @@ type Order {
     apply_balance: Boolean!
 }
 
-enum CustomerAddressType {
-    BILLING
-    SHIPPING
-    UNIVERSAL
-}
-
 type CustomerAddress {
+    id: ID!
     address1: String
     address2: String
     city: String
@@ -130,8 +138,8 @@ type CustomerAddress {
     phone_number: String
     postal_code: String
     state: String
-    type: CustomerAddressType!
 }
+
 type Totals {
     subtotal: Int!
     grand_total: Price!
