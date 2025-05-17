@@ -118,7 +118,7 @@ type Cart {
     id: ID!
     key: String! @field(resolver: "App\\GraphQL\\Resolvers\\UniqueKey")
     items: [CartItem!]
-    shipping_method: ShippingMethod @field(resolver: "App\\GraphQL\\Resolvers\\EstimateDeliveryTimeAndPrice")
+    shipping_method: ShippingMethod
     shipping_address: CustomerAddress
     coupons: [Coupon!]
     totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
@@ -134,7 +134,7 @@ type Cart {
 type Order {
     id: ID!
     items: [OrderItem!]
-    shipping_method: ShippingMethod @field(resolver: "App\\GraphQL\\Resolvers\\EstimateDeliveryTimeAndPrice")
+    shipping_method: ShippingMethod
     shipping_address: CustomerAddress
     coupons: [Coupon!]
     totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Contracts\IHasShipping;
 use App\Data\Price;
+use App\Models\Cart;
 
 class PriceService
 {
@@ -16,7 +16,7 @@ class PriceService
     {
     }
 
-    public function getCartShippingPrice(IHasShipping $cart): ?Price
+    public function getCartShippingPrice(Cart $cart): ?Price
     {
         $cacheKey = 'shipping-price-' . $cart->id;
         if (!array_key_exists($cacheKey, $this->cache)) {
