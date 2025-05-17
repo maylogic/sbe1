@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $anon_id
@@ -56,6 +56,20 @@ class Cart extends Model implements IHasShipping
     /** @use HasFactory<CartFactory> */
     use HasFactory;
     use HasShipping;
+
+    public function isEmpty(): bool
+    {
+        return $this->items_count === 0 && $this->coupons_count === 0;
+    }
+
+    public function isFresherThan(?Cart $other): bool
+    {
+        if (!$other) {
+            return true; // текущая корзина "новее", так как другая отсутствует
+        }
+
+        return $this->updated_at > $other->updated_at;
+    }
 
     public function subtotal(): int
     {
