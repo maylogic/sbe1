@@ -30,7 +30,10 @@ class CartService
     public function updateShippingAddress(int $customerAddressId): Cart
     {
         $cart = $this->getCurrentCart();
-        $cart->update(['shipping_address_id' => $customerAddressId]);
+        $cart->update([
+            'shipping_address_id' => $customerAddressId,
+            'shipping_method_id' => null
+        ]);
         $cart->load(['shipping_address']);
         return $cart;
     }

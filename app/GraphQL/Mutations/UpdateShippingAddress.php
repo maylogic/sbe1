@@ -36,6 +36,11 @@ readonly class UpdateShippingAddress
                 $args['state']
             )
         );
-        return $this->cartService->getCurrentCart();
+        $cart = $this->cartService->getCurrentCart();
+        $cart->update([
+            'shipping_method_id' => null
+        ]);
+        $cart->load(['shipping_address', 'shipping_method']);
+        return $cart;
     }
 }
