@@ -37,8 +37,8 @@ readonly class LoginCustomer
         $userCartEmpty = $userCart === null || $userCart->isEmpty();
 
         $anonCartFresher = $anonCart?->isFresherThan($userCart);
-        $userCartPreferred = !$userCartEmpty && !$anonCartFresher;
-        $shouldDropAnonCart = $anonCartEmpty || $userCartPreferred;
+        $shouldDropAnonCart = $anonCartEmpty || !$anonCartFresher;
+
         if ($shouldDropAnonCart) {
             $anonCart?->delete();
         } else {
