@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Payload\Storefront\StorefrontCustomerLoginPayload;
 use App\Services\CartService;
@@ -33,8 +34,7 @@ readonly class LoginCustomer
                 $args['password']
             )
         );
-        $userCart = $this->cartService->getUserCart($user->id);
-        $userCartEmpty = $userCart === null || $userCart->isEmpty();
+        $userCart = $this->cartService->getUserCart($user);
 
         $anonCartFresher = $anonCart?->isFresherThan($userCart);
         $shouldDropAnonCart = $anonCartEmpty || !$anonCartFresher;
@@ -45,6 +45,7 @@ readonly class LoginCustomer
             $userCart?->delete();
             $this->cartService->attachCartToUser($anonCart, $user);
         }
+        session()->forget([Cart::SESSION_KEY]);
         return $user;
     }
 }

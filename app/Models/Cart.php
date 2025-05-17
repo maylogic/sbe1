@@ -59,7 +59,7 @@ class Cart extends Model implements IHasShipping
 
     public function isEmpty(): bool
     {
-        return $this->items_count === 0 && $this->coupons_count === 0;
+        return $this->items()->count() === 0 && $this->coupons()->count() === 0;
     }
 
     public function isFresherThan(?Cart $other): bool

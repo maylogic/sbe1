@@ -136,13 +136,14 @@ class CartService
         return $cart->coupons->count() === 0;
     }
 
-    public function getUserCart(int $userId): ?Cart
+    public function getUserCart(User $user): ?Cart
     {
         return Cart::withEverything()
-            ->where('user_id', '=', $userId)
-            ->firstOr(function () use ($userId) {
+            ->where('user_id', '=', $user->id)
+            ->firstOr(function () use ($user) {
                 return Cart::factory()->create([
-                    'user_id' => $userId
+                    'user_id' => $user->id,
+                    'email' => $user->email
                 ]);
             });
     }
@@ -150,36 +151,28 @@ class CartService
     public function getAnonCart(): ?Cart
     {
         $cartAnonId = session(Cart::SESSION_KEY);
-        if ($cartAnonId) {
-            return Cart::withEverything()
-                ->where('anon_id', '=', $cartAnonId)
-                ->firstOr(function () use ($cartAnonId) {
-                    return Cart::factory()->create([
-                        'anon_id' => $cartAnonId
-                    ]);
-                });
+        if (!$cartAnonId) {
+            $cartAnonId = uuid_create();
+            session([Cart::SESSION_KEY => $cartAnonId]);
         }
-        return null;
+        return Cart::withEverything()
+            ->where('anon_id', '=', $cartAnonId)
+            ->firstOr(function () use ($cartAnonId) {
+                return Cart::factory()->create([
+                    'anon_id' => $cartAnonId
+                ]);
+            });
     }
 
     private function getOrCreateCart(): Cart
     {
         // retrieve or create user cart
-        $userId = Auth::user()?->id;
-        if ($userId) {
-            return $this->getUserCart($userId);
+        $user = Auth::user();
+        if ($user) {
+            return $this->getUserCart($user);
         }
         // retrieve or create cart for existing anon key
-        $anonCart = $this->getAnonCart();
-        if ($anonCart) {
-            return $anonCart;
-        }
-        // create new anon key and cart
-        $cartAnonId = uuid_create();
-        session([Cart::SESSION_KEY => $cartAnonId]);
-        return Cart::factory()->create([
-            'anon_id' => $cartAnonId
-        ]);
+        return $this->getAnonCart();
     }
 
     public function restoreUserCart(?Cart $oldCart, int $userId): void
@@ -192,7 +185,8 @@ class CartService
     {
         $cart->update([
             'user_id' => $user->id,
-            'email' => $user->email
+            'email' => $user->email,
+            'anon_id' => null // если не установить null, то будет ошибка при merge
         ]);
     }
 }
