@@ -2,13 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Enum\ShippingMethodProvider;
 use App\Models\Color;
+use App\Models\ShippingMethod;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Utils\ColorUtils;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,9 +28,37 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('admin1234'),
                 'role' => 'ADMIN'
             ]);
-
+            $this->seedShippingMethods();
             $this->seedColors();
         });
+    }
+
+    public function seedShippingMethods()
+    {
+        ShippingMethod::factory()->create([
+            'label' => 'CDEK',
+            'price' => 300,
+            'description' => 'CDEK',
+            'provider' => ShippingMethodProvider::CDEK->value,
+        ]);
+        ShippingMethod::factory()->create([
+            'label' => 'Boxberry',
+            'price' => 150,
+            'description' => 'Boxberry',
+            'provider' => ShippingMethodProvider::BOXBERRY->value,
+        ]);
+        ShippingMethod::factory()->create([
+            'label' => 'Почта России',
+            'price' => 129,
+            'description' => 'Обычное отправление',
+            'provider' => ShippingMethodProvider::POST->value,
+        ]);
+        ShippingMethod::factory()->create([
+            'label' => 'Почта России: 1 класс',
+            'price' => 249,
+            'description' => 'Отправление первым классом',
+            'provider' => ShippingMethodProvider::POST_FIRST_CLASS->value,
+        ]);
     }
 
     public function seedColors(): void

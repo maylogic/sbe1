@@ -35,6 +35,14 @@ class CartService
         return $cart;
     }
 
+    public function updateShippingMethod(int $id): Cart
+    {
+        $cart = $this->getCurrentCart();
+        $cart->update(['shipping_method_id' => $id]);
+        $cart->load(['shipping_method']);
+        return $cart;
+    }
+
     /**
      * @throws Throwable
      */

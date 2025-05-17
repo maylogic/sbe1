@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('label');
             $table->integer('price');
             $table->text('description');
+            $table->enum('provider', \App\Enum\ShippingMethodProvider::values());
             $table->timestamps();
         });
     }

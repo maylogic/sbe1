@@ -11,6 +11,7 @@ type Query {
     ): Product
     getCart: Cart!
     cartItem(id: ID! @whereKey): CartItem @find
+    shippingMethods: [ShippingMethod!] @all
 }
 
 type Mutation {
@@ -47,6 +48,7 @@ type Mutation {
         state: String
     ): Cart!
     setShippingAddress(customerAddressId: String! @rules(apply: ["exists:customer_addresses,id"])): Cart!
+    setShippingMethod(shippingMethodId: String! @rules(apply: ["exists:shipping_methods,id"])): Cart!
 
     # Cart Item
     addCartItem(
@@ -165,11 +167,15 @@ type Coupon {
 }
 
 type ShippingMethod {
-    description: String
-    estimated_delivery: String
     id: ID!
-    name: String!
-    price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
+    label: String!
+    description: String
+    info: ShippingInfo! @field(resolver: "App\\GraphQL\\Resolvers\\ShippingInfoResolver")
+}
+
+type ShippingInfo {
+    price: Float!
+    days: Int!
 }
 
 type CartItem {

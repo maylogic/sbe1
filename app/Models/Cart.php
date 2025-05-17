@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string|null $anon_id
@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $email
+ * @property string|null $comment
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Coupon> $coupons
  * @property-read int|null $coupons_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CartItem> $items
@@ -36,6 +37,7 @@ use Illuminate\Support\Facades\DB;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereAnonId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereApplyBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereId($value)

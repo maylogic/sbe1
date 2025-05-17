@@ -11,7 +11,7 @@ class PriceService
 
     public function __construct(
         private readonly CartService         $cartService,
-        private readonly FreeShippingService $freeShippingService,
+        private readonly FreeShippingService $freeShippingService
     )
     {
     }
