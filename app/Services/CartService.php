@@ -140,28 +140,35 @@ class CartService
     {
         return Cart::withEverything()
             ->where('user_id', '=', $user->id)
-            ->firstOr(function () use ($user) {
-                return Cart::factory()->create([
-                    'user_id' => $user->id,
-                    'email' => $user->email
-                ]);
-            });
+            ->first();
+    }
+
+    public function createUserCart(User $user): Cart
+    {
+        return Cart::factory()->create([
+            'user_id' => $user->id,
+            'email' => $user->email
+        ]);
     }
 
     public function getAnonCart(): ?Cart
+    {
+        $cartAnonId = session(Cart::SESSION_KEY);
+        return Cart::withEverything()
+            ->where('anon_id', '=', $cartAnonId)
+            ->first();
+    }
+
+    public function createAnonCart(): Cart
     {
         $cartAnonId = session(Cart::SESSION_KEY);
         if (!$cartAnonId) {
             $cartAnonId = uuid_create();
             session([Cart::SESSION_KEY => $cartAnonId]);
         }
-        return Cart::withEverything()
-            ->where('anon_id', '=', $cartAnonId)
-            ->firstOr(function () use ($cartAnonId) {
-                return Cart::factory()->create([
-                    'anon_id' => $cartAnonId
-                ]);
-            });
+        return Cart::factory()->create([
+            'anon_id' => $cartAnonId
+        ]);
     }
 
     private function getOrCreateCart(): Cart
@@ -169,16 +176,28 @@ class CartService
         // retrieve or create user cart
         $user = Auth::user();
         if ($user) {
-            return $this->getUserCart($user);
+            return $this->getUserCart($user) ?? $this->createUserCart($user);
         }
         // retrieve or create cart for existing anon key
-        return $this->getAnonCart();
+        return $this->getAnonCart() ?? $this->createAnonCart();
     }
 
-    public function restoreUserCart(?Cart $oldCart, int $userId): void
+    public function mergeCarts(User $user): void
     {
-        // Восстановить предыдущую корзину пользователя, если анонимная пуста
-        // Например, из истории или по умолчанию создать новую
+        $anonCart = $this->getAnonCart();
+        $anonCartEmpty = $anonCart === null || $anonCart->isEmpty();
+        $userCart = $this->getUserCart($user);
+
+        $anonCartFresher = $anonCart?->isFresherThan($userCart);
+        $shouldDropAnonCart = $anonCartEmpty || !$anonCartFresher;
+
+        if ($shouldDropAnonCart) {
+            $anonCart?->delete();
+        } else {
+            $userCart?->delete();
+            $this->attachCartToUser($anonCart, $user);
+        }
+        session()->forget([Cart::SESSION_KEY]);
     }
 
     public function attachCartToUser(Cart $cart, User $user): void
