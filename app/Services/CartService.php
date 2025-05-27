@@ -31,11 +31,17 @@ class CartService
     {
         $userId = Auth::user()?->id;
         $cartAnonId = session(Cart::SESSION_KEY);
+        if (empty($userId) && empty($cartAnonId)) {
+            return 0;
+        }
         return DB::table('cart_items')
             ->join('carts', 'cart_items.cart_id', '=', 'carts.id')
             ->where(function ($query) use ($userId, $cartAnonId) {
-                $query->where('carts.user_id', $userId)
-                    ->when($cartAnonId, fn($q) => $q->orWhere('carts.anon_id', $cartAnonId));
+                if ($userId) {
+                    $query->where('carts.user_id', $userId);
+                } else {
+                    $query->where('carts.anon_id', $cartAnonId);
+                }
             })
             ->count('cart_items.id');
     }
