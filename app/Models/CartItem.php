@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $cart_id
@@ -61,6 +61,8 @@ class CartItem extends Model implements IHasPrice
         'product_size_id'
     ];
 
+    protected $touches = ['cart'];
+
     /**
      * @return int
      */
@@ -72,6 +74,11 @@ class CartItem extends Model implements IHasPrice
             fn(int $carry, ProductOptionItem $item) => $carry + $item->price, 0);
 
         return $productPrice + $sizePrice + $optionsPrices;
+    }
+
+    public function cart(): BelongsTo
+    {
+        return $this->belongsTo(Cart::class);
     }
 
     public function design(): BelongsTo

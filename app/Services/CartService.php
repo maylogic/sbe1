@@ -27,6 +27,19 @@ class CartService
         return $this->cache[$cacheKey];
     }
 
+    public function getCurrentCartItemsCount(): int
+    {
+        $userId = Auth::user()?->id;
+        $cartAnonId = session(Cart::SESSION_KEY);
+        return DB::table('cart_items')
+            ->join('carts', 'cart_items.cart_id', '=', 'carts.id')
+            ->where(function ($query) use ($userId, $cartAnonId) {
+                $query->where('carts.user_id', $userId)
+                    ->when($cartAnonId, fn($q) => $q->orWhere('carts.anon_id', $cartAnonId));
+            })
+            ->count('cart_items.id');
+    }
+
     public function updateShippingAddress(int $customerAddressId): Cart
     {
         $cart = $this->getCurrentCart();
@@ -154,6 +167,9 @@ class CartService
     public function getAnonCart(): ?Cart
     {
         $cartAnonId = session(Cart::SESSION_KEY);
+        if (!$cartAnonId) {
+            return null;
+        }
         return Cart::withEverything()
             ->where('anon_id', '=', $cartAnonId)
             ->first();
@@ -187,9 +203,10 @@ class CartService
         $anonCart = $this->getAnonCart();
         $anonCartEmpty = $anonCart === null || $anonCart->isEmpty();
         $userCart = $this->getUserCart($user);
+        $userCartEmpty = $userCart === null || $userCart->isEmpty();
 
         $anonCartFresher = $anonCart?->isFresherThan($userCart);
-        $shouldDropAnonCart = $anonCartEmpty || !$anonCartFresher;
+        $shouldDropAnonCart = !$userCartEmpty && ($anonCartEmpty || !$anonCartFresher);
 
         if ($shouldDropAnonCart) {
             $anonCart?->delete();
