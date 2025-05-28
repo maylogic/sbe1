@@ -57,11 +57,19 @@ class CartService
         return $cart;
     }
 
-    public function updateShippingMethod(int $id): Cart
+    public function updateShippingMethod(int $shippingMethodId): Cart
     {
         $cart = $this->getCurrentCart();
-        $cart->update(['shipping_method_id' => $id]);
+        $cart->update(['shipping_method_id' => $shippingMethodId]);
         $cart->load(['shipping_method']);
+        return $cart;
+    }
+
+    public function updatePaymentMethod(int $paymentMethodId): Cart
+    {
+        $cart = $this->getCurrentCart();
+        $cart->update(['payment_method_id' => $paymentMethodId]);
+        $cart->load(['payment_method']);
         return $cart;
     }
 

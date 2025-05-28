@@ -12,6 +12,7 @@ type Query {
     getCart: Cart!
     cartItem(id: ID! @whereKey): CartItem @find
     shippingMethods: [ShippingMethod!] @all
+    paymentMethods: [PaymentMethod!] @all
     getCartItemsCount: Int!
 }
 
@@ -50,6 +51,7 @@ type Mutation {
     ): Cart!
     setShippingAddress(customerAddressId: String! @rules(apply: ["exists:customer_addresses,id"])): Cart!
     setShippingMethod(shippingMethodId: String! @rules(apply: ["exists:shipping_methods,id"])): Cart!
+    setPaymentMethod(paymentMethodId: String! @rules(apply: ["exists:payment_methods,id"])): Cart!
 
     # Cart Item
     addCartItem(
@@ -120,6 +122,7 @@ type Cart {
     key: String! @field(resolver: "App\\GraphQL\\Resolvers\\UniqueKey")
     items: [CartItem!]
     shipping_method: ShippingMethod
+    payment_method: PaymentMethod
     shipping_address: CustomerAddress
     coupons: [Coupon!]
     totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
@@ -172,6 +175,13 @@ type ShippingMethod {
     label: String!
     description: String
     info: ShippingInfo! @field(resolver: "App\\GraphQL\\Resolvers\\ShippingInfoResolver")
+}
+
+type PaymentMethod {
+    id: ID!
+    label: String!
+    description: String
+    fee_percent_fractions: Int!
 }
 
 type ShippingInfo {

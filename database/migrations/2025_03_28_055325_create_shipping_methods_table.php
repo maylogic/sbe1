@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->text('description');
             $table->enum('provider', \App\Enum\ShippingMethodProvider::values());
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

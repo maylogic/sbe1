@@ -16,7 +16,10 @@ readonly class OrderService
     public function canPlaceOrder(?Cart $cart = null): bool
     {
         $cart = $cart ?? $this->cartService->getCurrentCart();
-        return false;
+        return !empty($cart->email)
+            && !empty($cart->shipping_address_id)
+            && !empty($cart->shipping_method_id)
+            && !empty($cart->payment_method_id);
     }
 
     public function placeOrder(): Order

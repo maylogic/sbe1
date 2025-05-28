@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string|null $anon_id
@@ -25,10 +25,12 @@ use Illuminate\Support\Facades\DB;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $email
  * @property string|null $comment
+ * @property int|null $payment_method_id
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Coupon> $coupons
  * @property-read int|null $coupons_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CartItem> $items
  * @property-read int|null $items_count
+ * @property-read \App\Models\PaymentMethod|null $payment_method
  * @property-read \App\Models\CustomerAddress|null $shipping_address
  * @property-read \App\Models\ShippingMethod|null $shipping_method
  * @method static \Database\Factories\CartFactory factory($count = null, $state = [])
@@ -41,6 +43,7 @@ use Illuminate\Support\Facades\DB;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart wherePaymentMethodId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereShippingAddressId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereShippingMethodId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereUpdatedAt($value)
@@ -49,7 +52,15 @@ use Illuminate\Support\Facades\DB;
  */
 class Cart extends Model implements IHasShipping
 {
-    protected $fillable = ['apply_balance', 'anon_id', 'email', 'shipping_address_id', 'shipping_method_id', 'user_id'];
+    protected $fillable = [
+        'apply_balance',
+        'anon_id',
+        'email',
+        'shipping_address_id',
+        'shipping_method_id',
+        'payment_method_id',
+        'user_id'
+    ];
 
     const SESSION_KEY = 'cart_anon_id';
 
@@ -92,6 +103,11 @@ class Cart extends Model implements IHasShipping
     public function shipping_method(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);
+    }
+
+    public function payment_method(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 
     public function coupons(): BelongsToMany
