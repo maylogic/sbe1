@@ -18,9 +18,11 @@ readonly class PlaceOrder
         array $args
     ): Order
     {
+        $comment = $args['comment'];
+        $subscribe = $args['subscribe'];
         if (!$this->orderService->canPlaceOrder()) {
             throw new \InvalidArgumentException('Cannot place order');
         }
-        return $this->orderService->placeOrder();
+        return $this->orderService->placeOrder($comment);
     }
 }

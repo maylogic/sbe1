@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('anon_id')->nullable()->index();
             $table->string('email')->nullable();
+            $table->string('comment')->nullable();
             $table->boolean('apply_balance')->default(false);
             $table->foreignIdFor(\App\Models\User::class)
                 ->nullable()

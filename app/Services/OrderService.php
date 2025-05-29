@@ -21,13 +21,16 @@ readonly class OrderService
             && !empty($cart->shipping_method_id);
     }
 
-    public function placeOrder(): Order
+    public function placeOrder(?string $comment): Order
     {
-        return \DB::transaction(function () {
+        return \DB::transaction(function () use ($comment) {
             $cart = $this->cartService->getCurrentCart();
-            $order = Order::factory()->create(
-                $this->getOrderCreateFieldsFromCart($cart)
-            );
+            $fields = $this->getOrderCreateFieldsFromCart($cart);
+            if (is_string($comment)) {
+                $comment = substr($comment, 0, 210);
+            }
+            $fields['comment'] = $comment;
+            $order = Order::factory()->create($fields);
             foreach ($cart->items as $item) {
                 /** @var OrderItem $orderItem */
                 $orderItem = $order->items()->create(

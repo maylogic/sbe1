@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $anon_id
@@ -46,7 +46,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Order extends Model implements IHasShipping
 {
-    protected $fillable = ['apply_balance', 'anon_id', 'email'];
+    protected $fillable = [
+        'apply_balance',
+        'anon_id',
+        'email',
+        'comment'
+    ];
 
     /** @use HasFactory<OrderFactory> */
     use HasFactory;

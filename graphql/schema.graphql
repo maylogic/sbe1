@@ -69,7 +69,10 @@ type Mutation {
     removeCartItem(cartItemId: String!): Cart!
 
     # Order
-    placeOrder: Order!
+    placeOrder(
+        comment: String,
+        subscribe: Boolean!
+    ): Order!
 
     # Customer
     registerCustomer(
