@@ -38,7 +38,7 @@ readonly class TotalsService
     public function getOrderTotals(Order $order): Totals
     {
         $subtotal = $order->subtotal();
-        $deliveryPrice = $this->priceService->getCartShippingPrice($order);
+        $deliveryPrice = $this->priceService->getOrderShippingPrice($order);
         $grandTotalVal = $subtotal + ($deliveryPrice?->regular ?? 0);
         $pointsUsed = 0;
         if ($order->apply_balance) {

@@ -13,6 +13,7 @@ type Query {
     cartItem(id: ID! @whereKey): CartItem @find
     shippingMethods: [ShippingMethod!] @all
     getCartItemsCount: Int!
+    getOrderById(id: ID! @whereKey): Order @find
 }
 
 type Mutation {

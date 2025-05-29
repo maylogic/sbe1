@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Data\Price;
 use App\Models\Cart;
+use App\Models\Order;
 
 class PriceService
 {
@@ -18,13 +19,34 @@ class PriceService
 
     public function getCartShippingPrice(Cart $cart): ?Price
     {
-        $cacheKey = 'shipping-price-' . $cart->id;
+        $cacheKey = 'shipping-price-cart-' . $cart->id;
         if (!array_key_exists($cacheKey, $this->cache)) {
             $shippingMethod = $cart->getShippingMethod();
             if (!$shippingMethod) {
                 return null;
             }
             if ($this->freeShippingService->isCartEligible($cart)) {
+                $this->cache[$cacheKey] = new Price(
+                    $shippingMethod->price,
+                    1,
+                    0
+                );
+            } else {
+                $this->cache[$cacheKey] = $this->getPrice($shippingMethod->price);
+            }
+        }
+        return $this->cache[$cacheKey];
+    }
+
+    public function getOrderShippingPrice(Order $order): ?Price
+    {
+        $cacheKey = 'shipping-price-order-' . $order->id;
+        if (!array_key_exists($cacheKey, $this->cache)) {
+            $shippingMethod = $order->getShippingMethod();
+            if (!$shippingMethod) {
+                return null;
+            }
+            if ($this->freeShippingService->isOrderEligible($order)) {
                 $this->cache[$cacheKey] = new Price(
                     $shippingMethod->price,
                     1,
