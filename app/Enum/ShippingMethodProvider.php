@@ -8,8 +8,8 @@ enum ShippingMethodProvider: string
 {
     use EnumTrait;
 
-    case CDEK = 'cdek';
-    case BOXBERRY = 'boxberry';
-    case POST = 'post';
-    case POST_FIRST_CLASS = 'post_first_class';
+    case CDEK = 'CDEK';
+    case BOXBERRY = 'BOXBERRY';
+    case POST = 'POST';
+    case POST_FIRST_CLASS = 'POST_FIRST_CLASS';
 }
