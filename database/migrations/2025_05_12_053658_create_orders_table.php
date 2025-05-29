@@ -20,13 +20,8 @@ return new class extends Migration {
                 ->constrained()
                 ->cascadeOnDelete();
             $table->foreignIdFor(\App\Models\ShippingMethod::class)
-                ->nullable()
                 ->constrained()->restrictOnDelete();
             $table->foreignIdFor(\App\Models\CustomerAddress::class, 'shipping_address_id')
-                ->nullable()
-                ->constrained()->nullOnDelete();
-            $table->foreignIdFor(\App\Models\PaymentMethod::class)
-                ->nullable()
                 ->constrained()->restrictOnDelete();
             $table->timestamps();
         });

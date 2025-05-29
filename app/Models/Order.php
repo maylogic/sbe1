@@ -27,7 +27,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $coupons_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
  * @property-read int|null $items_count
- * @property-read \App\Models\PaymentMethod|null $payment_method
  * @property-read \App\Models\CustomerAddress|null $shipping_address
  * @property-read \App\Models\ShippingMethod|null $shipping_method
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
@@ -74,11 +73,6 @@ class Order extends Model implements IHasShipping
     public function shipping_method(): BelongsTo
     {
         return $this->belongsTo(ShippingMethod::class);
-    }
-
-    public function payment_method(): BelongsTo
-    {
-        return $this->belongsTo(PaymentMethod::class);
     }
 
     public function coupons(): BelongsToMany

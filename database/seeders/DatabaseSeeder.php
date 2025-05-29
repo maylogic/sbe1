@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
                 'role' => 'ADMIN'
             ]);
             $this->seedShippingMethods();
-            $this->seedPaymentMethods();
             $this->seedColors();
         });
     }
@@ -61,40 +60,6 @@ class DatabaseSeeder extends Seeder
             'price' => 249,
             'description' => 'Отправление первым классом',
             'provider' => ShippingMethodProvider::POST_FIRST_CLASS->value,
-        ]);
-    }
-
-    public function seedPaymentMethods()
-    {
-        PaymentMethod::factory()->create([
-            'label' => 'СБП',
-            'fee_percent_fractions' => 0,
-            'description' => 'СБП',
-            'provider' => PaymentMethodProvider::TBANK->value,
-        ]);
-        PaymentMethod::factory()->create([
-            'label' => 'Картой онлайн',
-            'fee_percent_fractions' => 0,
-            'description' => 'Картой Visa, MasterCard, MIR онлайн',
-            'provider' => PaymentMethodProvider::TBANK->value,
-        ]);
-        PaymentMethod::factory()->create([
-            'label' => 'T-Pay',
-            'fee_percent_fractions' => 0,
-            'description' => 'ТБанк',
-            'provider' => PaymentMethodProvider::TBANK->value,
-        ]);
-        PaymentMethod::factory()->create([
-            'label' => 'Долями от Т-Банка',
-            'fee_percent_fractions' => 0,
-            'description' => 'ТБанк',
-            'provider' => PaymentMethodProvider::TBANK->value,
-        ]);
-        PaymentMethod::factory()->create([
-            'label' => 'SberPay',
-            'fee_percent_fractions' => 0,
-            'description' => 'Сбербанк',
-            'provider' => PaymentMethodProvider::TBANK->value,
         ]);
     }
 

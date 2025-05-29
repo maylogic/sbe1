@@ -65,14 +65,6 @@ class CartService
         return $cart;
     }
 
-    public function updatePaymentMethod(int $paymentMethodId): Cart
-    {
-        $cart = $this->getCurrentCart();
-        $cart->update(['payment_method_id' => $paymentMethodId]);
-        $cart->load(['payment_method']);
-        return $cart;
-    }
-
     /**
      * @throws Throwable
      */
