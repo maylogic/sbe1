@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('label');
             $table->string('name');
+            $table->string('system_name');
             $table->string('filename_woff2');
             $table->string('filename_ttf')->nullable();
             $table->string('filename_otf')->nullable();

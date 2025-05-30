@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $preview
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $system_name
  * @method static \Database\Factories\FontFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newQuery()
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font wherePreview($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereSystemName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereUpdatedAt($value)
  * @mixin \Eloquent
  */

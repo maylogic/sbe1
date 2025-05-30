@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string|null $anon_id
@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $shipping_address_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $comment
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Coupon> $coupons
  * @property-read int|null $coupons_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereAnonId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereApplyBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)

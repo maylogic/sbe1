@@ -333,6 +333,7 @@ type Font {
     filename_ttf: String
     filename_otf: String
     preview: String!
+    system_name: String!
 }
 
 type Color {
