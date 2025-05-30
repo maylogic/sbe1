@@ -198,6 +198,7 @@ type CartItem {
     font: Font
     text_lines: [CartItemTextLine!]
     price: Price! @field(resolver: "App\\GraphQL\\Resolvers\\PriceResolver")
+    updated_at: DateTime
 }
 
 type OrderItem {
