@@ -28,6 +28,9 @@ class FontResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('system_name')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\FileUpload::make('filename_woff2')
                     ->label('Woff2')
                     ->acceptedFileTypes(['font/woff2'])
