@@ -14,6 +14,10 @@ type Query {
     shippingMethods: [ShippingMethod!] @all
     getCartItemsCount: Int!
     getOrderById(id: ID! @whereKey): Order @find
+    orderLookup(
+        email: String! @rules(apply: ["email"]),
+        orderId: Int!
+    ): Order
 }
 
 type Mutation {

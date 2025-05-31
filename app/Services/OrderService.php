@@ -21,6 +21,13 @@ readonly class OrderService
             && !empty($cart->shipping_method_id);
     }
 
+    public function orderLookup(string $email, string $orderId): ?Order
+    {
+        return Order::withEverything()
+            ->where('email', '=', $email)
+            ->where('id', '=', $orderId)->first();
+    }
+
     public function placeOrder(?string $comment): Order
     {
         return \DB::transaction(function () use ($comment) {

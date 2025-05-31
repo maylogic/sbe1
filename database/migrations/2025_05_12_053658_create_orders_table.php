@@ -15,6 +15,9 @@ return new class extends Migration {
             $table->string('anon_id')->nullable()->index();
             $table->string('email')->nullable();
             $table->string('comment')->nullable();
+            $table->enum('status', \App\Enum\OrderStatus::values())->default(
+                \App\Enum\OrderStatus::PENDING->value
+            );
             $table->boolean('apply_balance')->default(false);
             $table->foreignIdFor(\App\Models\User::class)
                 ->nullable()

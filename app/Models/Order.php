@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\IHasShipping;
+use App\Enum\OrderStatus;
 use App\Traits\HasShipping;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $anon_id
@@ -58,6 +59,10 @@ class Order extends Model implements IHasShipping
     /** @use HasFactory<OrderFactory> */
     use HasFactory;
     use HasShipping;
+
+    protected $casts = [
+        'status' => OrderStatus::class
+    ];
 
     public function subtotal(): int
     {
