@@ -148,6 +148,7 @@ type Order {
     coupons: [Coupon!]
     totals: Totals! @field(resolver: "App\\GraphQL\\Resolvers\\TotalsResolver")
     apply_balance: Boolean!
+    paymentUrl: String! @field(resolver: "App\\GraphQL\\Resolvers\\GetPaymentUrl")
 }
 
 type CustomerAddress {
@@ -167,6 +168,7 @@ type Totals {
     subtotal: Int!
     grand_total: Price!
     points_used: Int!
+    delivery_price: Price
 }
 
 type Coupon {

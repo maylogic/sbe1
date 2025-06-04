@@ -16,7 +16,9 @@
         "nuwave/lighthouse": "^6.52",
         "spatie/laravel-sluggable": "^3.7",
         "ext-dom": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ext-http": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

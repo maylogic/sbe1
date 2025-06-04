@@ -17,4 +17,14 @@ class Price
             $this->is_discounted = true;
         }
     }
+
+    public function isPositive(): bool
+    {
+        return $this->regular > 0 || ($this->is_discounted && $this->discounted > 0);
+    }
+
+    public function getRegularOrDiscounted(): int
+    {
+        return $this->is_discounted ? $this->discounted : $this->regular;
+    }
 }

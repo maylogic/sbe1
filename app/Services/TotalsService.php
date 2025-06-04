@@ -52,6 +52,6 @@ readonly class TotalsService
             }
         }
         $grandTotal = $this->priceService->getPrice($grandTotalVal);
-        return new Totals($subtotal, $grandTotal, $pointsUsed);
+        return new Totals($subtotal, $grandTotal, $pointsUsed, $deliveryPrice);
     }
 }
