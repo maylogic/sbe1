@@ -19,7 +19,7 @@ readonly class TotalsService
     {
         $subtotal = $cart->subtotal();
         $deliveryPrice = $this->priceService->getCartShippingPrice($cart);
-        $grandTotalVal = $subtotal + ($deliveryPrice?->regular ?? 0);
+        $grandTotalVal = $subtotal;
         $pointsUsed = 0;
         if ($cart->apply_balance && $this->cartService->canApplyBalance($cart)) {
             $balance = \Auth::user()->getBalance();
@@ -32,14 +32,14 @@ readonly class TotalsService
             }
         }
         $grandTotal = $this->priceService->getPrice($grandTotalVal);
-        return new Totals($subtotal, $grandTotal, $pointsUsed);
+        return new Totals($subtotal, $grandTotal, $pointsUsed, $deliveryPrice);
     }
 
     public function getOrderTotals(Order $order): Totals
     {
         $subtotal = $order->subtotal();
         $deliveryPrice = $this->priceService->getOrderShippingPrice($order);
-        $grandTotalVal = $subtotal + ($deliveryPrice?->regular ?? 0);
+        $grandTotalVal = $subtotal;
         $pointsUsed = 0;
         if ($order->apply_balance) {
             $balance = \Auth::user()->getBalance();

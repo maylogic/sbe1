@@ -18,6 +18,7 @@ type Query {
         email: String! @rules(apply: ["email"]),
         orderId: Int!
     ): Order
+    activeSalesRule: SalesRule @where(key: "active", value: 1) @first
 }
 
 type Mutation {
@@ -138,6 +139,15 @@ type Cart {
     email: String
     can_login: Boolean @field(resolver: "App\\GraphQL\\Resolvers\\CartCanLogin")
     customer_addresses: [CustomerAddress!] @field(resolver: "App\\GraphQL\\Resolvers\\InjectCustomerAddressesInCart")
+}
+
+type SalesRule {
+    id: ID!
+    label: String!
+    amount: Int!
+    is_percentage: Boolean!
+    active: Boolean!
+    sort: Int!
 }
 
 type Order {

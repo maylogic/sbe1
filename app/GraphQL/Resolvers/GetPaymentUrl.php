@@ -3,12 +3,17 @@
 namespace App\GraphQL\Resolvers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
+use App\Services\PriceService;
 use App\Services\TBankMerchantAPI;
 use App\Services\TotalsService;
 
 readonly class GetPaymentUrl
 {
-    public function __construct(private TotalsService $totalsService)
+    public function __construct(
+        private TotalsService $totalsService,
+        private PriceService $priceService
+    )
     {
     }
 
@@ -19,10 +24,11 @@ readonly class GetPaymentUrl
     {
         $config = config('tbank');
         $totals = $this->totalsService->getOrderTotals($rootValue);
+        $grandTotal = $totals->grand_total->getRegularOrDiscounted() + $totals->delivery_price->getRegularOrDiscounted();
 
         $requestData = array(
             'OrderId' => $rootValue->id,
-            'Amount' => $this->getAmount($totals->grand_total->getRegularOrDiscounted()),
+            'Amount' => $this->getPrice($grandTotal),
             'DATA' => array(
                 'Email' => $rootValue->email
             ),
@@ -38,13 +44,13 @@ readonly class GetPaymentUrl
 
             if (!$config['ffd12']) {
                 foreach ($orderItems as $item) {
-                    $price = $item->getPrice();
+                    $price = $this->getFinalItemPrice($item);
                     $quantity = $item->quantity;
                     $receiptItems[] = array(
                         'Name' => mb_substr($item->product->name, 0, 64),
-                        "Price" => $item->getPrice(),
+                        "Price" => $price,
                         "Quantity" => $quantity,
-                        "Amount" => $this->getAmount(round($price * $quantity)),
+                        "Amount" => $price * $quantity,
                         "PaymentMethod" => trim($config['payment_method']),
                         "PaymentObject" => trim($config['payment_object']),
                         "Tax" => 0,
@@ -52,14 +58,14 @@ readonly class GetPaymentUrl
                 }
             } else {
                 foreach ($orderItems as $item) {
-                    $price = $item->getPrice();
+                    $price = $this->getFinalItemPrice($item);
                     $quantity = $item->quantity;
 
                     $receiptItems[] = array(
                         'Name' => mb_substr($item->product->name, 0, 64),
                         "Price" => $price,
                         "Quantity" => $quantity,
-                        "Amount" => $this->getAmount(round($price * $quantity)),
+                        "Amount" => $price * $quantity,
                         "PaymentMethod" => trim($config['payment_method']),
                         "PaymentObject" => trim($config['payment_object']),
                         "Tax" => 0,
@@ -80,7 +86,7 @@ readonly class GetPaymentUrl
                         'Name' => mb_substr($shippingMethod->label, 0, 64),
                         "Price" => $shippingPriceValue,
                         "Quantity" => 1,
-                        "Amount" => $this->getAmount($shippingPriceValue),
+                        "Amount" => $this->getPrice($shippingPriceValue),
                         "PaymentMethod" => trim($config['payment_method']),
                         "PaymentObject" => "service",
                         "Tax" => 0,
@@ -90,7 +96,7 @@ readonly class GetPaymentUrl
                         'Name' => mb_substr($shippingMethod->label, 0, 64),
                         "Price" => $shippingPriceValue,
                         "Quantity" => 1,
-                        "Amount" => $this->getAmount($shippingPriceValue),
+                        "Amount" => $this->getPrice($shippingPriceValue),
                         "PaymentMethod" => trim($config['payment_method']),
                         "PaymentObject" => "service",
                         "Tax" => 0,
@@ -122,7 +128,16 @@ readonly class GetPaymentUrl
         return $request->PaymentURL ?? '';
     }
 
-    public function getAmount(int $price): int
+    public function getFinalItemPrice(OrderItem $item, int $quantity = 1): int
+    {
+        return $this->getPrice(
+            $this->priceService->getPrice(
+                $item->getPrice()
+            )->getRegularOrDiscounted()
+        ) * $quantity;
+    }
+
+    public function getPrice(int $price): int
     {
         return $price * 100;
     }
