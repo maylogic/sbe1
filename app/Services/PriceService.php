@@ -5,14 +5,17 @@ namespace App\Services;
 use App\Data\Price;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 
 class PriceService
 {
     public array $cache = [];
+    public array $productPrices = [];
 
     public function __construct(
         private readonly CartService         $cartService,
-        private readonly FreeShippingService $freeShippingService
+        private readonly FreeShippingService $freeShippingService,
+        private readonly SalesRuleService    $salesRuleService
     )
     {
     }
@@ -57,6 +60,33 @@ class PriceService
             }
         }
         return $this->cache[$cacheKey];
+    }
+
+    public function getProductPrice(Product $product)
+    {
+        if (!array_key_exists($product->id, $this->productPrices)) {
+            $this->productPrices[$product->id] = $this->_getProductPrice($product);
+        }
+
+        return $this->productPrices[$product->id];
+    }
+
+    private function _getProductPrice(Product $product): Price
+    {
+        $price = $product->price;
+        $discountedPrice = $price;
+        $salesRule = $this->salesRuleService->getActiveProductRules();
+        $coupons = $this->cartService->getCurrentCart()->coupons;
+        // большие проценты должны применяться последними, чтобы вычитать меньшие суммы
+        $discounts = $coupons->pluck('discount_percentage')->sort()->toArray();
+        foreach ($discounts as $discount) {
+            $discountedPrice -= $discountedPrice * $discount / 100;
+        }
+        return new Price(
+            $price,
+            $discountedPrice !== $price,
+            $discountedPrice
+        );
     }
 
     public function getPrice(int $price): Price

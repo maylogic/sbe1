@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->char('code', 9); // XXXX-YYYY
             $table->unsignedTinyInteger('discount_percentage');
             $table->unsignedInteger('quantity')->nullable();
+            $table->timestamp('ends_at');
             $table->timestamps();
         });
     }

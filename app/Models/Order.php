@@ -13,24 +13,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string|null $anon_id
  * @property string|null $email
+ * @property string|null $comment
+ * @property OrderStatus $status
  * @property int $apply_balance
  * @property int|null $user_id
- * @property int|null $shipping_method_id
- * @property int|null $shipping_address_id
+ * @property int $shipping_method_id
+ * @property int $shipping_address_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $comment
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Coupon> $coupons
  * @property-read int|null $coupons_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
  * @property-read int|null $items_count
- * @property-read \App\Models\CustomerAddress|null $shipping_address
- * @property-read \App\Models\ShippingMethod|null $shipping_method
+ * @property-read \App\Models\CustomerAddress $shipping_address
+ * @property-read \App\Models\ShippingMethod $shipping_method
  * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
@@ -43,6 +44,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShippingAddressId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShippingMethodId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
  * @mixin \Eloquent

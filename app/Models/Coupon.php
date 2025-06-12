@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $code
  * @property int $discount_percentage
  * @property int|null $quantity
+ * @property string $ends_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\CouponFactory factory($count = null, $state = [])
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Coupon whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Coupon whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Coupon whereDiscountPercentage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Coupon whereEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Coupon whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Coupon whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Coupon whereUpdatedAt($value)

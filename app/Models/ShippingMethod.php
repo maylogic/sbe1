@@ -17,9 +17,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $label
  * @property int $price
  * @property string $description
+ * @property ShippingMethodProvider $provider
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property ShippingMethodProvider $provider
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Database\Factories\ShippingMethodFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ShippingMethod newModelQuery()

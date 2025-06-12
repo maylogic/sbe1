@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $label
  * @property string $name
+ * @property string $system_name
  * @property string $filename_woff2
  * @property string|null $filename_ttf
  * @property string|null $filename_otf
  * @property string $preview
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $system_name
  * @method static \Database\Factories\FontFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newQuery()
