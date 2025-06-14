@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('amount');
             $table->boolean('is_percentage');
             $table->boolean('active');
-            $table->boolean('cart');
             $table->boolean('product');
             $table->boolean('shipping');
             $table->string('expression')->nullable();

@@ -18,7 +18,6 @@ type Query {
         email: String! @rules(apply: ["email"]),
         orderId: Int!
     ): Order
-    activeSalesRule: SalesRule @where(key: "active", value: 1) @first
 }
 
 type Mutation {
@@ -148,6 +147,7 @@ type SalesRule {
     is_percentage: Boolean!
     active: Boolean!
     sort: Int!
+    ends_at: DateTime!
 }
 
 type Order {
@@ -185,6 +185,7 @@ type Coupon {
     id: ID!
     code: String!
     discount_percentage: Int!
+    ends_at: DateTime!
 }
 
 type ShippingMethod {

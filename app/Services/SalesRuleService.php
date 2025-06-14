@@ -46,14 +46,6 @@ class SalesRuleService
         return $this->getActiveRules()->filter(fn(SalesRule $rule) => $rule->shipping);
     }
 
-    /**
-     * @return Collection<SalesRule>
-     */
-    public function getActiveCartRules(): Collection
-    {
-        return $this->getActiveRules()->filter(fn(SalesRule $rule) => $rule->cart);
-    }
-
     public function evaluate(SalesRule $salesRule, array $context = []): bool
     {
         $expression = $salesRule->expression;

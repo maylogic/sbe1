@@ -5,15 +5,13 @@ namespace App\Services;
 use App\Data\Price;
 use App\Data\Totals;
 use App\Models\Cart;
-use App\Models\CartItem;
 use App\Models\Order;
 
 readonly class TotalsService
 {
     public function __construct(
-        private SalesRuleService $salesRuleService,
-        private PriceService     $priceService,
-        private BalanceService   $balanceService
+        private PriceService   $priceService,
+        private BalanceService $balanceService
     )
     {
     }
@@ -21,10 +19,10 @@ readonly class TotalsService
     public function getCartTotals(Cart $cart): Totals
     {
         $subtotal = $this->getCartSubtotal($cart);
-        $cart->subtotal = $subtotal;
-        $deliveryPrice = $this->priceService->getPrice($cart->shipping_method);
-        $grandTotalRegular = $subtotal;
-        $grandTotalDiscounted = $grandTotalRegular;
+        $cart->subtotal = $subtotal->regular; // for sales expressions
+        $shippingPrice = $this->priceService->getPrice($cart->shipping_method, ['cart' => $cart]);
+        $grandTotalRegular = $subtotal->regular;
+        $grandTotalDiscounted = $subtotal->discounted;
         $pointsUsed = 0;
         if ($cart->apply_balance && $this->balanceService->canApplyBalance($cart)) {
             $balance = \Auth::user()->getBalance();
@@ -37,17 +35,11 @@ readonly class TotalsService
             }
         }
 
-        // применяем shipping sales rules
-        $salesRules = $this->salesRuleService->getActiveCartRules();
-        foreach ($salesRules as $salesRule) {
-            if ($this->salesRuleService->evaluate($salesRule, ['cart' => $cart])) {
-                $grandTotalDiscounted = $this->salesRuleService->apply($salesRule, $grandTotalDiscounted);
-            }
-        }
-
+        $grandTotalRegular += $shippingPrice->getRegularOrDiscounted();
+        $grandTotalDiscounted += $shippingPrice->getRegularOrDiscounted();
         $grandTotal = Price::create($grandTotalRegular, $grandTotalDiscounted);
 
-        return new Totals($subtotal, $grandTotal, $pointsUsed, $deliveryPrice);
+        return new Totals($subtotal->regular, $grandTotal, $pointsUsed, $shippingPrice);
     }
 
     public function getOrderTotals(Order $order): Totals
@@ -55,11 +47,15 @@ readonly class TotalsService
         return new Totals(0, Price::create(0), 0, Price::create(0));
     }
 
-    public function getCartSubtotal(Cart $cart): int
+    public function getCartSubtotal(Cart $cart): Price
     {
-        return $cart->items->reduce(
-            fn(int $carry, CartItem $item) => $carry + $item->quantity * $this->priceService->getPrice($item)->regular,
-            0
-        );
+        $regular = 0;
+        $discounted = 0;
+        foreach ($cart->items as $item) {
+            $price = $this->priceService->getPrice($item);
+            $regular += $item->quantity * $price->regular;
+            $discounted += $item->quantity * $price->discounted;
+        }
+        return Price::create($regular, $discounted);
     }
 }

@@ -53,10 +53,10 @@ class PriceService
         return $this->orderItemPrices[$orderItem->id];
     }
 
-    public function getShippingMethodPrice(ShippingMethod $shippingMethod)
+    public function getShippingMethodPrice(ShippingMethod $shippingMethod, array $context = [])
     {
         if (!array_key_exists($shippingMethod->id, $this->shippingMethodPrices)) {
-            $this->shippingMethodPrices[$shippingMethod->id] = $this->_getShippingMethodPrice($shippingMethod);
+            $this->shippingMethodPrices[$shippingMethod->id] = $this->_getShippingMethodPrice($shippingMethod, $context);
         }
 
         return $this->shippingMethodPrices[$shippingMethod->id];
@@ -95,7 +95,7 @@ class PriceService
         return Price::create($price, $discountedPrice);
     }
 
-    public function getPrice(?IHasPrice $priceHolder = null): Price
+    public function getPrice(?IHasPrice $priceHolder = null, array $context = []): ?Price
     {
         if ($priceHolder instanceof Product) {
             return $this->getProductPrice($priceHolder);
@@ -107,10 +107,10 @@ class PriceService
             return $this->getOrderItemPrice($priceHolder);
         }
         if ($priceHolder instanceof ShippingMethod) {
-            return $this->getShippingMethodPrice($priceHolder);
+            return $this->getShippingMethodPrice($priceHolder, $context);
         }
         if ($priceHolder === null) {
-            return Price::create(0);
+            return null;
         }
         return Price::create($priceHolder->price);
     }
@@ -137,14 +137,14 @@ class PriceService
         return $this->_getPrice($price, $salesRules, ['product' => $cartOrOrderItem->product]);
     }
 
-    private function _getShippingMethodPrice(ShippingMethod $shippingMethod): Price
+    private function _getShippingMethodPrice(ShippingMethod $shippingMethod, array $context = []): Price
     {
         $price = $shippingMethod->price;
         $discountedPrice = $price;
         // применяем sales rules
         $salesRules = $this->salesRuleService->getActiveShippingRules();
         foreach ($salesRules as $salesRule) {
-            if ($this->salesRuleService->evaluate($salesRule)) {
+            if ($this->salesRuleService->evaluate($salesRule, $context)) {
                 $discountedPrice = $this->salesRuleService->apply($salesRule, $discountedPrice);
             }
         }

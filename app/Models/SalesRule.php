@@ -52,7 +52,6 @@ class SalesRule extends Model
         'is_percentage',
         'active',
         'sort',
-        'cart',
         'product',
         'shipping',
         'ends_at'

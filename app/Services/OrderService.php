@@ -9,7 +9,9 @@ use App\Models\OrderItem;
 
 readonly class OrderService
 {
-    public function __construct(private CartService $cartService, private TotalsService $totalsService)
+    public function __construct(private CartService   $cartService,
+                                private TotalsService $totalsService,
+                                private PriceService  $priceService)
     {
     }
 
@@ -59,13 +61,16 @@ readonly class OrderService
 
     public function getOrderItemFieldsFromCartItem(CartItem $item): array
     {
+        $price = $this->priceService->getPrice($item);
         return [
             'product_id' => $item->product_id,
             'product_size_id' => $item->product_size_id,
             'quantity' => $item->quantity,
             'design_id' => $item->design_id,
             'color_id' => $item->color_id,
-            'font_id' => $item->font_id
+            'font_id' => $item->font_id,
+            'price_regular' => $price->regular,
+            'price_discounted' => $price->discounted,
         ];
     }
 

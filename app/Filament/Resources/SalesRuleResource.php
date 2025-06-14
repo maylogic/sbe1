@@ -40,7 +40,6 @@ class SalesRuleResource extends Resource
                 Forms\Components\Checkbox::make('is_percentage'),
                 Forms\Components\Checkbox::make('active'),
                 Forms\Components\Checkbox::make('product'),
-                Forms\Components\Checkbox::make('cart'),
                 Forms\Components\Checkbox::make('shipping')
             ]);
     }
@@ -64,7 +63,6 @@ class SalesRuleResource extends Resource
                 Tables\Columns\CheckboxColumn::make('is_percentage'),
                 Tables\Columns\CheckboxColumn::make('active'),
                 Tables\Columns\CheckboxColumn::make('product'),
-                Tables\Columns\CheckboxColumn::make('cart'),
                 Tables\Columns\CheckboxColumn::make('shipping'),
             ])
             ->filters([
