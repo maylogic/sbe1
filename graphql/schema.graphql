@@ -18,6 +18,7 @@ type Query {
         email: String! @rules(apply: ["email"]),
         orderId: Int!
     ): Order
+    getTopBanner: TopBanner @first(scopes: ["hasActiveSalesRule"])
 }
 
 type Mutation {
@@ -148,6 +149,11 @@ type SalesRule {
     active: Boolean!
     sort: Int!
     ends_at: DateTime!
+}
+
+type TopBanner {
+    id: ID!
+    sales_rule: SalesRule!
 }
 
 type Order {

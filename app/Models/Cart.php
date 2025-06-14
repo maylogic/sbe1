@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string|null $anon_id
