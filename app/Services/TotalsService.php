@@ -35,8 +35,11 @@ readonly class TotalsService
             }
         }
 
-        $grandTotalRegular += $shippingPrice->getRegularOrDiscounted();
-        $grandTotalDiscounted += $shippingPrice->getRegularOrDiscounted();
+        $realShippingPrice = $shippingPrice?->getRegularOrDiscounted();
+        if ($realShippingPrice) {
+            $grandTotalRegular += $realShippingPrice;
+            $grandTotalDiscounted += $realShippingPrice;
+        }
         $grandTotal = Price::create($grandTotalRegular, $grandTotalDiscounted);
 
         return new Totals($subtotal->regular, $grandTotal, $pointsUsed, $shippingPrice);
