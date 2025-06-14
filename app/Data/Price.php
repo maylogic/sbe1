@@ -10,14 +10,6 @@ class Price
     {
     }
 
-    public function discount(int $val): void
-    {
-        $this->discounted -= $val;
-        if ($val) {
-            $this->is_discounted = true;
-        }
-    }
-
     public function isPositive(): bool
     {
         return $this->regular > 0 || ($this->is_discounted && $this->discounted > 0);
@@ -26,5 +18,15 @@ class Price
     public function getRegularOrDiscounted(): int
     {
         return $this->is_discounted ? $this->discounted : $this->regular;
+    }
+
+    public static function create(int $price, ?float $discounted = null): Price
+    {
+        if ($discounted === null) $discounted = $price;
+        return new Price(
+            $price,
+            $discounted != $price,
+            $discounted
+        );
     }
 }

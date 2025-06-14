@@ -24,6 +24,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $user_id
  * @property int $shipping_method_id
  * @property int $shipping_address_id
+ * @property int $shipping_price_regular
+ * @property int $shipping_price_discounted
+ * @property int $subtotal
+ * @property int $grand_total_regular
+ * @property int $grand_total_discounted
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Coupon> $coupons
@@ -41,10 +46,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereGrandTotalDiscounted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereGrandTotalRegular($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShippingAddressId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShippingMethodId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShippingPriceDiscounted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShippingPriceRegular($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereSubtotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
  * @mixin \Eloquent
@@ -55,7 +65,12 @@ class Order extends Model implements IHasShipping
         'apply_balance',
         'anon_id',
         'email',
-        'comment'
+        'comment',
+        'shipping_price_regular',
+        'shipping_price_discounted',
+        'subtotal',
+        'grand_total_regular',
+        'grand_total_discounted',
     ];
 
     /** @use HasFactory<OrderFactory> */
@@ -65,14 +80,6 @@ class Order extends Model implements IHasShipping
     protected $casts = [
         'status' => OrderStatus::class
     ];
-
-    public function subtotal(): int
-    {
-        return $this->items->reduce(
-            fn(int $carry, OrderItem $orderItem) => $carry + $orderItem->quantity * $orderItem->getPrice(),
-            0
-        );
-    }
 
     public function items(): HasMany
     {

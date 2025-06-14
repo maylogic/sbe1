@@ -64,19 +64,6 @@ class CartItem extends Model implements IHasPrice
 
     protected $touches = ['cart'];
 
-    /**
-     * @return int
-     */
-    public function getPrice(): int
-    {
-        $productPrice = $this->product->price;
-        $sizePrice = $this->product_size->price;
-        $optionsPrices = $this->option_items->reduce(
-            fn(int $carry, ProductOptionItem $item) => $carry + $item->price, 0);
-
-        return $productPrice + $sizePrice + $optionsPrices;
-    }
-
     public function cart(): BelongsTo
     {
         return $this->belongsTo(Cart::class);

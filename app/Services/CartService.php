@@ -134,16 +134,6 @@ class CartService
         $this->getCurrentCart()->removeCoupon($coupon);
     }
 
-    public function canApplyBalance(Cart $cart): bool
-    {
-        $user = Auth::user();
-        if ($user) {
-            return $cart->user_id === $user->id
-                && $user->getBalance()->value > 0;
-        }
-        return false;
-    }
-
     public function canLogin(Cart $cart): ?bool
     {
         if (empty($cart->email)) return null;

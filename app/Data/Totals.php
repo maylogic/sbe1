@@ -8,7 +8,7 @@ class Totals
         public int    $subtotal,
         public Price  $grand_total,
         public int    $points_used,
-        public ?Price $delivery_price = null
+        public ?Price $shipping_price = null
     )
     {
     }

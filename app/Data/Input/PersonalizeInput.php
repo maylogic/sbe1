@@ -5,18 +5,18 @@ namespace App\Data\Input;
 readonly class PersonalizeInput
 {
     /**
-     * @param string $colorId
-     * @param string $fontId
-     * @param string $designId
-     * @param string $sizeId
+     * @param string|null $colorId
+     * @param string|null $fontId
+     * @param string|null $designId
+     * @param string|null $sizeId
      * @param OptionInput[] $options
      * @param TextLineInput[] $textLines
      */
     public function __construct(
-        public string $colorId,
-        public string $fontId,
-        public string $designId,
-        public string $sizeId,
+        public ?string $colorId,
+        public ?string $fontId,
+        public ?string $designId,
+        public ?string $sizeId,
         public array  $options,
         public array  $textLines
     )

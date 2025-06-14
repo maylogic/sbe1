@@ -17,10 +17,12 @@ return new class extends Migration
             $table->integer('amount');
             $table->boolean('is_percentage');
             $table->boolean('active');
-            $table->enum('type', \App\Enum\SalesRuleType::values());
+            $table->boolean('cart');
+            $table->boolean('product');
+            $table->boolean('shipping');
             $table->string('expression')->nullable();
             $table->unsignedInteger('sort');
-            $table->timestamp('ends_at')->nullable();
+            $table->timestamp('ends_at');
             $table->timestamps();
         });
     }

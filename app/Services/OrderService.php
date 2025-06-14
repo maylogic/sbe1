@@ -9,7 +9,7 @@ use App\Models\OrderItem;
 
 readonly class OrderService
 {
-    public function __construct(private CartService $cartService)
+    public function __construct(private CartService $cartService, private TotalsService $totalsService)
     {
     }
 
@@ -85,13 +85,19 @@ readonly class OrderService
 
     public function getOrderCreateFieldsFromCart(Cart $cart): array
     {
+        $totals = $this->totalsService->getCartTotals($cart);
         return [
             'email' => $cart->email,
             'user_id' => $cart->user_id,
             'shipping_address_id' => $cart->shipping_address_id,
             'shipping_method_id' => $cart->shipping_method_id,
             'apply_balance' => $cart->apply_balance,
-            'anon_id' => $cart->anon_id
+            'anon_id' => $cart->anon_id,
+            'shipping_price_regular' => $totals->shipping_price->regular,
+            'shipping_price_discounted' => $totals->shipping_price->discounted,
+            'subtotal' => $totals->subtotal,
+            'grand_total_regular' => $totals->grand_total->regular,
+            'grand_total_discounted' => $totals->grand_total->discounted,
         ];
     }
 }

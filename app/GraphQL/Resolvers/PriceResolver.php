@@ -17,6 +17,6 @@ readonly class PriceResolver
         IHasPrice $rootValue
     ): Price
     {
-        return $this->priceService->getPrice($rootValue->getPrice());
+        return $this->priceService->getPrice($rootValue);
     }
 }

@@ -27,6 +27,11 @@ return new class extends Migration {
                 ->constrained()->restrictOnDelete();
             $table->foreignIdFor(\App\Models\CustomerAddress::class, 'shipping_address_id')
                 ->constrained()->restrictOnDelete();
+            $table->unsignedInteger('shipping_price_regular');
+            $table->unsignedInteger('shipping_price_discounted');
+            $table->unsignedInteger('subtotal');
+            $table->unsignedInteger('grand_total_regular');
+            $table->unsignedInteger('grand_total_discounted');
             $table->timestamps();
         });
     }

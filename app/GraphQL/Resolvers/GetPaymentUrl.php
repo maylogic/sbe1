@@ -12,7 +12,7 @@ readonly class GetPaymentUrl
 {
     public function __construct(
         private TotalsService $totalsService,
-        private PriceService $priceService
+        private PriceService  $priceService
     )
     {
     }
@@ -24,11 +24,11 @@ readonly class GetPaymentUrl
     {
         $config = config('tbank');
         $totals = $this->totalsService->getOrderTotals($rootValue);
-        $grandTotal = $totals->grand_total->getRegularOrDiscounted() + $totals->delivery_price->getRegularOrDiscounted();
+        $grandTotal = $totals->grand_total->getRegularOrDiscounted() + $totals->shipping_price->getRegularOrDiscounted();
 
         $requestData = array(
             'OrderId' => $rootValue->id,
-            'Amount' => $this->getPrice($grandTotal),
+            'Amount' => $this->getMultipliedPrice($grandTotal),
             'DATA' => array(
                 'Email' => $rootValue->email
             ),
@@ -75,7 +75,7 @@ readonly class GetPaymentUrl
                 }
             }
 
-            $shippingPrice = $totals->delivery_price;
+            $shippingPrice = $totals->shipping_price;
 
             if ($shippingPrice?->isPositive()) {
                 $shippingMethod = $rootValue->shipping_method;
@@ -86,7 +86,7 @@ readonly class GetPaymentUrl
                         'Name' => mb_substr($shippingMethod->label, 0, 64),
                         "Price" => $shippingPriceValue,
                         "Quantity" => 1,
-                        "Amount" => $this->getPrice($shippingPriceValue),
+                        "Amount" => $this->getMultipliedPrice($shippingPriceValue),
                         "PaymentMethod" => trim($config['payment_method']),
                         "PaymentObject" => "service",
                         "Tax" => 0,
@@ -96,7 +96,7 @@ readonly class GetPaymentUrl
                         'Name' => mb_substr($shippingMethod->label, 0, 64),
                         "Price" => $shippingPriceValue,
                         "Quantity" => 1,
-                        "Amount" => $this->getPrice($shippingPriceValue),
+                        "Amount" => $this->getMultipliedPrice($shippingPriceValue),
                         "PaymentMethod" => trim($config['payment_method']),
                         "PaymentObject" => "service",
                         "Tax" => 0,
@@ -130,14 +130,12 @@ readonly class GetPaymentUrl
 
     public function getFinalItemPrice(OrderItem $item, int $quantity = 1): int
     {
-        return $this->getPrice(
-            $this->priceService->getPrice(
-                $item->getPrice()
-            )->getRegularOrDiscounted()
-        ) * $quantity;
+        return $this->getMultipliedPrice(
+                $this->priceService->getPrice($item)->getRegularOrDiscounted()
+            ) * $quantity;
     }
 
-    public function getPrice(int $price): int
+    public function getMultipliedPrice(int $price): int
     {
         return $price * 100;
     }

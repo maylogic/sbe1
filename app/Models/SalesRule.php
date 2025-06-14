@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enum\SalesRuleType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $amount
  * @property int $is_percentage
  * @property int $active
- * @property SalesRuleType $type
+ * @property int $cart
+ * @property int $product
+ * @property int $shipping
  * @property string|null $expression
  * @property int $sort
  * @property \Illuminate\Support\Carbon $ends_at
@@ -26,14 +27,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereCart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereExpression($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereIsPercentage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereProduct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereShipping($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -44,17 +47,18 @@ class SalesRule extends Model
 
     protected $fillable = [
         'label',
+        'expression',
         'amount',
         'is_percentage',
         'active',
-        'show_banner',
         'sort',
-        'type',
+        'cart',
+        'product',
+        'shipping',
         'ends_at'
     ];
 
     protected $casts = [
-        'type' => SalesRuleType::class,
         'ends_at' => 'datetime'
     ];
 }

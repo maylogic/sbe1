@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $code
  * @property int $discount_percentage
  * @property int|null $quantity
- * @property string $ends_at
+ * @property \Illuminate\Support\Carbon $ends_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\CouponFactory factory($count = null, $state = [])
@@ -33,5 +33,9 @@ class Coupon extends Model
     /** @use HasFactory<\Database\Factories\CouponFactory> */
     use HasFactory;
 
-    protected $fillable = ['code', 'discount_percentage', 'quantity'];
+    protected $fillable = ['code', 'discount_percentage', 'quantity', 'ends_at'];
+
+    protected $casts = [
+        'ends_at' => 'datetime'
+    ];
 }

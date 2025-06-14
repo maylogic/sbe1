@@ -7,6 +7,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
+        "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-http": "*",
+        "ext-libxml": "*",
         "filament/filament": "^3.3",
         "filament/forms": "^3.3",
         "filament/tables": "^3.3",
@@ -15,10 +19,7 @@
         "mll-lab/laravel-graphiql": "^3.3",
         "nuwave/lighthouse": "^6.52",
         "spatie/laravel-sluggable": "^3.7",
-        "ext-dom": "*",
-        "ext-libxml": "*",
-        "ext-http": "*",
-        "ext-curl": "*"
+        "symfony/expression-language": "^7.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.5",

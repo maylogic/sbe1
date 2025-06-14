@@ -26,6 +26,7 @@ class CouponResource extends Resource
                 Forms\Components\TextInput::make('code')
                     ->required()
                     ->maxLength(9),
+                Forms\Components\DateTimePicker::make('ends_at'),
                 Forms\Components\TextInput::make('discount_percentage')
                     ->required()
                     ->numeric(),
@@ -39,6 +40,9 @@ class CouponResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('ends_at')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('discount_percentage')
                     ->numeric()

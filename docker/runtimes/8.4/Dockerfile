@@ -33,7 +33,7 @@ RUN apt-get update && apt-get upgrade -y \
        php8.4-xml php8.4-zip php8.4-bcmath php8.4-soap \
        php8.4-intl php8.4-readline \
        php8.4-ldap \
-       php8.4-http \
+       php8.4-raphf php8.4-http \
        php8.4-msgpack php8.4-igbinary php8.4-redis php8.4-swoole \
        php8.4-memcached php8.4-pcov php8.4-imagick php8.4-xdebug \
     && curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
@@ -49,7 +49,6 @@ RUN apt-get update && apt-get upgrade -y \
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 ENV NVM_DIR=/root/.nvm
 RUN bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION"
-RUN bash -c "source $NVM_DIR/nvm.sh && npm install -g yarn bun pnpm"
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.4
 

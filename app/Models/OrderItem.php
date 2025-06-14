@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $order_id
  * @property int $product_id
  * @property int $quantity
+ * @property int $price_regular
+ * @property int $price_discounted
  * @property int|null $design_id
  * @property int|null $color_id
  * @property int|null $font_id
@@ -41,6 +43,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereFontId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem wherePriceDiscounted($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem wherePriceRegular($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereProductSizeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereQuantity($value)
@@ -58,21 +62,10 @@ class OrderItem extends Model implements IHasPrice
         'design_id',
         'color_id',
         'font_id',
-        'product_size_id'
+        'product_size_id',
+        'price_regular',
+        'price_discounted',
     ];
-
-    /**
-     * @return int
-     */
-    public function getPrice(): int
-    {
-        $productPrice = $this->product->price;
-        $sizePrice = $this->product_size->price;
-        $optionsPrices = $this->option_items->reduce(
-            fn(int $carry, ProductOptionItem $item) => $carry + $item->price, 0);
-
-        return $productPrice + $sizePrice + $optionsPrices;
-    }
 
     public function design(): BelongsTo
     {

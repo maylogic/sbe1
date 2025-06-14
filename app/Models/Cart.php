@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $anon_id
@@ -56,7 +56,10 @@ class Cart extends Model implements IHasShipping
         'user_id'
     ];
 
-    const SESSION_KEY = 'cart_anon_id';
+    // expressions
+    public int $subtotal;
+
+    const string SESSION_KEY = 'cart_anon_id';
 
     /** @use HasFactory<CartFactory> */
     use HasFactory;
@@ -74,14 +77,6 @@ class Cart extends Model implements IHasShipping
         }
 
         return $this->updated_at > $other->updated_at;
-    }
-
-    public function subtotal(): int
-    {
-        return $this->items->reduce(
-            fn(int $carry, CartItem $cartItem) => $carry + $cartItem->quantity * $cartItem->getPrice(),
-            0
-        );
     }
 
     public function items(): HasMany

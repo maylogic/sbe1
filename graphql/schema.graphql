@@ -90,10 +90,10 @@ type Mutation {
 }
 
 input PersonalizeInput {
-    colorId: ID!
-    designId: ID!
-    fontId: ID!
-    sizeId: ID!
+    colorId: ID
+    designId: ID
+    fontId: ID
+    sizeId: ID
     options: [OptionInput]!
     textLines: [TextLineInput]!
 }
@@ -178,7 +178,7 @@ type Totals {
     subtotal: Int!
     grand_total: Price!
     points_used: Int!
-    delivery_price: Price
+    shipping_price: Price
 }
 
 type Coupon {

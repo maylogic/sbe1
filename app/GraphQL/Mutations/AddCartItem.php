@@ -12,6 +12,9 @@ readonly class AddCartItem
     {
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function __invoke(
         $rootValue,
         array $args
