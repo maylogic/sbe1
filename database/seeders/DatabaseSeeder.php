@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enum\PaymentMethodProvider;
 use App\Enum\ShippingMethodProvider;
 use App\Models\Color;
-use App\Models\PaymentMethod;
 use App\Models\ShippingMethod;
 use App\Models\User;
 use App\Utils\ColorUtils;

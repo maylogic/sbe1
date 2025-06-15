@@ -19,6 +19,7 @@ type Query {
         orderId: Int!
     ): Order
     getTopBanner: TopBanner @first(scopes: ["hasActiveSalesRule"])
+    getHomepageReviews: [Review!] @all
 }
 
 type Mutation {
@@ -139,6 +140,18 @@ type Cart {
     email: String
     can_login: Boolean @field(resolver: "App\\GraphQL\\Resolvers\\CartCanLogin")
     customer_addresses: [CustomerAddress!] @field(resolver: "App\\GraphQL\\Resolvers\\InjectCustomerAddressesInCart")
+}
+
+type Review {
+    id: ID!
+    product: Product!
+    order: Order
+    name: String!
+    title: String!
+    rating: Int!
+    text: String!
+    created_at: DateTime!
+    updated_at: DateTime!
 }
 
 type SalesRule {

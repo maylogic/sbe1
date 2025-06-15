@@ -64,6 +64,14 @@ class SalesRuleResource extends Resource
                 Tables\Columns\CheckboxColumn::make('active'),
                 Tables\Columns\CheckboxColumn::make('product'),
                 Tables\Columns\CheckboxColumn::make('shipping'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
