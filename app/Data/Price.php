@@ -2,7 +2,7 @@
 
 namespace App\Data;
 
-class Price
+readonly class Price
 {
     public function __construct(public int   $regular,
                                 public bool  $is_discounted,

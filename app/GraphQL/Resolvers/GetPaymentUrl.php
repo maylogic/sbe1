@@ -128,11 +128,11 @@ readonly class GetPaymentUrl
         return $request->PaymentURL ?? '';
     }
 
-    public function getFinalItemPrice(OrderItem $item, int $quantity = 1): int
+    public function getFinalItemPrice(OrderItem $item): int
     {
         return $this->getMultipliedPrice(
-                $this->priceService->getPrice($item)->getRegularOrDiscounted()
-            ) * $quantity;
+            $this->priceService->getPrice($item)->getRegularOrDiscounted()
+        );
     }
 
     public function getMultipliedPrice(int $price): int

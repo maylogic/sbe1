@@ -16,17 +16,16 @@ class StorefrontCustomerAuthService
     public function register(StorefrontCustomerRegisterPayload $payload)
     {
         return DB::transaction(function () use ($payload) {
-            $coupon = Coupon::factory()->create([
-                'discount_percentage' => CouponService::USER_COUPON_PERCENTAGE
-            ]);
+//            $coupon = Coupon::factory()->create([
+//                'discount_percentage' => CouponService::USER_COUPON_PERCENTAGE
+//            ]);
             return User::factory()
                 ->hasBalance()
                 ->create(
                     [
                         'email' => $payload->email,
                         'password' => Hash::make($payload->password),
-                        'name' => $payload->name,
-                        'coupon_id' => $coupon->id
+                        'name' => $payload->name
                     ]
                 );
         });
