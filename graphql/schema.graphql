@@ -11,6 +11,7 @@ type Query {
     ): Product
     getCart: Cart!
     cartItem(id: ID! @whereKey): CartItem @find
+    orderItem(id: ID! @whereKey): OrderItem @find @canModel(ability: "viewAny")
     shippingMethods: [ShippingMethod!] @all
     getCartItemsCount: Int!
     getOrderById(id: ID! @whereKey): Order @find

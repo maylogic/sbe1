@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $anon_id
@@ -80,6 +80,11 @@ class Order extends Model implements IHasShipping
     protected $casts = [
         'status' => OrderStatus::class
     ];
+
+    public function getRegularOrDiscountedGrandTotal(): int
+    {
+        return $this->grand_total_discounted ?? $this->grand_total_regular;
+    }
 
     public function items(): HasMany
     {

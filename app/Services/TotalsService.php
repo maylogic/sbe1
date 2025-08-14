@@ -47,7 +47,9 @@ readonly class TotalsService
 
     public function getOrderTotals(Order $order): Totals
     {
-        return new Totals(0, Price::create(0), 0, Price::create(0));
+        $grandTotal = Price::create($order->grand_total_regular, $order->grand_total_discounted);
+        $shippingPrice = Price::create($order->shipping_price_regular, $order->shipping_price_discounted);
+        return new Totals($order->subtotal, $grandTotal, 0, $shippingPrice);
     }
 
     public function getCartSubtotal(Cart $cart): Price

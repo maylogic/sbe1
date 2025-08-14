@@ -44,7 +44,6 @@ class FontResource extends Resource
                     ->acceptedFileTypes(['font/otf', 'application/otf','font/opentype', 'application/vnd.ms-opentype'])
                     ->label('OTF'),
                 Forms\Components\FileUpload::make('preview')
-                    ->required()
             ]);
     }
 
