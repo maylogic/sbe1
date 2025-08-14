@@ -6,7 +6,7 @@ return [
     'enabled_taxation' => env('TBANK_ENABLED_TAXATION', 'usn_income'),
     'ffd12' => env('TBANK_FFD12', false),
     'email_company' => env('TBANK_EMAIL_COMPANY', 'artzwinger@bk.ru'),
-    'payment_method' => env('TBANK_PAYMENT_METHOD', 'full_prepayment'),
+    'payment_method' => env('TBANK_PAYMENT_METHOD', 'full_payment'),
     'payment_object' => env('TBANK_PAYMENT_OBJECT', 'commodity'),
     'taxation' => env('TBANK_TAXATION', '0'),
     'language' => env('TBANK_LANGUAGE', 'ru'),
