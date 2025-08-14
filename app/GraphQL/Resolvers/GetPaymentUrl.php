@@ -24,7 +24,7 @@ readonly class GetPaymentUrl
     {
         $config = config('tbank');
         $totals = $this->totalsService->getOrderTotals($rootValue);
-        $grandTotal = $totals->grand_total->getRegularOrDiscounted() + $totals->shipping_price->getRegularOrDiscounted();
+        $grandTotal = $totals->grand_total->getRegularOrDiscounted();
 
         $requestData = array(
             'OrderId' => $rootValue->id,
