@@ -30,7 +30,7 @@ class TopBanner extends Model
     /** @use HasFactory<\Database\Factories\TopBannerFactory> */
     use HasFactory;
 
-    protected $fillable = ['sales_rule_id'];
+    protected $guarded = [];
 
     public function sales_rule(): BelongsTo
     {

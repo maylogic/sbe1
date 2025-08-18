@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $label
@@ -15,9 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $filename_woff2
  * @property string|null $filename_ttf
  * @property string|null $filename_otf
- * @property string $preview
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property float $preview_size
  * @method static \Database\Factories\FontFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newQuery()
@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Font wherePreview($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Font wherePreviewSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereSystemName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -39,5 +39,5 @@ class Font extends Model
     /** @use HasFactory<\Database\Factories\FontFactory> */
     use HasFactory;
 
-    protected $fillable = ['label', 'name', 'system_name', 'filename_woff2', 'filename_ttf', 'filename_otf', 'preview'];
+    protected $guarded = [];
 }

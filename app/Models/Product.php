@@ -64,15 +64,7 @@ class Product extends Model implements IHasPrice
     use HasPrice;
     use HasSlug;
 
-    protected $fillable = [
-        'name',
-        'slug',
-        'description',
-        'price',
-        'sku',
-        'meta_title',
-        'meta_description'
-    ];
+    protected $guarded = [];
 
     /**
      * Get the options for generating the slug.

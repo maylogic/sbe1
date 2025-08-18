@@ -53,14 +53,7 @@ class CartItem extends Model implements IHasPrice
     /** @use HasFactory<\Database\Factories\CartItemFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'product_id',
-        'quantity',
-        'design_id',
-        'color_id',
-        'font_id',
-        'product_size_id'
-    ];
+    protected $guarded = [];
 
     protected $touches = ['cart'];
 

@@ -33,7 +33,7 @@ class Base extends Model
     /** @use HasFactory<BaseFactory> */
     use HasFactory;
 
-    protected $fillable = ['label', 'filename'];
+    protected $guarded = [];
 
     public function text_areas(): HasMany
     {

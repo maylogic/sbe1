@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $order_id
@@ -56,16 +56,7 @@ class OrderItem extends Model implements IHasPrice
     /** @use HasFactory<\Database\Factories\OrderItemFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'product_id',
-        'quantity',
-        'design_id',
-        'color_id',
-        'font_id',
-        'product_size_id',
-        'price_regular',
-        'price_discounted',
-    ];
+    protected $guarded = [];
 
     public function design(): BelongsTo
     {

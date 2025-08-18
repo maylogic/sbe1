@@ -43,12 +43,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class BaseTextArea extends Model
 {
-    const EDIT_SCALE = 20; // svg viewport 32, умножаем на 20 и получаем размер редактора 640
+    const int EDIT_SCALE = 20; // svg viewport 32, умножаем на 20 и получаем размер редактора 640
 
     /** @use HasFactory<BaseTextAreaFactory> */
     use HasFactory;
 
-    protected $fillable = ['width', 'height', 'left', 'top', 'first_line', 'lines', 'text_color', 'inherit_color'];
+    protected $guarded = [];
 
     public function base(): BelongsTo
     {

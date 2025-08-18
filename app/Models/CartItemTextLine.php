@@ -33,7 +33,7 @@ class CartItemTextLine extends Model
     /** @use HasFactory<\Database\Factories\CartItemTextLineFactory> */
     use HasFactory;
 
-    protected $fillable = ['product_line_definition_id', 'value'];
+    protected $guarded = [];
 
     public function product_line_definition(): BelongsTo
     {

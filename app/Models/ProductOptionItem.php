@@ -36,7 +36,7 @@ class ProductOptionItem extends Model implements IHasPrice
     use HasFactory;
     use HasPrice;
 
-    protected $fillable = ['label', 'price'];
+    protected $guarded = [];
 
     public function product_option(): BelongsTo
     {

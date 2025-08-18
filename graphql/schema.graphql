@@ -6,6 +6,7 @@ type Query {
     currentUser: User @auth
     products: [Product!] @paginate
     productSlugs: [String!]
+    font(id: ID @whereKey): Font @find
     getProductBySlug(
         slug: String!
     ): Product
@@ -369,8 +370,9 @@ type Font {
     filename_woff2: String!
     filename_ttf: String
     filename_otf: String
-    preview: String!
     system_name: String!
+    preview_size: Float!
+    updated_at: DateTime!
 }
 
 type Color {

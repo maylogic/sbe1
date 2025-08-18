@@ -39,7 +39,7 @@ class ProductGalleryItem extends Model
     /** @use HasFactory<\Database\Factories\ProductGalleryItemFactory> */
     use HasFactory;
 
-    protected $fillable = ['label', 'filename', 'is_video', 'sort', 'primary'];
+    protected $guarded = [];
 
     public function product(): BelongsTo
     {

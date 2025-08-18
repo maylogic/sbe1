@@ -45,16 +45,5 @@ class CustomerAddress extends Model
     /** @use HasFactory<\Database\Factories\CustomerAddressFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'address1',
-        'address2',
-        'city',
-        'country',
-        'first_name',
-        'last_name',
-        'phone_number',
-        'postal_code',
-        'state',
-    ];
+    protected $guarded = [];
 }

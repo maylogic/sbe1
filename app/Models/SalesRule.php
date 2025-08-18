@@ -45,17 +45,7 @@ class SalesRule extends Model
     /** @use HasFactory<\Database\Factories\SalesRuleFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'label',
-        'expression',
-        'amount',
-        'is_percentage',
-        'active',
-        'sort',
-        'product',
-        'shipping',
-        'ends_at'
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'ends_at' => 'datetime'

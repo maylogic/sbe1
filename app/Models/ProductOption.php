@@ -36,7 +36,7 @@ class ProductOption extends Model
     /** @use HasFactory<\Database\Factories\ProductOptionFactory> */
     use HasFactory;
 
-    protected $fillable = ['label', 'required'];
+    protected $guarded = [];
 
     public function product(): BelongsTo
     {

@@ -42,7 +42,7 @@ class ProductSize extends Model implements IHasPrice
     use HasFactory;
     use HasPrice;
 
-    protected $fillable = ['label', 'width', 'height', 'thickness', 'price'];
+    protected $guarded = [];
 
     public function product(): BelongsTo
     {

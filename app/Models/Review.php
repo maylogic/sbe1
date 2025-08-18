@@ -40,14 +40,7 @@ class Review extends Model
     /** @use HasFactory<\Database\Factories\ReviewFactory> */
     use HasFactory;
 
-    protected $fillable = [
-        'product_id',
-        'order_id',
-        'name',
-        'title',
-        'rating',
-        'text',
-    ];
+    protected $guarded = [];
 
     public function product(): BelongsTo
     {

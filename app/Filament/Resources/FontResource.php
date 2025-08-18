@@ -31,6 +31,9 @@ class FontResource extends Resource
                 Forms\Components\TextInput::make('system_name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('preview_size')
+                    ->numeric()
+                    ->required(),
                 Forms\Components\FileUpload::make('filename_woff2')
                     ->label('Woff2')
                     ->acceptedFileTypes(['font/woff2'])
@@ -42,8 +45,7 @@ class FontResource extends Resource
                 Forms\Components\FileUpload::make('filename_otf')
                     ->preserveFilenames()
                     ->acceptedFileTypes(['font/otf', 'application/otf','font/opentype', 'application/vnd.ms-opentype'])
-                    ->label('OTF'),
-                Forms\Components\FileUpload::make('preview')
+                    ->label('OTF')
             ]);
     }
 

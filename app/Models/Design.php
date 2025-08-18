@@ -36,7 +36,7 @@ class Design extends Model
     /** @use HasFactory<\Database\Factories\DesignFactory> */
     use HasFactory;
 
-    protected $fillable = ['label', 'preview'];
+    protected $guarded = [];
 
     public function fonts(): BelongsToMany
     {

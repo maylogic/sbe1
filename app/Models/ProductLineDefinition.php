@@ -41,7 +41,7 @@ class ProductLineDefinition extends Model
     /** @use HasFactory<\Database\Factories\ProductLineDefinitionFactory> */
     use HasFactory;
 
-    protected $fillable = ['label', 'max_length', 'required', 'hidden', 'default_value', 'sort'];
+    protected $guarded = [];
 
     public function product(): BelongsTo
     {

@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('filename_woff2');
             $table->string('filename_ttf')->nullable();
             $table->string('filename_otf')->nullable();
-            $table->string('preview');
+            $table->float('preview_size')->default(20);
             $table->timestamps();
         });
     }
