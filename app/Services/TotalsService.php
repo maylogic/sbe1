@@ -19,7 +19,7 @@ readonly class TotalsService
     public function getCartTotals(Cart $cart): Totals
     {
         $subtotal = $this->getCartSubtotal($cart);
-        $cart->subtotal = $subtotal->regular; // for sales expressions
+        $cart->subtotal = $subtotal; // for sales expressions
         $shippingPrice = $this->priceService->getPrice($cart->shipping_method, ['cart' => $cart]);
         $grandTotalRegular = $subtotal->regular;
         $grandTotalDiscounted = $subtotal->discounted;

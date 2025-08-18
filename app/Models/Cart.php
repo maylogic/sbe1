@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\IHasShipping;
+use App\Data\Price;
 use App\Traits\HasShipping;
 use Database\Factories\CartFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $anon_id
@@ -57,7 +58,7 @@ class Cart extends Model implements IHasShipping
     ];
 
     // expressions
-    public int $subtotal;
+    public Price $subtotal;
 
     const string SESSION_KEY = 'cart_anon_id';
 
