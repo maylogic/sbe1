@@ -23,7 +23,10 @@ class BaseResource extends Resource
         $schema = [
             Forms\Components\TextInput::make('label')
                 ->required()
-                ->maxLength(255)->columnSpanFull(),
+                ->maxLength(255),
+            Forms\Components\Select::make('base_preview_id')
+                ->preload()
+                ->relationship('base_preview', titleAttribute: "label"),
             Forms\Components\FileUpload::make('filename')
                 ->preserveFilenames()
                 ->required(),

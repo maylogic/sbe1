@@ -283,7 +283,6 @@ type Product {
     options: [ProductOption!]!
     sizes: [ProductSize!]!
     gallery: [ProductGalleryItem!]!
-    reverse_side_base: Base
     primary_image: ProductGalleryItem
 }
 
@@ -344,6 +343,15 @@ type Design {
 }
 
 type Base {
+    id: ID!
+    label: String!
+    filename: String!
+    text_areas: [BaseTextArea!]
+    content: String! @field(resolver: "App\\GraphQL\\Resolvers\\BaseContent")
+    base_preview: BasePreview
+}
+
+type BasePreview {
     id: ID!
     label: String!
     filename: String!

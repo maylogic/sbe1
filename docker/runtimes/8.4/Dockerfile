@@ -46,9 +46,12 @@ RUN apt-get update && apt-get upgrade -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ENV NVM_DIR=/opt/nvm
+RUN mkdir -p $NVM_DIR
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-ENV NVM_DIR=/root/.nvm
 RUN bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION"
+COPY nvm.sh /etc/profile.d/nvm.sh
+RUN chmod +x /etc/profile.d/nvm.sh
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.4
 
@@ -60,6 +63,13 @@ COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.4/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
+
+ENV USER=sail
+RUN mkdir -p /home/sail && \
+    echo 'export NVM_DIR="/opt/nvm"' >> /home/sail/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> /home/sail/.bashrc && \
+    echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> /home/sail/.bashrc && \
+    chown -R sail:sail /home/sail
 
 EXPOSE 80/tcp
 

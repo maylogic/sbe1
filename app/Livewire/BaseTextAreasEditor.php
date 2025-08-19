@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Base;
+use App\Models\BasePreview;
+use App\Models\BasePreviewTextArea;
 use App\Models\BaseTextArea;
 use DOMDocument;
 use Illuminate\Support\Collection;
@@ -11,20 +13,22 @@ use Livewire\Component;
 class BaseTextAreasEditor extends Component
 {
     public $baseId;
+    public $isPreview = false;
     public $svgContent;
     /** @var Collection<BaseTextArea> $textAreas */
     public Collection $textAreas;
     protected $listeners = ['updatePosition'];
 
-    public function mount($baseId)
+    public function mount($baseId, $isPreview = false)
     {
         $this->baseId = $baseId;
+        $this->isPreview = $isPreview;
         $this->loadSvg();
     }
 
     public function loadSvg()
     {
-        $base = Base::with('text_areas')->find($this->baseId);
+        $base = $this->getBaseClass()::with('text_areas')->find($this->baseId);
         $this->textAreas = $base->text_areas;
         if (!$base || !$base->filename) {
             $this->svgContent = 'Svg file is not set yet';
@@ -78,9 +82,9 @@ class BaseTextAreasEditor extends Component
         return $dom->saveXML();
     }
 
-    public function updatePosition($data)
+    public function updatePosition($data): void
     {
-        $textArea = BaseTextArea::find($data['id']);
+        $textArea = $this->getBaseTextAreaClass()::find($data['id']);
         if ($textArea) {
 
             $upd = [];
@@ -98,5 +102,15 @@ class BaseTextAreasEditor extends Component
     public function render()
     {
         return view('livewire.base-text-areas-editor');
+    }
+
+    public function getBaseClass(): string
+    {
+        return $this->isPreview ? BasePreview::class : Base::class;
+    }
+
+    public function getBaseTextAreaClass(): string
+    {
+        return $this->isPreview ? BasePreviewTextArea::class : BaseTextArea::class;
     }
 }

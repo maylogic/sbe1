@@ -45,7 +45,7 @@ class BJjcPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->assets([
-                Js::make('editor-app-js', Vite::asset('resources/js/app.js')),
+//                Js::make('editor-app-js', Vite::asset('resources/js/app.js')),
                 Css::make('editor-app-css', Vite::asset('resources/css/app.css'))
             ])
             ->middleware([

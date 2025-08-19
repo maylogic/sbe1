@@ -17,9 +17,6 @@ return new class extends Migration {
             $table->string('sku');
             $table->text('description');
             $table->integer('price');
-            $table->foreignIdFor(\App\Models\Base::class, 'reverse_side_base_id')
-                ->nullable()
-                ->constrained()->restrictOnDelete();
 
             $table->string('meta_title');
             $table->text('meta_description');

@@ -95,11 +95,6 @@ class ProductResource extends Resource
                                 ->default(255)
                                 ->numeric(),
                         ])->defaultItems(0),
-
-                    Forms\Components\Select::make('reverse_side_base')
-                        ->preload()
-                        ->label('Базис оборотной стороны')
-                        ->relationship(titleAttribute: "label"),
                 ]),
 
                 Forms\Components\Fieldset::make('additions')->schema([

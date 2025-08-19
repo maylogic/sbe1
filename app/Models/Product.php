@@ -15,7 +15,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -74,11 +74,6 @@ class Product extends Model implements IHasPrice
         return SlugOptions::create()
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
-    }
-
-    public function reverse_side_base(): BelongsTo
-    {
-        return $this->belongsTo(Base::class);
     }
 
     public function designs(): BelongsToMany
