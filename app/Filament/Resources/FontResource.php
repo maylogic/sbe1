@@ -44,7 +44,6 @@ class FontResource extends Resource
                     ->label('TTF'),
                 Forms\Components\FileUpload::make('filename_otf')
                     ->preserveFilenames()
-                    ->acceptedFileTypes(['font/otf', 'application/otf','font/opentype', 'application/vnd.ms-opentype'])
                     ->label('OTF')
             ]);
     }
