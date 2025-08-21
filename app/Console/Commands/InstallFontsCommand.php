@@ -49,20 +49,21 @@ class InstallFontsCommand extends Command
         $fonts = Font::all();
 
         foreach ($fonts as $font) {
-            if (!$font->filename_ttf) {
-                $this->warn("Шрифт {$font->name} не имеет файла TTF");
+            $fontFile = $font->filename_ttf ?? $font->filename_otf;
+            if (!$fontFile) {
+                $this->warn("Шрифт {$font->name} не имеет файла TTF или OTF");
                 continue;
             }
 
             // Полный путь к файлу в storage
-            $sourcePath = storage_path('app/public/' . $font->filename_ttf);
+            $sourcePath = storage_path('app/public/' . $fontFile);
 
             if (!file_exists($sourcePath)) {
                 $this->error("Файл не найден: " . $sourcePath);
                 continue;
             }
 
-            $destPath = $fontDir . $font->filename_ttf;
+            $destPath = $fontDir . $fontFile;
 
             // Копируем файл
             if (!copy($sourcePath, $destPath)) {
