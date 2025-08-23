@@ -25,10 +25,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $shipping_method_id
  * @property int $shipping_address_id
  * @property int $shipping_price_regular
- * @property int $shipping_price_discounted
+ * @property int|null $shipping_price_discounted
  * @property int $subtotal
  * @property int $grand_total_regular
- * @property int $grand_total_discounted
+ * @property int|null $grand_total_discounted
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Coupon> $coupons

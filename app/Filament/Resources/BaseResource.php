@@ -37,6 +37,9 @@ class BaseResource extends Resource
                 ->collapsed()
                 ->schema([
                     Forms\Components\TextInput::make('id')->disabled(),
+                    Forms\Components\TextInput::make('padding_y')
+                        ->default('0.1')
+                        ->numeric()->required(),
                     Forms\Components\TextInput::make('width')
                         ->default('10')
                         ->numeric()->required(),

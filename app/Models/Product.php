@@ -15,7 +15,7 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
@@ -37,7 +37,6 @@ use Spatie\Sluggable\SlugOptions;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductOption> $options
  * @property-read int|null $options_count
  * @property-read \App\Models\ProductGalleryItem|null $primary_image
- * @property-read \App\Models\Base|null $reverse_side_base
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductSize> $sizes
  * @property-read int|null $sizes_count
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])

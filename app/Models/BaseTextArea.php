@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $lines
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property float $padding_y
  * @property-read \App\Models\Base $base
  * @method static \Database\Factories\BaseTextAreaFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea newModelQuery()
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereInheritColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereLeft($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereLines($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea wherePaddingY($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereTextColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereTop($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BaseTextArea whereUpdatedAt($value)

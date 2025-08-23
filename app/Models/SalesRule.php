@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $amount
  * @property int $is_percentage
  * @property int $active
- * @property int $cart
  * @property int $product
  * @property int $shipping
  * @property string|null $expression
@@ -27,7 +26,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereCart($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|SalesRule whereExpression($value)

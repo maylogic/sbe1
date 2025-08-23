@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $product_id
  * @property int $quantity
  * @property int $price_regular
- * @property int $price_discounted
+ * @property int|null $price_discounted
  * @property int|null $design_id
  * @property int|null $color_id
  * @property int|null $font_id

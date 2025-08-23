@@ -369,6 +369,7 @@ type BaseTextArea {
     lines: Int!
     text_color: String
     inherit_color: Boolean!
+    padding_y: Float!
 }
 
 type Font {

@@ -15,9 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $filename_woff2
  * @property string|null $filename_ttf
  * @property string|null $filename_otf
+ * @property float $preview_size
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property float $preview_size
  * @method static \Database\Factories\FontFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Font newQuery()
