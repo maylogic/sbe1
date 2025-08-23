@@ -71,6 +71,7 @@ class BaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
             ->columns([
                 Tables\Columns\TextColumn::make('label')
                     ->searchable(),
@@ -88,7 +89,7 @@ class BaseResource extends Resource
                     ->label('Parsed text data')
                     ->html()
                     ->getStateUsing(function ($record) {
-                        return "<a target='_blank' href='https://safepets.ru/api/dt-texts-data/{$record->filename}.svg/'>View text data</a>";
+                        return "<a target='_blank' href='https://safepets.ru/api/dt-texts-data/{$record->filename}/'>View text data</a>";
                     })
             ])
             ->filters([
