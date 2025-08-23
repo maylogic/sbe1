@@ -71,6 +71,8 @@ class BasePreviewResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordUrl(null)
+            ->recordAction(null)
             ->columns([
                 Tables\Columns\TextColumn::make('label')
                     ->searchable(),

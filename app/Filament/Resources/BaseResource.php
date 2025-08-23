@@ -72,6 +72,7 @@ class BaseResource extends Resource
     {
         return $table
             ->recordUrl(null)
+            ->recordAction(null)
             ->columns([
                 Tables\Columns\TextColumn::make('label')
                     ->searchable(),
