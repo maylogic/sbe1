@@ -84,6 +84,12 @@ class BaseResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('link')
+                    ->label('Parsed text data')
+                    ->html()
+                    ->getStateUsing(function ($record) {
+                        return "<a target='_blank' href='https://safepets.ru/api/dt-texts-data/{$record->filename}.svg/'>View text data</a>";
+                    })
             ])
             ->filters([
                 //
