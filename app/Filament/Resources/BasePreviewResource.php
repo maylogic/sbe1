@@ -90,7 +90,7 @@ class BasePreviewResource extends Resource
                     ->label('Parsed text data')
                     ->html()
                     ->getStateUsing(function ($record) {
-                        return "<a target='_blank' href='https://safepets.ru/api/dt-texts-data/{$record->filename}.svg/'>View text data</a>";
+                        return "<a target='_blank' href='https://safepets.ru/api/dt-texts-data/{$record->filename}/'>View text data</a>";
                     })
             ])
             ->filters([
