@@ -13,39 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
-/**
- * 
- *
- * @property int $id
- * @property string|null $anon_id
- * @property string|null $email
- * @property int $apply_balance
- * @property int|null $user_id
- * @property int|null $shipping_method_id
- * @property int|null $shipping_address_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Coupon> $coupons
- * @property-read int|null $coupons_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CartItem> $items
- * @property-read int|null $items_count
- * @property-read \App\Models\CustomerAddress|null $shipping_address
- * @property-read \App\Models\ShippingMethod|null $shipping_method
- * @method static \Database\Factories\CartFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereAnonId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereApplyBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereShippingAddressId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereShippingMethodId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Cart whereUserId($value)
- * @mixin \Eloquent
- */
 class Cart extends Model implements IHasShipping
 {
     protected $guarded = [];
@@ -55,7 +22,6 @@ class Cart extends Model implements IHasShipping
 
     const string SESSION_KEY = 'cart_anon_id';
 
-    /** @use HasFactory<CartFactory> */
     use HasFactory;
     use HasShipping;
 

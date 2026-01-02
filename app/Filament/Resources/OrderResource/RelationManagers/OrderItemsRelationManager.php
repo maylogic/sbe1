@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\OrderResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Utils\UrlUtils;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
 
 class OrderItemsRelationManager extends RelationManager
 {
@@ -47,7 +47,8 @@ class OrderItemsRelationManager extends RelationManager
                     ->label('Download PDF')
                     ->html()
                     ->getStateUsing(function ($record) {
-                        return "<a target='_blank' href='https://safepets.ru/api/order-item-pdf/{$record->id}.svg'>Download</a>";
+                        $url = UrlUtils::getFrontendUrl();
+                        return "<a target='_blank' href='{$url}api/order-item-pdf/$record->id.svg'>Download</a>";
                     })
             ])
             ->filters([

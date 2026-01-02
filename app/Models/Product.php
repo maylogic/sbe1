@@ -4,61 +4,16 @@ namespace App\Models;
 
 use App\Contracts\IHasPrice;
 use App\Traits\HasPrice;
-use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-/**
- * 
- *
- * @property int $id
- * @property string $name
- * @property string $slug
- * @property string $sku
- * @property string $description
- * @property int $price
- * @property int|null $reverse_side_base_id
- * @property string $meta_title
- * @property string $meta_description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Design> $designs
- * @property-read int|null $designs_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductGalleryItem> $gallery
- * @property-read int|null $gallery_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductLineDefinition> $line_definitions
- * @property-read int|null $line_definitions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductOption> $options
- * @property-read int|null $options_count
- * @property-read \App\Models\ProductGalleryItem|null $primary_image
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductSize> $sizes
- * @property-read int|null $sizes_count
- * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereMetaDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereMetaTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereReverseSideBaseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereSku($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereUpdatedAt($value)
- * @mixin \Eloquent
- */
 class Product extends Model implements IHasPrice
 {
-    /** @use HasFactory<ProductFactory> */
     use HasFactory;
     use HasPrice;
     use HasSlug;
