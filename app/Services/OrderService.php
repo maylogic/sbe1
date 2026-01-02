@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
-use App\Models\OrderItem;
 
 readonly class OrderService
 {
@@ -41,7 +40,6 @@ readonly class OrderService
             $fields['comment'] = $comment;
             $order = Order::factory()->create($fields);
             foreach ($cart->items as $item) {
-                /** @var OrderItem $orderItem */
                 $orderItem = $order->items()->create(
                     $this->getOrderItemFieldsFromCartItem($item)
                 );

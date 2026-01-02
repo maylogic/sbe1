@@ -6,6 +6,7 @@ use App\Contracts\IHasShipping;
 use App\Data\Price;
 use App\Traits\HasShipping;
 use Database\Factories\CartFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -60,9 +61,9 @@ class Cart extends Model implements IHasShipping
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Builder<Cart>
+     * @return Builder<Cart>
      */
-    public static function withEverything(): \Illuminate\Database\Eloquent\Builder
+    public static function withEverything(): Builder
     {
         return Cart::with([
             'items',

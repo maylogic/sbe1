@@ -16,15 +16,10 @@ readonly class CustomerService
 
     public function getCurrentCustomer(): ?User
     {
-        /** @var User|null $user */
-        $user = Auth::user();
-        return $user;
+        return Auth::user();
     }
 
-    /**
-     * @return Collection<CustomerAddress>|null
-     */
-    public function getCustomerAddresses(): ?Collection
+    public function getCustomerAddresses()
     {
         return $this->getCurrentCustomer()?->customer_addresses()->get();
     }

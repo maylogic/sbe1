@@ -72,7 +72,6 @@ class CartService
     {
         DB::transaction(function () use ($productId, $quantity, $personalizeInput) {
             $cart = $this->getCurrentCart();
-            /** @var CartItem $item */
             $item = $cart->items()->create([
                 'product_id' => $productId,
                 'quantity' => $quantity,
@@ -94,7 +93,6 @@ class CartService
     {
         DB::transaction(function () use ($cartItemId, $personalizeInput) {
             $cart = $this->getCurrentCart();
-            /** @var CartItem $item */
             $item = $cart->items()->findOrFail($cartItemId);
             $item->updateOrFail([
                 'design_id' => $personalizeInput->designId,

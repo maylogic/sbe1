@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Contracts\IHasShipping;
 use App\Enum\OrderStatus;
 use App\Traits\HasShipping;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,9 +49,9 @@ class Order extends Model implements IHasShipping
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Builder<Order>
+     * @return Builder<Order>
      */
-    public static function withEverything(): \Illuminate\Database\Eloquent\Builder
+    public static function withEverything(): Builder
     {
         return Order::with([
             'items',

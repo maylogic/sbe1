@@ -42,8 +42,6 @@ class StorefrontCustomerAuthService
             throw new \InvalidArgumentException('Invalid credentials');
         }
 
-        /** @var User $user */
-        $user = Auth::user();
-        return $user;
+        return Auth::user();
     }
 }
