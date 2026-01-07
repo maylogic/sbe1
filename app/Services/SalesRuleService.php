@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Data\Abstract\PriceContext;
 use App\Models\SalesRule;
 use App\RuleEvaluator;
 use Illuminate\Support\Collection;
@@ -13,7 +14,7 @@ class SalesRuleService
      */
     protected Collection|null $rules = null;
 
-    public function __construct(private readonly CartService $cartService)
+    public function __construct()
     {
     }
 
@@ -46,14 +47,14 @@ class SalesRuleService
         return $this->getActiveRules()->filter(fn(SalesRule $rule) => $rule->shipping);
     }
 
-    public function evaluate(SalesRule $salesRule, array $context = []): bool
+    public function evaluate(SalesRule $salesRule, ?PriceContext $context = null): bool
     {
         $expression = $salesRule->expression;
         if ($expression === null) {
             return true;
         }
         $evaluator = new RuleEvaluator();
-        return $evaluator->evaluate($expression, $context);
+        return $evaluator->evaluate($expression, $context?->toArray() ?? []);
     }
 
     public function apply(SalesRule $salesRule, int $price): float

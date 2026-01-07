@@ -3,21 +3,22 @@
 namespace App\Services;
 
 use App\Contracts\IHasPrice;
+use App\Data\Abstract\PriceContext;
 use App\Data\Price;
+use App\Data\ProductPriceContext;
+use App\Data\ShippingPriceContext;
 use App\Models\CartItem;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ProductOptionItem;
 use App\Models\SalesRule;
 use App\Models\ShippingMethod;
+use App\Traits\MemoizeMethods;
 use Illuminate\Support\Collection;
 
 class PriceService
 {
-    public array $productPrices = [];
-    public array $cartItemPrices = [];
-    public array $orderItemPrices = [];
-    public array $shippingMethodPrices = [];
+    use MemoizeMethods;
 
     public function __construct(
         private readonly CartService      $cartService,
@@ -28,53 +29,39 @@ class PriceService
 
     public function getProductPrice(Product $product)
     {
-        if (!array_key_exists($product->id, $this->productPrices)) {
-            $this->productPrices[$product->id] = $this->_getProductPrice($product);
-        }
-
-        return $this->productPrices[$product->id];
+        return $this->memoize("ProductPrice::$product->id", fn() => $this->_getProductPrice($product));
     }
 
     public function getCartItemPrice(CartItem $cartItem)
     {
-        if (!array_key_exists($cartItem->id, $this->cartItemPrices)) {
-            $this->cartItemPrices[$cartItem->id] = $this->_getCartItemPrice($cartItem);
-        }
-
-        return $this->cartItemPrices[$cartItem->id];
+        return $this->memoize("CartItemPrice::$cartItem->id", fn() => $this->_getCartItemPrice($cartItem));
     }
 
     public function getOrderItemPrice(OrderItem $orderItem)
     {
-        if (!array_key_exists($orderItem->id, $this->orderItemPrices)) {
-            $this->orderItemPrices[$orderItem->id] = $this->_getOrderItemPrice($orderItem);
-        }
-
-        return $this->orderItemPrices[$orderItem->id];
+        return $this->memoize("OrderItemPrice::$orderItem->id", fn() => $this->_getOrderItemPrice($orderItem));
     }
 
-    public function getShippingMethodPrice(ShippingMethod $shippingMethod, array $context = [])
+    public function getShippingMethodPrice(ShippingMethod $shippingMethod, ShippingPriceContext $context)
     {
-        if (!array_key_exists($shippingMethod->id, $this->shippingMethodPrices)) {
-            $this->shippingMethodPrices[$shippingMethod->id] = $this->_getShippingMethodPrice($shippingMethod, $context);
-        }
-
-        return $this->shippingMethodPrices[$shippingMethod->id];
+        $key = "ShippingMethodPrice::$shippingMethod->id::$context->key";
+        return $this->memoize($key,
+            fn() => $this->_getShippingMethodPrice($shippingMethod, $context));
     }
 
     private function _getProductPrice(Product $product): Price
     {
         $salesRules = $this->salesRuleService->getActiveProductRules();
-        return $this->_getPrice($product->price, $salesRules, ['product' => $product]);
+        return $this->_getPrice($product->price, $salesRules, new ProductPriceContext($product));
     }
 
     /**
      * @param int $price
      * @param Collection<SalesRule> $salesRules
-     * @param array $context
+     * @param PriceContext $context
      * @return Price
      */
-    private function _getPrice(int $price, Collection $salesRules, array $context = []): Price
+    private function _getPrice(int $price, Collection $salesRules, PriceContext $context): Price
     {
         $discountedPrice = $price;
 
@@ -95,7 +82,7 @@ class PriceService
         return Price::create($price, $discountedPrice);
     }
 
-    public function getPrice(?IHasPrice $priceHolder = null, array $context = []): ?Price
+    public function getPrice(?IHasPrice $priceHolder = null, ?ShippingPriceContext $context = null): ?Price
     {
         if ($priceHolder instanceof Product) {
             return $this->getProductPrice($priceHolder);
@@ -107,12 +94,15 @@ class PriceService
             return $this->getOrderItemPrice($priceHolder);
         }
         if ($priceHolder instanceof ShippingMethod) {
+            if (!$context) {
+                throw new \LogicException('Context is required for shipping method price calculation.');
+            }
             return $this->getShippingMethodPrice($priceHolder, $context);
         }
         if ($priceHolder === null) {
             return null;
         }
-        return Price::create($priceHolder->price);
+        return Price::create($priceHolder->getPrice());
     }
 
     private function _getCartItemPrice(CartItem $cartItem): Price
@@ -134,10 +124,10 @@ class PriceService
         $price = $productPrice + $sizePrice + $optionsPrices;
         // применяем sales rules
         $salesRules = $this->salesRuleService->getActiveProductRules();
-        return $this->_getPrice($price, $salesRules, ['product' => $cartOrOrderItem->product]);
+        return $this->_getPrice($price, $salesRules, new ProductPriceContext($cartOrOrderItem->product));
     }
 
-    private function _getShippingMethodPrice(ShippingMethod $shippingMethod, array $context = []): Price
+    private function _getShippingMethodPrice(ShippingMethod $shippingMethod, ShippingPriceContext $context): Price
     {
         $price = $shippingMethod->price;
         $discountedPrice = $price;

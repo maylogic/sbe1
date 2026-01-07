@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Data\Price;
+use App\Data\ShippingPriceContext;
 use App\Data\Totals;
 use App\Models\Cart;
 use App\Models\Order;
@@ -20,7 +21,7 @@ readonly class TotalsService
     {
         $subtotal = $this->getCartSubtotal($cart);
         $cart->subtotal = $subtotal; // for sales expressions
-        $shippingPrice = $this->priceService->getPrice($cart->shipping_method, ['cart' => $cart]);
+        $shippingPrice = $this->priceService->getPrice($cart->shipping_method, new ShippingPriceContext($cart));
         $grandTotalRegular = $subtotal->regular;
         $grandTotalDiscounted = $subtotal->discounted;
         $pointsUsed = 0;
