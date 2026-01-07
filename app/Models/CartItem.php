@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\IHasPrice;
+use App\Traits\HasPrice;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CartItem extends Model implements IHasPrice
 {
+    use HasPrice;
     use HasFactory;
 
     protected $guarded = [];
