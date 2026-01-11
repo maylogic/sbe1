@@ -7,6 +7,7 @@ use App\Data\ShippingPriceContext;
 use App\Data\Totals;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\User;
 
 readonly class TotalsService
 {
@@ -17,23 +18,20 @@ readonly class TotalsService
     {
     }
 
-    public function getCartTotals(Cart $cart): Totals
+    public function getCartTotals(Cart $cart, ?User $user = null): Totals
     {
         $subtotal = $this->getCartSubtotal($cart);
-        $cart->subtotal = $subtotal; // for sales expressions
-        $shippingPrice = $this->priceService->getPrice($cart->shipping_method, new ShippingPriceContext($cart));
+        $shippingPrice = $this->priceService->getPrice($cart->shipping_method, new ShippingPriceContext($cart, $subtotal));
         $grandTotalRegular = $subtotal->regular;
         $grandTotalDiscounted = $subtotal->discounted;
         $pointsUsed = 0;
-        if ($cart->apply_balance && $this->balanceService->canApplyBalance($cart)) {
-            $balance = \Auth::user()->getBalance();
+        if ($cart->apply_balance && $this->balanceService->canApplyBalance($cart, $user)) {
+            $balance = $user->getBalance();
             // Если баланс больше нуля, применяем его к общей сумме
-            if ($balance->value > 0) {
-                // Определяем, сколько баллов можно использовать (не больше, чем grand total)
-                $pointsUsed = min($balance->value, $grandTotalDiscounted);
-                // Вычитаем использованные баллы из общей суммы
-                $grandTotalDiscounted -= $pointsUsed;
-            }
+            // Определяем, сколько баллов можно использовать (не больше, чем grand total)
+            $pointsUsed = min($balance->value, $grandTotalDiscounted);
+            // Вычитаем использованные баллы из общей суммы
+            $grandTotalDiscounted -= $pointsUsed;
         }
 
         $realShippingPrice = $shippingPrice?->getRegularOrDiscounted();

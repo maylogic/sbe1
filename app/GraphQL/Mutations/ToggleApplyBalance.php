@@ -18,7 +18,7 @@ readonly class ToggleApplyBalance
     ): Cart
     {
         $cart = $this->cartService->getCurrentCart();
-        if ($this->balanceService->canApplyBalance($cart)) {
+        if ($this->balanceService->canApplyBalance($cart, \Auth::user())) {
             $cart->update(['apply_balance' => !$cart->apply_balance]);
         }
 

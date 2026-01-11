@@ -4,16 +4,15 @@ namespace App\Services;
 
 use App\Models\Cart;
 use App\Models\Order;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class BalanceService
 {
-    public function canApplyBalance(Cart|Order $cartOrOrder): bool
+    public function canApplyBalance(Cart|Order $cartOrOrder, ?User $user = null): bool
     {
         if ($cartOrOrder instanceof Order) {
             return true;
         }
-        $user = Auth::user();
         if ($user) {
             return $cartOrOrder->user_id === $user->id
                 && $user->getBalance()->value > 0;

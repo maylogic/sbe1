@@ -18,9 +18,6 @@ class Cart extends Model implements IHasShipping
 {
     protected $guarded = [];
 
-    // expressions
-    public Price $subtotal;
-
     const string SESSION_KEY = 'cart_anon_id';
 
     use HasFactory;

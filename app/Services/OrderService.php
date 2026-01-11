@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\User;
 
 readonly class OrderService
 {
@@ -29,10 +30,9 @@ readonly class OrderService
             ->where('id', '=', $orderId)->first();
     }
 
-    public function placeOrder(?string $comment): Order
+    public function placeOrder(Cart $cart, ?User $user = null, ?string $comment = null): Order
     {
-        return \DB::transaction(function () use ($comment) {
-            $cart = $this->cartService->getCurrentCart();
+        return \DB::transaction(function () use ($comment, $cart, $user) {
             $fields = $this->getOrderCreateFieldsFromCart($cart);
             if (is_string($comment)) {
                 $comment = substr($comment, 0, 210);
@@ -86,9 +86,9 @@ readonly class OrderService
         return $data;
     }
 
-    public function getOrderCreateFieldsFromCart(Cart $cart): array
+    public function getOrderCreateFieldsFromCart(Cart $cart, ?User $user = null): array
     {
-        $totals = $this->totalsService->getCartTotals($cart);
+        $totals = $this->totalsService->getCartTotals($cart, $user);
         return [
             'email' => $cart->email,
             'user_id' => $cart->user_id,

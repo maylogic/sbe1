@@ -19,7 +19,8 @@ readonly class TotalsResolver
     ): Totals
     {
         if ($rootValue instanceof Cart) {
-            return $this->totalsService->getCartTotals($rootValue);
+            $user = \Auth::user();
+            return $this->totalsService->getCartTotals($rootValue, $user);
         }
         return $this->totalsService->getOrderTotals($rootValue);
     }

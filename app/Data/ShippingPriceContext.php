@@ -7,14 +7,14 @@ use App\Models\Cart;
 
 readonly class ShippingPriceContext extends PriceContext
 {
-    public function __construct(public Cart $cart)
+    public function __construct(public Cart $cart, public Price $cartSubtotal)
     {
         parent::__construct();
     }
 
     public function toArray(): array
     {
-        return ['cart' => $this->cart];
+        return ['cart' => $this->cart, 'cart_subtotal' => $this->cartSubtotal];
     }
 
     public function key(): string

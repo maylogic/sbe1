@@ -14,6 +14,6 @@ readonly class CanApplyBalance
 
     public function __invoke(Cart|Order $rootValue): bool
     {
-        return $this->balanceService->canApplyBalance($rootValue);
+        return $this->balanceService->canApplyBalance($rootValue, \Auth::user());
     }
 }
