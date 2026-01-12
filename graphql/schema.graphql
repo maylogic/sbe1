@@ -140,7 +140,7 @@ type Cart {
     can_apply_coupon: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyCoupon")
     can_apply_balance: Boolean! @field(resolver: "App\\GraphQL\\Resolvers\\CanApplyBalance")
     email: String
-    can_login: Boolean @field(resolver: "App\\GraphQL\\Resolvers\\CartCanLogin")
+    user_with_cart_email_exists: Boolean @field(resolver: "App\\GraphQL\\Resolvers\\UserWithCartEmailExists")
     customer_addresses: [CustomerAddress!] @field(resolver: "App\\GraphQL\\Resolvers\\InjectCustomerAddressesInCart")
 }
 

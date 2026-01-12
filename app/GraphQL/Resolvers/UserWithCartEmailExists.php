@@ -5,7 +5,7 @@ namespace App\GraphQL\Resolvers;
 use App\Models\Cart;
 use App\Services\CartService;
 
-readonly class CartCanLogin
+readonly class UserWithCartEmailExists
 {
     public function __construct(private CartService $cartService)
     {
@@ -13,6 +13,6 @@ readonly class CartCanLogin
 
     public function __invoke(Cart $rootValue): ?bool
     {
-        return $this->cartService->canLogin($rootValue);
+        return $this->cartService->userWithCartEmailExists($rootValue);
     }
 }

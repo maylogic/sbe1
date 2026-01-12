@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItemTextLine;
 use App\Models\Coupon;
 use App\Models\User;
+use App\Traits\MemoizeMethods;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -14,17 +15,15 @@ use Throwable;
 
 class CartService
 {
-    public array $cache = [];
+    use MemoizeMethods;
 
     public function getCurrentCart(): Cart
     {
         $userId = Auth::user()?->id;
         $cartAnonId = session(Cart::SESSION_KEY);
         $cacheKey = $userId ? 'uid-' . $userId : 'anon-' . $cartAnonId;
-        if (!array_key_exists($cacheKey, $this->cache)) {
-            $this->cache[$cacheKey] = $this->getOrCreateCart();
-        }
-        return $this->cache[$cacheKey];
+
+        return $this->memoize($cacheKey, fn() => $this->getOrCreateCart());
     }
 
     public function getCurrentCartItemsCount(): int
@@ -130,9 +129,11 @@ class CartService
         $this->getCurrentCart()->removeCouponIfApplied($coupon);
     }
 
-    public function canLogin(Cart $cart): ?bool
+    public function userWithCartEmailExists(Cart $cart): ?bool
     {
-        if (empty($cart->email)) return null;
+        if (empty($cart->email)) {
+            return false;
+        }
         return User::whereEmail($cart->email)->exists();
     }
 
