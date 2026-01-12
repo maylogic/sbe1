@@ -12,23 +12,19 @@ class SalesRuleService
     /**
      * @var Collection<SalesRule>|null
      */
-    protected Collection|null $rules = null;
-
-    public function __construct()
-    {
-    }
+    protected Collection|null $currentlyActiveRules = null;
 
     /**
      * @return Collection<SalesRule>
      */
-    public function getActiveRules(): Collection
+    public function getCurrentlyActiveRules(): Collection
     {
-        if ($this->rules === null) {
-            $this->rules = SalesRule::whereActive(1)
+        if ($this->currentlyActiveRules === null) {
+            $this->currentlyActiveRules = SalesRule::whereActive(1)
                 ->where('ends_at', '>', now())
                 ->get();
         }
-        return $this->rules->toBase();
+        return $this->currentlyActiveRules->toBase();
     }
 
     /**
@@ -36,7 +32,7 @@ class SalesRuleService
      */
     public function getActiveProductRules(): Collection
     {
-        return $this->getActiveRules()->filter(fn(SalesRule $rule) => $rule->product);
+        return $this->getCurrentlyActiveRules()->filter(fn(SalesRule $rule) => $rule->product);
     }
 
     /**
@@ -44,7 +40,7 @@ class SalesRuleService
      */
     public function getActiveShippingRules(): Collection
     {
-        return $this->getActiveRules()->filter(fn(SalesRule $rule) => $rule->shipping);
+        return $this->getCurrentlyActiveRules()->filter(fn(SalesRule $rule) => $rule->shipping);
     }
 
     public function evaluate(SalesRule $salesRule, ?PriceContext $context = null): bool

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Livewire\BaseTextAreasEditor;
+use App\Services\CartService;
+use App\Services\SalesRuleService;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -13,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(CartService::class);
+        $this->app->singleton(SalesRuleService::class);
     }
 
     /**
@@ -21,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        DB::listen(function($query) {
+//        DB::listen(function ($query) {
 //            Log::info(
 //                $query->sql,
 //                [

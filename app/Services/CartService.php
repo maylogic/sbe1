@@ -4,19 +4,19 @@ namespace App\Services;
 
 use App\Data\Input\PersonalizeInput;
 use App\Models\Cart;
-use App\Models\CartItem;
 use App\Models\CartItemTextLine;
 use App\Models\Coupon;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Throwable;
 
 class CartService
 {
     public array $cache = [];
 
-    public function getCurrentCart($create = true): Cart
+    public function getCurrentCart(): Cart
     {
         $userId = Auth::user()?->id;
         $cartAnonId = session(Cart::SESSION_KEY);
@@ -53,7 +53,6 @@ class CartService
             'shipping_address_id' => $customerAddressId,
             'shipping_method_id' => null
         ]);
-        $cart->load(['shipping_address']);
         return $cart;
     }
 
@@ -61,7 +60,6 @@ class CartService
     {
         $cart = $this->getCurrentCart();
         $cart->update(['shipping_method_id' => $shippingMethodId]);
-        $cart->load(['shipping_method']);
         return $cart;
     }
 
@@ -124,12 +122,12 @@ class CartService
 
     public function applyCoupon(Coupon $coupon): void
     {
-        $this->getCurrentCart()->applyCoupon($coupon);
+        $this->getCurrentCart()->applyCouponIfNotApplied($coupon);
     }
 
     public function removeCoupon(Coupon $coupon): void
     {
-        $this->getCurrentCart()->removeCoupon($coupon);
+        $this->getCurrentCart()->removeCouponIfApplied($coupon);
     }
 
     public function canLogin(Cart $cart): ?bool
@@ -145,9 +143,7 @@ class CartService
 
     public function getUserCart(User $user): ?Cart
     {
-        return Cart::withEverything()
-            ->where('user_id', '=', $user->id)
-            ->first();
+        return Cart::where('user_id', '=', $user->id)->first();
     }
 
     public function createUserCart(User $user): Cart
@@ -164,16 +160,14 @@ class CartService
         if (!$cartAnonId) {
             return null;
         }
-        return Cart::withEverything()
-            ->where('anon_id', '=', $cartAnonId)
-            ->first();
+        return Cart::where('anon_id', '=', $cartAnonId)->first();
     }
 
     public function createAnonCart(): Cart
     {
         $cartAnonId = session(Cart::SESSION_KEY);
         if (!$cartAnonId) {
-            $cartAnonId = uuid_create();
+            $cartAnonId = Str::uuid()->toString();
             session([Cart::SESSION_KEY => $cartAnonId]);
         }
         return Cart::factory()->create([
@@ -194,21 +188,52 @@ class CartService
 
     public function mergeCarts(User $user): void
     {
-        $anonCart = $this->getAnonCart();
-        $anonCartEmpty = $anonCart === null || $anonCart->isEmpty();
-        $userCart = $this->getUserCart($user);
-        $userCartEmpty = $userCart === null || $userCart->isEmpty();
+        $anonCart = Cart::forMerging()
+            ->where('anon_id', session(Cart::SESSION_KEY))
+            ->first();
+        $userCart = Cart::forMerging()
+            ->where('user_id', $user->id)
+            ->first();
 
-        $anonCartFresher = $anonCart?->isFresherThan($userCart);
-        $shouldDropAnonCart = !$userCartEmpty && ($anonCartEmpty || !$anonCartFresher);
+        session()->forget(Cart::SESSION_KEY);
 
-        if ($shouldDropAnonCart) {
-            $anonCart?->delete();
-        } else {
-            $userCart?->delete();
-            $this->attachCartToUser($anonCart, $user);
+        // Если нет анонимной корзины — ничего не делаем
+        if (!$anonCart) {
+            return;
         }
-        session()->forget([Cart::SESSION_KEY]);
+
+        // Если нет пользовательской корзины — просто привязываем анонимную
+        if (!$userCart) {
+            $this->attachCartToUser($anonCart, $user);
+            return;
+        }
+
+        // Обе корзины существуют — переносим товары из anonCart в userCart
+        foreach ($anonCart->items as $item) {
+            $existingItem = $userCart->items->first(fn($userItem) => $userItem->isSameAs($item));
+
+            if ($existingItem) {
+                $existingItem->update(['quantity' => $existingItem->quantity + $item->quantity]);
+            } else {
+                $item->update(['cart_id' => $userCart->id]);
+            }
+        }
+
+        // Переносим купон (если в userCart его нет)
+        foreach ($anonCart->coupons as $coupon) {
+            $userCart->applyCouponIfNotApplied($coupon);
+        }
+
+        // Сохраняем адрес/метод доставки из более свежей корзины (опционально)
+        if ($anonCart->isFresherThan($userCart)) {
+            $userCart->update([
+                'shipping_address_id' => $anonCart->shipping_address_id,
+                'shipping_method_id' => $anonCart->shipping_method_id
+            ]);
+        }
+
+        // Удаляем анонимную корзину (теперь она пуста или не нужна)
+        $anonCart->delete();
     }
 
     public function attachCartToUser(Cart $cart, User $user): void

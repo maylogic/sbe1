@@ -3,7 +3,6 @@
 namespace App\GraphQL\Resolvers;
 
 use App\Models\Cart;
-use App\Models\Order;
 use App\Services\BalanceService;
 
 readonly class CanApplyBalance
@@ -12,7 +11,7 @@ readonly class CanApplyBalance
     {
     }
 
-    public function __invoke(Cart|Order $rootValue): bool
+    public function __invoke(Cart $rootValue): bool
     {
         return $this->balanceService->canApplyBalance($rootValue, \Auth::user());
     }

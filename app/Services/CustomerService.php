@@ -66,6 +66,5 @@ readonly class CustomerService
             'postal_code' => $payload->postal_code,
             'state' => $payload->state,
         ]);
-        $cart->load(['shipping_address']);
     }
 }

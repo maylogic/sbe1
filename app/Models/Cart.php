@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\IHasShipping;
-use App\Data\Price;
 use App\Traits\HasShipping;
-use Database\Factories\CartFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +20,14 @@ class Cart extends Model implements IHasShipping
 
     use HasFactory;
     use HasShipping;
+
+    public function scopeForMerging(): Builder
+    {
+        return self::with([
+            'items' => fn($q) => $q->withPersonalization(),
+            'coupons',
+        ]);
+    }
 
     public function isEmpty(): bool
     {
@@ -57,19 +63,6 @@ class Cart extends Model implements IHasShipping
         return $this->belongsToMany(Coupon::class, 'cart_coupon');
     }
 
-    /**
-     * @return Builder<Cart>
-     */
-    public static function withEverything(): Builder
-    {
-        return Cart::with([
-            'items',
-            'coupons',
-            'shipping_address',
-            'shipping_method',
-        ]);
-    }
-
     public function setEmail(string $email): void
     {
         $this->update([
@@ -77,49 +70,55 @@ class Cart extends Model implements IHasShipping
         ]);
     }
 
-    public function applyCoupon(Coupon $coupon): void
+    public function applyCouponIfNotApplied(Coupon $coupon): void
     {
+        if ($this->isCouponApplied($coupon)) {
+            throw new \DomainException('Купон уже применён');
+        }
+
         DB::transaction(function () use ($coupon) {
-            $c = Coupon::whereCode($coupon->code)->lockForUpdate()->firstOrFail();
+            $c = Coupon::where('id', $coupon->id)->lockForUpdate()->firstOrFail();
             if ($c->quantity !== null && $c->quantity <= 0) {
                 throw new \InvalidArgumentException('Купон закончился');
             }
             $this->coupons()->attach($coupon->id);
-            $this->load(['coupons']);
             if ($c->quantity !== null) {
-                $c->update(['quantity', $c->quantity - 1]);
+                $c->decrement('quantity');
             }
         });
     }
 
-    public function removeCoupon(Coupon $coupon): void
+    public function removeCouponIfApplied(Coupon $coupon): void
     {
+        if (!$this->isCouponApplied($coupon)) {
+            throw new \DomainException('Купон не применён к корзине.');
+        }
+
         DB::transaction(function () use ($coupon) {
-            $c = Coupon::whereCode($coupon->code)->lockForUpdate()->firstOrFail();
+            $c = Coupon::where('id', $coupon->id)->lockForUpdate()->firstOrFail();
             $this->coupons()->detach($coupon->id);
-            $this->load(['coupons']);
             if ($c->quantity !== null) {
-                $c->update(['quantity', $c->quantity + 1]);
+                $c->increment('quantity');
             }
         });
     }
 
     public function removeCartItem(int $cartItemId): void
     {
-        $this->items->find($cartItemId)?->delete();
-        $this->load(['items']);
+        $this->items()->where('id', $cartItemId)->delete();
     }
 
     public function updateCartItemQuantity(int $cartItemId, int $quantity): void
     {
-        $this->items->find($cartItemId)?->update(['quantity' => $quantity]);
-        $this->load(['items']);
+        if ($quantity <= 0) {
+            $this->items()->where('id', $cartItemId)->delete();
+        } else {
+            $this->items()->where('id', $cartItemId)->update(['quantity' => $quantity]);
+        }
     }
 
     public function isCouponApplied(Coupon $coupon): bool
     {
-        return $this->coupons()
-            ->where('code', '=', $coupon->code)
-            ->exists();
+        return $this->coupons()->where('id', $coupon->id)->exists();
     }
 }

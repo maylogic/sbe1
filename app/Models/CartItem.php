@@ -58,4 +58,37 @@ class CartItem extends Model implements IHasPrice
     {
         return $this->belongsTo(ProductSize::class);
     }
+
+    public function scopeWithPersonalization($query)
+    {
+        return $query->with(['option_items', 'text_lines']);
+    }
+
+    public function isSameAs(self $other): bool
+    {
+        // Сравниваем основные атрибуты
+        if (
+            $this->product_id !== $other->product_id ||
+            $this->design_id !== $other->design_id ||
+            $this->color_id !== $other->color_id ||
+            $this->font_id !== $other->font_id ||
+            $this->product_size_id !== $other->product_size_id
+        ) {
+            return false;
+        }
+
+        // Сравниваем option_items (набор ID)
+        $thisOptionIds = $this->option_items->pluck('id')->sort()->values();
+        $otherOptionIds = $other->option_items->pluck('id')->sort()->values();
+
+        if ($thisOptionIds->toArray() !== $otherOptionIds->toArray()) {
+            return false;
+        }
+
+        // Сравниваем text_lines: должны совпадать все пары (definition_id => value)
+        $thisTextLines = $this->text_lines->mapWithKeys(fn ($line) => [$line->product_line_definition_id => $line->value])->sortKeys();
+        $otherTextLines = $other->text_lines->mapWithKeys(fn ($line) => [$line->product_line_definition_id => $line->value])->sortKeys();
+
+        return $thisTextLines->toArray() === $otherTextLines->toArray();
+    }
 }
