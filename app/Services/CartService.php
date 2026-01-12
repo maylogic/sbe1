@@ -188,52 +188,54 @@ class CartService
 
     public function mergeCarts(User $user): void
     {
-        $anonCart = Cart::forMerging()
-            ->where('anon_id', session(Cart::SESSION_KEY))
-            ->first();
-        $userCart = Cart::forMerging()
-            ->where('user_id', $user->id)
-            ->first();
+        DB::transaction(function () use ($user) {
+            $anonCart = Cart::forMerging()
+                ->where('anon_id', session(Cart::SESSION_KEY))
+                ->first();
+            $userCart = Cart::forMerging()
+                ->where('user_id', $user->id)
+                ->first();
+
+            // Если нет анонимной корзины — ничего не делаем
+            if (!$anonCart) {
+                return;
+            }
+
+            // Если нет пользовательской корзины — просто привязываем анонимную
+            if (!$userCart) {
+                $this->attachCartToUser($anonCart, $user);
+                return;
+            }
+
+            // Обе корзины существуют — переносим товары из anonCart в userCart
+            foreach ($anonCart->items as $item) {
+                $existingItem = $userCart->items->first(fn($userItem) => $userItem->isSameAs($item));
+
+                if ($existingItem) {
+                    $existingItem->update(['quantity' => $existingItem->quantity + $item->quantity]);
+                } else {
+                    $item->update(['cart_id' => $userCart->id]);
+                }
+            }
+
+            // Переносим купон (если в userCart его нет)
+            foreach ($anonCart->coupons as $coupon) {
+                $userCart->applyCouponIfNotApplied($coupon);
+            }
+
+            // Сохраняем адрес/метод доставки из более свежей корзины (опционально)
+            if ($anonCart->isFresherThan($userCart)) {
+                $userCart->update([
+                    'shipping_address_id' => $anonCart->shipping_address_id,
+                    'shipping_method_id' => $anonCart->shipping_method_id
+                ]);
+            }
+
+            // Удаляем анонимную корзину (теперь она пуста или не нужна)
+            $anonCart->delete();
+        });
 
         session()->forget(Cart::SESSION_KEY);
-
-        // Если нет анонимной корзины — ничего не делаем
-        if (!$anonCart) {
-            return;
-        }
-
-        // Если нет пользовательской корзины — просто привязываем анонимную
-        if (!$userCart) {
-            $this->attachCartToUser($anonCart, $user);
-            return;
-        }
-
-        // Обе корзины существуют — переносим товары из anonCart в userCart
-        foreach ($anonCart->items as $item) {
-            $existingItem = $userCart->items->first(fn($userItem) => $userItem->isSameAs($item));
-
-            if ($existingItem) {
-                $existingItem->update(['quantity' => $existingItem->quantity + $item->quantity]);
-            } else {
-                $item->update(['cart_id' => $userCart->id]);
-            }
-        }
-
-        // Переносим купон (если в userCart его нет)
-        foreach ($anonCart->coupons as $coupon) {
-            $userCart->applyCouponIfNotApplied($coupon);
-        }
-
-        // Сохраняем адрес/метод доставки из более свежей корзины (опционально)
-        if ($anonCart->isFresherThan($userCart)) {
-            $userCart->update([
-                'shipping_address_id' => $anonCart->shipping_address_id,
-                'shipping_method_id' => $anonCart->shipping_method_id
-            ]);
-        }
-
-        // Удаляем анонимную корзину (теперь она пуста или не нужна)
-        $anonCart->delete();
     }
 
     public function attachCartToUser(Cart $cart, User $user): void
