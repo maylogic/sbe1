@@ -226,10 +226,14 @@ class CartService
 
             // Сохраняем адрес/метод доставки из более свежей корзины (опционально)
             if ($anonCart->isFresherThan($userCart)) {
-                $userCart->update([
-                    'shipping_address_id' => $anonCart->shipping_address_id,
-                    'shipping_method_id' => $anonCart->shipping_method_id
-                ]);
+                $upd = [];
+                if ($anonCart->shipping_address_id) {
+                    $upd['shipping_address_id'] = $anonCart->shipping_address_id;
+                }
+                if ($anonCart->shipping_method_id) {
+                    $upd['shipping_method_id'] = $anonCart->shipping_method_id;
+                }
+                $userCart->update($upd);
             }
 
             // Удаляем анонимную корзину (теперь она пуста или не нужна)
