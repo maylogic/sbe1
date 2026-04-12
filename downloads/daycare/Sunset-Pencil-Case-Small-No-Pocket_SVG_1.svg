@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 527.2441 300.4724">
+  <g id="CutContour">
+    <rect x="8.5025" y="8.5039" width="510.2362" height="283.4646" fill="none" stroke="#f09" stroke-miterlimit="10"/>
+  </g>
+  <g id="Designs">
+    <g>
+      <rect x="-.003" y=".0012" width="527.25" height="54.3" fill="#f9f182" stroke-width="0"/>
+      <rect x="-.003" y="54.3012" width="527.25" height="48.27" fill="#ffca9b" stroke-width="0"/>
+      <rect x="-.003" y="102.5712" width="527.25" height="48.27" fill="#fd86c8" stroke-width="0"/>
+      <rect x="-.003" y="150.8413" width="527.25" height="47.47" fill="#8681d3" stroke-width="0"/>
+      <rect x="-.003" y="198.3112" width="527.25" height="47.47" fill="#75c9dc" stroke-width="0"/>
+      <rect x="-.003" y="245.7812" width="527.25" height="54.69" fill="#9ed4cd" stroke-width="0"/>
+    </g>
+  </g>
+</svg>

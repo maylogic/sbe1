@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 179.08 159.59">
+  <g>
+    <g>
+      <g>
+        <rect x="17.02" width="17.02" height="2.31" fill="#0c86c4"/>
+        <path d="m17.02,0v2.31H3.39C5.05.87,7.22,0,9.58,0h7.44Z" fill="#0070bc"/>
+        <rect x="34.04" width="17.01" height="2.31" fill="#0070bc"/>
+        <rect x="51.05" width="17.02" height="2.31" fill="#5597c4"/>
+        <path d="m81.83,2.31h-13.76V0h7.57c2.36,0,4.53.87,6.19,2.31Z" fill="#0070bc"/>
+      </g>
+      <g>
+        <rect x="17.02" y="70.37" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect y="70.37" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="17.02" y="53.36" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="17.02" y="36.34" width="17.02" height="17.02" fill="#87c1e9"/>
+        <rect x="17.02" y="19.32" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="17.02" y="2.31" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="34.04" y="70.37" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="34.04" y="53.36" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="34.04" y="36.34" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="34.04" y="19.32" width="17.02" height="17.02" fill="#286381"/>
+        <path d="m34.04,2.31v17.01h17.02V2.31h-17.02Zm8.86,16.24c-3.06-.08-5.48-2.64-5.4-5.7.09-3.07,2.64-5.49,5.71-5.4,3.07.08,5.48,2.64,5.4,5.7-.08,3.07-2.64,5.49-5.71,5.4Z" fill="#87c1e9"/>
+        <rect x="51.06" y="70.37" width="17.02" height="17.02" fill="#5597c4"/>
+        <rect x="51.06" y="53.36" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="51.06" y="36.34" width="17.02" height="17.02" fill="#5597c4"/>
+        <rect x="51.06" y="19.32" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="51.06" y="2.31" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="68.07" y="70.37" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="68.07" y="53.36" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="68.07" y="36.34" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="68.07" y="19.32" width="17.02" height="17.02" fill="#0070bc"/>
+        <path d="m85.09,8.38v10.94h-17.02V2.31h13.76c1.77,1.51,2.97,3.65,3.26,6.07Z" fill="#0c86c4"/>
+        <rect x="85.09" y="70.38" width=".07" height="17.01" fill="#286381"/>
+        <rect x="85.09" y="53.36" width=".07" height="17.02" fill="#0070bc"/>
+        <rect x="85.09" y="36.34" width=".07" height="17.02" fill="#0c86c4"/>
+        <rect x="85.09" y="19.33" width=".07" height="17.01" fill="#0c86c4"/>
+        <path d="m85.16,9.51v9.82h-.07v-10.95c.05.37.07.75.07,1.13Z" fill="#286381"/>
+        <rect y="53.36" width="17.02" height="17.01" fill="#0c86c4"/>
+        <rect x="17.02" y="104.41" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect y="104.41" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="17.02" y="87.39" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="34.04" y="104.41" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="34.04" y="87.39" width="17.02" height="17.02" fill="#286381"/>
+        <rect x="51.06" y="104.41" width="17.02" height="17.02" fill="#5597c4"/>
+        <rect x="51.06" y="87.39" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="68.07" y="104.41" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="68.07" y="87.39" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="85.09" y="104.41" width=".07" height="17.02" fill="#0c86c4"/>
+        <rect x="85.09" y="87.39" width=".07" height="17.02" fill="#0070bc"/>
+        <rect y="87.39" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect y="36.34" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect y="19.32" width="17.02" height="17.02" fill="#286381"/>
+        <path d="m17.02,2.31v17.01H.06v-9.81C.06,6.64,1.35,4.05,3.39,2.31h13.63Z" fill="#0c86c4"/>
+      </g>
+    </g>
+    <path d="m85.16,121.43v28.58c0,5.23-4.28,9.52-9.52,9.52H9.58c-5.24,0-9.52-4.29-9.52-9.52v-28.58h85.1Z" fill="#231f20"/>
+  </g>
+  <g>
+    <g>
+      <g>
+        <rect x="110.94" width="17.02" height="2.31" fill="#0c86c4"/>
+        <path d="m110.94,0v2.31h-13.63c1.66-1.44,3.83-2.31,6.19-2.31h7.44Z" fill="#0070bc"/>
+        <rect x="127.96" width="17.01" height="2.31" fill="#0070bc"/>
+        <rect x="144.97" width="17.02" height="2.31" fill="#5597c4"/>
+        <path d="m175.75,2.31h-13.76V0h7.57c2.36,0,4.53.87,6.19,2.31Z" fill="#0070bc"/>
+      </g>
+      <g>
+        <rect x="110.94" y="70.37" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="93.92" y="70.37" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="110.94" y="53.36" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="110.94" y="36.34" width="17.02" height="17.02" fill="#87c1e9"/>
+        <rect x="110.94" y="19.32" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="110.94" y="2.31" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="127.95" y="70.37" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="127.95" y="53.36" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="127.95" y="36.34" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="127.95" y="19.32" width="17.02" height="17.02" fill="#286381"/>
+        <path d="m127.96,2.31v17.01h17.02V2.31h-17.02Zm8.86,16.24c-3.06-.08-5.48-2.64-5.4-5.7.09-3.07,2.64-5.49,5.71-5.4,3.07.08,5.48,2.64,5.4,5.7-.08,3.07-2.64,5.49-5.71,5.4Z" fill="#87c1e9"/>
+        <rect x="144.97" y="70.37" width="17.02" height="17.02" fill="#5597c4"/>
+        <rect x="144.97" y="53.36" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="144.97" y="36.34" width="17.02" height="17.02" fill="#5597c4"/>
+        <rect x="144.97" y="19.32" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="144.97" y="2.31" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="161.99" y="70.37" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="161.99" y="53.36" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="161.99" y="36.34" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="161.99" y="19.32" width="17.02" height="17.02" fill="#0070bc"/>
+        <path d="m179.01,8.38v10.94h-17.02V2.31h13.76c1.77,1.51,2.97,3.65,3.26,6.07Z" fill="#0c86c4"/>
+        <rect x="179.01" y="70.38" width=".07" height="17.01" fill="#286381"/>
+        <rect x="179.01" y="53.36" width=".07" height="17.02" fill="#0070bc"/>
+        <rect x="179.01" y="36.34" width=".07" height="17.02" fill="#0c86c4"/>
+        <rect x="179.01" y="19.33" width=".07" height="17.01" fill="#0c86c4"/>
+        <path d="m179.08,9.51v9.82h-.07v-10.95c.05.37.07.75.07,1.13Z" fill="#286381"/>
+        <rect x="93.92" y="53.36" width="17.02" height="17.01" fill="#0c86c4"/>
+        <rect x="110.94" y="104.41" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="93.92" y="104.41" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="110.94" y="87.39" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="127.95" y="104.41" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="127.95" y="87.39" width="17.02" height="17.02" fill="#286381"/>
+        <rect x="144.97" y="104.41" width="17.02" height="17.02" fill="#5597c4"/>
+        <rect x="144.97" y="87.39" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="161.99" y="104.41" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="161.99" y="87.39" width="17.02" height="17.02" fill="#204972"/>
+        <rect x="179.01" y="104.41" width=".07" height="17.02" fill="#0c86c4"/>
+        <rect x="179.01" y="87.39" width=".07" height="17.02" fill="#0070bc"/>
+        <rect x="93.92" y="87.39" width="17.02" height="17.02" fill="#0c86c4"/>
+        <rect x="93.92" y="36.34" width="17.02" height="17.02" fill="#0070bc"/>
+        <rect x="93.92" y="19.32" width="17.02" height="17.02" fill="#286381"/>
+        <path d="m110.94,2.31v17.01h-16.96v-9.81c0-2.87,1.29-5.46,3.33-7.2h13.63Z" fill="#0c86c4"/>
+      </g>
+    </g>
+    <path d="m179.08,121.43v28.58c0,5.23-4.28,9.52-9.52,9.52h-66.06c-5.24,0-9.52-4.29-9.52-9.52v-28.58h85.1Z" fill="#231f20"/>
+  </g>
+</svg>
