@@ -21,6 +21,33 @@ async function fileExists(filePath) {
     }
 }
 
+/**
+ * Выполняет промисы пачками (батчами) или с ограничением concurrency.
+ * @param {Array} tasks - Массив функций, возвращающих промисы.
+ * @param {number} limit - Максимальное количество одновременных задач.
+ */
+async function runWithLimit(tasks, limit) {
+    const results = [];
+    let index = 0;
+
+    async function worker() {
+        while (index < tasks.length) {
+            const currentIndex = index++;
+            try {
+                results[currentIndex] = await tasks[currentIndex]();
+            } catch (err) {
+                results[currentIndex] = err; // Или обработка ошибки
+            }
+        }
+    }
+
+    // Запускаем 'limit' воркеров
+    const workers = Array(Math.min(limit, tasks.length)).fill(null).map(worker);
+    await Promise.all(workers);
+
+    return results;
+}
+
 async function cleanEmptyFiles(dir) {
     try {
         const fullPath = join(OUTPUT_DIR_PREFIX, dir);
@@ -116,17 +143,21 @@ function downloadFile(url, filename) {
 async function downloadRelativeUrls(relativeUrls, targetDir) {
     if (!relativeUrls || relativeUrls.length === 0) return;
 
-    const promises = relativeUrls.map(relUrl => {
-        const fullUrl = relUrl.startsWith('http') ? relUrl : `${DOMAIN}${relUrl}`;
-        const filename = join(targetDir, basename(relUrl));
-        return downloadFile(fullUrl, filename);
+    // Создаем массив задач (функций), а не промисов
+    const tasks = relativeUrls.map(relUrl => {
+        return () => {
+            const fullUrl = relUrl.startsWith('http') ? relUrl : `${DOMAIN}${relUrl}`;
+            const filename = join(targetDir, basename(relUrl));
+            return downloadFile(fullUrl, filename);
+        };
     });
 
-    const results = await Promise.allSettled(promises);
+    // Ограничиваем до 5-10 одновременных скачиваний
+    const results = await runWithLimit(tasks, 5);
 
-    results.forEach((result, index) => {
-        if (result.status === 'rejected') {
-            console.warn(`[FAIL] ${relativeUrls[index]}: ${result.reason.message}`);
+    results.forEach((res, index) => {
+        if (res instanceof Error) {
+            console.warn(`[FAIL] ${relativeUrls[index]}: ${res.message}`);
         } else {
             console.log(`[OK] ${relativeUrls[index]}`);
         }
@@ -227,12 +258,13 @@ async function downloadTemplateSvgs() {
 
     await Promise.all(['previews/labels', 'previews/daycare', 'daycare', 'labels'].map(cleanEmptyFiles))
 
-    const promises = [];
+    const tasks = [];
     for (const [inputFile, outputDir] of map) {
-        promises.push(getTemplateSvgs(inputFile, outputDir));
+        tasks.push(() => getTemplateSvgs(inputFile, outputDir));
     }
 
-    await Promise.allSettled(promises);
+    await runWithLimit(tasks, 3);
+
     console.log('Все процессы завершены.');
 }
 
