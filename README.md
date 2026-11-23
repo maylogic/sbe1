@@ -149,6 +149,18 @@ vendor/bin/phpunit --testdox         # 40 tests, 114 assertions, all green
 
 Tests run against SQLite and therefore catch ambiguous SQL that MySQL would reject as well.
 
+## CI
+
+`.github/workflows/ci.yml` runs on every push to `master` and on every pull request:
+
+1. `composer validate`
+2. `composer install` (PHP 8.4, `ext-http` ignored — see above)
+3. boot and migrate smoke test: fresh `.env`, SQLite file, `php artisan migrate`, `php artisan route:list`
+4. `vendor/bin/phpunit --testdox`
+
+The third step deliberately runs without `npm run build`, so a missing Vite manifest cannot break the
+application boot unnoticed.
+
 ## Release / ops
 
 - `composer install --optimize-autoloader --no-dev`, `npm run build`, `php artisan config:cache route:cache view:cache`
@@ -157,7 +169,6 @@ Tests run against SQLite and therefore catch ambiguous SQL that MySQL would reje
 
 ## Known gaps
 
-- No CI pipeline: tests are run manually.
 - The repo has no `.github` workflows and `composer.json` still carries the `laravel/laravel` skeleton name.
 - On PHP 8.5 the framework emits deprecations (`PDO::MYSQL_ATTR_SSL_CA`); the target runtime is PHP 8.4.
 - `public/build` is gitignored, and the admin panel theme asset is only registered when a manifest exists
