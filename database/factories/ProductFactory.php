@@ -17,7 +17,18 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->unique()->words(3, true),
+            'slug' => fake()->unique()->slug(3),
+            'sku' => strtoupper(fake()->unique()->bothify('SKU-####')),
+            'description' => fake()->paragraph(),
+            'price' => 1000,
+            'meta_title' => fake()->sentence(4),
+            'meta_description' => fake()->sentence(8),
         ];
+    }
+
+    public function pricedAt(int $price): static
+    {
+        return $this->state(fn () => ['price' => $price]);
     }
 }

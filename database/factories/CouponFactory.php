@@ -20,6 +20,9 @@ class CouponFactory extends Factory
     {
         return [
             'code' => CouponService::generateUniqueCode(),
+            'discount_percentage' => 10,
+            'quantity' => null,
+            'ends_at' => now()->addMonth(),
         ];
     }
 }

@@ -9,7 +9,7 @@ abstract class AbstractOrderState implements OrderStateInterface
 {
     public function cancel(Order $order): void
     {
-        $order->update(['state' => OrderStatus::CANCELED]);
+        $order->update(['status' => OrderStatus::CANCELED]);
     }
 
     public function canBeProcessed(): bool

@@ -17,7 +17,11 @@ class OrderItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'order_id' => \App\Models\Order::factory(),
+            'product_id' => \App\Models\Product::factory(),
+            'quantity' => 1,
+            'price_regular' => 1000,
+            'price_discounted' => null,
         ];
     }
 }

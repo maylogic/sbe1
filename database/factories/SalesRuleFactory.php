@@ -17,7 +17,15 @@ class SalesRuleFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'label' => fake()->unique()->words(3, true),
+            'amount' => 10,
+            'is_percentage' => true,
+            'active' => true,
+            'product' => true,
+            'shipping' => false,
+            'expression' => null,
+            'sort' => 0,
+            'ends_at' => now()->addMonth(),
         ];
     }
 }

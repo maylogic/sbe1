@@ -17,7 +17,10 @@ class ShippingMethodFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'label' => 'СДЭК до двери',
+            'price' => 300,
+            'description' => 'Доставка курьером',
+            'provider' => \App\Enum\ShippingMethodProvider::CDEK->value,
         ];
     }
 }

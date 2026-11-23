@@ -23,15 +23,15 @@ readonly class CreateShippingAddress
     {
         $address = $this->customerService->createCustomerAddress(
             new StorefrontCreateCustomerAddressPayload(
-                $args['address1'],
-                $args['address2'],
-                $args['city'],
-                $args['country'],
-                $args['first_name'],
-                $args['last_name'],
-                $args['phone_number'],
-                $args['postal_code'],
-                $args['state']
+                $args['address1'] ?? null,
+                $args['address2'] ?? null,
+                $args['city'] ?? null,
+                $args['country'] ?? null,
+                $args['first_name'] ?? null,
+                $args['last_name'] ?? null,
+                $args['phone_number'] ?? null,
+                $args['postal_code'] ?? null,
+                $args['state'] ?? null
             )
         );
         return $this->cartService->updateShippingAddress($address->id);

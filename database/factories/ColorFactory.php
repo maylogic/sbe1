@@ -17,7 +17,8 @@ class ColorFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'label' => fake()->unique()->colorName(),
+            'hex' => '#112233',
         ];
     }
 }

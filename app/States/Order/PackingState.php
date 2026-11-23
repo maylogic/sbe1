@@ -9,6 +9,6 @@ class PackingState extends AbstractOrderState implements OrderStateInterface
 {
     public function process(Order $order): void
     {
-        $order->update(['state' => OrderStatus::DELIVERY]);
+        $order->update(['status' => OrderStatus::DELIVERY]);
     }
 }

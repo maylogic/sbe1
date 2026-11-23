@@ -44,10 +44,7 @@ class BJjcPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
-            ->assets([
-//                Js::make('editor-app-js', Vite::asset('resources/js/app.js')),
-                Css::make('editor-app-css', Vite::asset('resources/css/app.css'))
-            ])
+            ->assets($this->customAssets())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -63,5 +60,21 @@ class BJjcPanelProvider extends PanelProvider
                 Authenticate::class,
                 EnsureAdminPanelAllowed::class
             ]);
+    }
+
+    /**
+     * Assets compiled by Vite are only registered when a build manifest exists
+     * (after `npm run build`). Without the guard the whole application refuses
+     * to boot — `php artisan migrate` included — on a fresh clone.
+     */
+    private function customAssets(): array
+    {
+        if (! is_file(public_path('build/manifest.json'))) {
+            return [];
+        }
+
+        return [
+            Css::make('editor-app-css', Vite::asset('resources/css/app.css')),
+        ];
     }
 }

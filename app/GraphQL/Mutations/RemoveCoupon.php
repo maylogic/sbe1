@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Exception\GraphqlException;
 use App\Models\Cart;
 use App\Models\Coupon;
 use App\Services\CartService;
@@ -22,10 +23,11 @@ readonly class RemoveCoupon
     {
         $code = $args['code'];
         $coupon = Coupon::whereCode($code)->first();
-        if (!$this->cartService->isCouponApplied($coupon)) {
-            throw new \InvalidArgumentException('Купон не применен');
+        if (!$coupon || !$this->cartService->isCouponApplied($coupon)) {
+            throw new GraphqlException('Купон не применен', 'coupon');
         }
         $this->cartService->removeCoupon($coupon);
-        return $this->cartService->getCurrentCart();
+
+        return $this->cartService->getCurrentCart()->load('coupons');
     }
 }

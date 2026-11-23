@@ -17,7 +17,12 @@ class ProductGalleryItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'product_id' => \App\Models\Product::factory(),
+            'label' => 'Фото',
+            'filename' => 'photo.png',
+            'is_video' => false,
+            'primary' => false,
+            'sort' => 0,
         ];
     }
 }

@@ -17,7 +17,8 @@ class DesignFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'label' => fake()->unique()->words(2, true),
+            'preview' => 'preview.svg',
         ];
     }
 }

@@ -17,7 +17,12 @@ class ProductSizeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'product_id' => \App\Models\Product::factory(),
+            'label' => 'A4',
+            'width' => 100,
+            'height' => 150,
+            'thickness' => 1,
+            'price' => 150,
         ];
     }
 }

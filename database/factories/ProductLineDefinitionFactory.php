@@ -17,7 +17,13 @@ class ProductLineDefinitionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'product_id' => \App\Models\Product::factory(),
+            'label' => 'Имя ребёнка',
+            'max_length' => 20,
+            'required' => true,
+            'hidden' => false,
+            'default_value' => null,
+            'sort' => 0,
         ];
     }
 }

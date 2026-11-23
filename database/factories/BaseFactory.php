@@ -17,7 +17,8 @@ class BaseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'label' => fake()->unique()->words(2, true),
+            'filename' => 'base.svg',
         ];
     }
 }

@@ -9,6 +9,6 @@ class PrintingState extends AbstractOrderState implements OrderStateInterface
 {
     public function process(Order $order): void
     {
-        $order->update(['state' => OrderStatus::PACKING]);
+        $order->update(['status' => OrderStatus::PACKING]);
     }
 }

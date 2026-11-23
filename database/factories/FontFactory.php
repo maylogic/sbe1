@@ -17,7 +17,13 @@ class FontFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'label' => fake()->unique()->word(),
+            'name' => 'Montserrat',
+            'system_name' => 'Montserrat',
+            'filename_woff2' => 'montserrat.woff2',
+            'filename_ttf' => null,
+            'filename_otf' => null,
+            'preview_size' => 20,
         ];
     }
 }

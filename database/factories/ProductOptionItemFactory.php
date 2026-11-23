@@ -17,7 +17,9 @@ class ProductOptionItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'product_option_id' => \App\Models\ProductOption::factory(),
+            'label' => 'Хлопок',
+            'price' => 200,
         ];
     }
 }

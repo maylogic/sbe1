@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Exception\GraphqlException;
 use App\Models\Order;
 use App\Services\CartService;
 use App\Services\OrderService;
@@ -20,10 +21,10 @@ readonly class PlaceOrder
         array $args
     ): Order
     {
-        $comment = $args['comment'];
-        $subscribe = $args['subscribe'];
+        $comment = $args['comment'] ?? null;
+        $subscribe = $args['subscribe'] ?? false;
         if (!$this->orderService->canPlaceOrder()) {
-            throw new \InvalidArgumentException('Cannot place order');
+            throw new GraphqlException('Cannot place order', 'order');
         }
         $cart = $this->cartService->getCurrentCart();
         $user = \Auth::user();

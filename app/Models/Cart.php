@@ -119,6 +119,8 @@ class Cart extends Model implements IHasShipping
 
     public function isCouponApplied(Coupon $coupon): bool
     {
-        return $this->coupons()->where('id', $coupon->id)->exists();
+        // The column must be qualified: `cart_coupon` and `coupons` both have `id`,
+        // and an unqualified `where('id', ...)` makes the query ambiguous.
+        return $this->coupons()->where('coupons.id', $coupon->id)->exists();
     }
 }

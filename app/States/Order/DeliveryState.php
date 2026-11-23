@@ -9,6 +9,6 @@ class DeliveryState extends AbstractOrderState implements OrderStateInterface
 {
     public function process(Order $order): void
     {
-        $order->update(['state' => OrderStatus::COMPLETED]);
+        $order->update(['status' => OrderStatus::COMPLETED]);
     }
 }
